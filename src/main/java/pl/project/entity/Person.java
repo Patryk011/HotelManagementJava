@@ -17,6 +17,12 @@ public class Person {
    @Column(name = "person_id")
     private int id;
 
+   @Column(name = "person_email")
+   private String emailAdress;
+
+
+   @Column(name = "person_promotion_consent")
+   private boolean promotionConsent;
    @Column(name = "person_pesel")
     private int pesel;
 
@@ -75,5 +81,30 @@ public class Person {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+
+    public String getEmailAdress() {
+        return emailAdress;
+    }
+
+    public void setEmailAdress(String emailAdress) {
+        this.emailAdress = emailAdress;
+    }
+
+    public boolean isPromotionConsent() {
+        return promotionConsent;
+    }
+
+    public void setPromotionConsent(boolean promotionConsent) {
+        this.promotionConsent = promotionConsent;
+    }
+
+    public List<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(List<Reservation> reservations) {
+        this.reservations = reservations;
     }
 }
