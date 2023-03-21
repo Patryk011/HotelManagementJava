@@ -12,15 +12,21 @@ public class NewsletterSubscriber {
     @Column(name = "newsletter_subscriber_id")
     private int id;
 
+    @Column(name = "email_address")
+    private String emailAddress;
+
     @Column(name = "name")
     private String name;
 
     @Column(name = "surname")
     private String surname;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "email_address_id", referencedColumnName = "email_address_id")
-    private EmailAddress emailAddress;
+    @ManyToOne
+    @JoinColumn(name = "person_id")
+    private Person person;
+
+
+
 
 
     public int getId() {
@@ -47,11 +53,19 @@ public class NewsletterSubscriber {
         this.surname = surname;
     }
 
-    public EmailAddress getEmailAddress() {
+    public String getEmailAddress() {
         return emailAddress;
     }
 
-    public void setEmailAddress(EmailAddress emailAddress) {
+    public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
+    }
+
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
     }
 }

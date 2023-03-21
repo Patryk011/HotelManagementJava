@@ -7,6 +7,7 @@ import pl.project.entity.Person;
 import pl.project.repository.PersonRepository;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @Transactional
@@ -20,12 +21,12 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public List<Person> getAllPersons() {
-        return null;
+        return personRepository.findAll();
     }
 
     @Override
     public Person getPersonById(int id) {
-        return null;
+        return personRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
     }
 
     @Override

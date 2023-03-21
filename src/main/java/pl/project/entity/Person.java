@@ -4,7 +4,6 @@ package pl.project.entity;
 import jakarta.persistence.*;
 import pl.project.exception.PeselException;
 
-import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -18,7 +17,7 @@ public class Person {
     private int id;
 
    @Column(name = "person_email")
-   private String emailAdress;
+   private String emailAddress;
 
 
    @Column(name = "person_promotion_consent")
@@ -37,10 +36,12 @@ public class Person {
 
 
     public Person() {
+
     }
 
-    public Person(int id, int pesel, String name, String lastName, List<Reservation> reservations) {
+    public Person(int id, String emailAddress, int pesel, String name, String lastName, List<Reservation> reservations) {
         this.id = id;
+        this.emailAddress = emailAddress;
         this.pesel = pesel;
         this.name = name;
         this.lastName = lastName;
@@ -84,12 +85,12 @@ public class Person {
     }
 
 
-    public String getEmailAdress() {
-        return emailAdress;
+    public String getEmailAddress() {
+        return emailAddress;
     }
 
-    public void setEmailAdress(String emailAdress) {
-        this.emailAdress = emailAdress;
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
     }
 
     public boolean isPromotionConsent() {
