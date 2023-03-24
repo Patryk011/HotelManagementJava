@@ -1,7 +1,6 @@
 package pl.project.services;
 
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.project.entity.Person;
 import pl.project.repository.PersonRepository;
@@ -24,6 +23,18 @@ public class PersonServiceImpl implements PersonService {
         return personRepository.findAll();
     }
 
+
+    @Override
+    public Person findByEmailAddress(String email) {
+        return personRepository.findByEmailAddress(email);
+    }
+
+    @Override
+    public List<Person> getSubscribers() {
+        return personRepository.getSubscribers();
+    }
+
+
     @Override
     public Person getPersonById(int id) {
         return personRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
@@ -32,10 +43,14 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public void saveOrUpdatePerson(Person person) {
 
+        personRepository.save(person);
+
     }
 
     @Override
     public void deletePerson(int id) {
+
+        personRepository.deleteById(id);
 
     }
 }
