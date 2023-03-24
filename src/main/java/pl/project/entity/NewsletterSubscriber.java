@@ -12,14 +12,14 @@ public class NewsletterSubscriber {
     @Column(name = "newsletter_subscriber_id")
     private int id;
 
-    @Column(name = "email_address")
+    @Column(name = "newsletter_email_address")
     private String emailAddress;
 
-    @Column(name = "name")
+    @Column(name = "newsletter_name")
     private String name;
 
-    @Column(name = "surname")
-    private String surname;
+    @Column(name = "newsletter_lastName")
+    private String lastName;
 
     @ManyToOne
     @JoinColumn(name = "person_id")
@@ -37,6 +37,14 @@ public class NewsletterSubscriber {
         this.id = id;
     }
 
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
+
     public String getName() {
         return name;
     }
@@ -45,20 +53,12 @@ public class NewsletterSubscriber {
         this.name = name;
     }
 
-    public String getSurname() {
-        return surname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public String getEmailAddress() {
-        return emailAddress;
-    }
-
-    public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public Person getPerson() {
@@ -69,3 +69,15 @@ public class NewsletterSubscriber {
         this.person = person;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
