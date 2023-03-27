@@ -20,10 +20,10 @@ public class Person {
    private String emailAddress;
 
 
-   @Column(name = "person_promotion_consent")
-   private boolean promotionConsent;
+   @Column(name = "person_subscriber")
+   private boolean isNewsletterSubscriber;
    @Column(name = "person_pesel")
-    private int pesel;
+   private int pesel;
 
    @Column(name = "person_name")
     private String name;
@@ -93,13 +93,14 @@ public class Person {
         this.emailAddress = emailAddress;
     }
 
-    public boolean isPromotionConsent() {
-        return promotionConsent;
+    public boolean isNewsletterSubscriber() {
+        return isNewsletterSubscriber;
     }
 
-    public void setPromotionConsent(boolean promotionConsent) {
-        this.promotionConsent = promotionConsent;
+    public void setNewsletterSubscriber(boolean newsletterSubscriber) {
+        isNewsletterSubscriber = newsletterSubscriber;
     }
+
 
     public List<Reservation> getReservations() {
         return reservations;

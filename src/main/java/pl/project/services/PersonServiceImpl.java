@@ -30,6 +30,18 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
+    public void addNewsletterSubscriber(Person person, boolean subscribe) {
+        if (subscribe) {
+            person.setPromotionConsent(true);
+        } else {
+            person.setPromotionConsent(false);
+        }
+        personRepository.save(person);
+    }
+
+
+
+    @Override
     public List<Person> getSubscribers() {
         return personRepository.getSubscribers();
     }
@@ -40,12 +52,7 @@ public class PersonServiceImpl implements PersonService {
         return personRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
     }
 
-    @Override
-    public void saveOrUpdatePerson(Person person) {
 
-        personRepository.save(person);
-
-    }
 
     @Override
     public void deletePerson(int id) {

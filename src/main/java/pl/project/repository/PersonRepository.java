@@ -12,6 +12,7 @@ public interface PersonRepository extends JpaRepository<Person, Integer> {
 
     Person findByEmailAddress(String emailAddress);
 
+
     @Query("SELECT p FROM Person p WHERE p.promotionConsent = true ")
     List<Person> getSubscribers();
 
