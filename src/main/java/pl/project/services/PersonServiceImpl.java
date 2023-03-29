@@ -2,7 +2,9 @@ package pl.project.services;
 
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+import pl.project.entity.NewsletterSubscriber;
 import pl.project.entity.Person;
+import pl.project.repository.NewsletterSubscriberRepository;
 import pl.project.repository.PersonRepository;
 
 import java.util.List;
@@ -12,10 +14,12 @@ import java.util.NoSuchElementException;
 @Transactional
 public class PersonServiceImpl implements PersonService {
 
-    private final PersonRepository personRepository;
+    private PersonRepository personRepository;
+    private NewsletterSubscriberRepository subscriberRepository;
 
-    public PersonServiceImpl(PersonRepository personRepository) {
+    public PersonServiceImpl(PersonRepository personRepository, NewsletterSubscriberRepository subscriberRepository) {
         this.personRepository = personRepository;
+        this.subscriberRepository = subscriberRepository;
     }
 
     @Override
@@ -30,15 +34,22 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public void addNewsletterSubscriber(Person person, boolean subscribe) {
+    public void savePerson(Person person, boolean subscribe) {
         if (subscribe) {
-            person.setPromotionConsent(true);
+            person.setNewsletterSubscriber(true);
         } else {
-            person.setPromotionConsent(false);
+            person.setNewsletterSubscriber(false);
         }
         personRepository.save(person);
     }
 
+    @Override
+    public void addNewsletterSubscriber(Person person) {
+        if (person.isNewsletterSubscriber()) {
+            subscriberRepository.save(new NewsletterSubscriber(person.getEmailAddress()));
+
+        }
+    }
 
 
     @Override

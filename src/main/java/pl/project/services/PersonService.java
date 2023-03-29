@@ -11,7 +11,9 @@ public interface PersonService {
     List<Person> getSubscribers();
     Person findByEmailAddress(String email);
 
-    void addNewsletterSubscriber(Person person, boolean subscribe);
+    void savePerson(Person person, boolean subscribe);
+
+    void addNewsletterSubscriber(Person person);
 
     Person getPersonById(int id);
     void deletePerson(int id);

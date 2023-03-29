@@ -25,9 +25,24 @@ public class NewsletterSubscriber {
     @JoinColumn(name = "person_id")
     private Person person;
 
+    public NewsletterSubscriber() {
+    }
+
+    public NewsletterSubscriber(int id, String emailAddress, String name, String lastName, Person person) {
+        this.id = id;
+        this.emailAddress = emailAddress;
+        this.name = name;
+        this.lastName = lastName;
+        this.person = person;
+    }
 
 
+    public NewsletterSubscriber(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
 
+    public NewsletterSubscriber(Person person) {
+    }
 
     public int getId() {
         return id;

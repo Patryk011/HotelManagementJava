@@ -1,6 +1,7 @@
 package pl.project.services;
 
 import pl.project.entity.NewsletterSubscriber;
+import pl.project.entity.Person;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ public interface NewsletterSubscriberService {
 
     NewsletterSubscriber getSubscriberById(int id);
 
-    void saveOrUpdateSubscriber(NewsletterSubscriber subscriber);
+    void saveSubscriber(Person person);
 
 
 

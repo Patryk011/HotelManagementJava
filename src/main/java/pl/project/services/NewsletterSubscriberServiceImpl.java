@@ -3,7 +3,9 @@ package pl.project.services;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import pl.project.entity.NewsletterSubscriber;
+import pl.project.entity.Person;
 import pl.project.repository.NewsletterSubscriberRepository;
+import pl.project.repository.PersonRepository;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -15,9 +17,13 @@ public class NewsletterSubscriberServiceImpl implements NewsletterSubscriberServ
 
 
     private final NewsletterSubscriberRepository newsletterSubscriberRepository;
+    private final PersonRepository personRepository;
 
-    public NewsletterSubscriberServiceImpl(NewsletterSubscriberRepository newsletterSubscriberRepository) {
+
+
+    public NewsletterSubscriberServiceImpl(NewsletterSubscriberRepository newsletterSubscriberRepository, PersonRepository personRepository) {
         this.newsletterSubscriberRepository = newsletterSubscriberRepository;
+        this.personRepository = personRepository;
     }
 
     @Override
@@ -31,13 +37,16 @@ public class NewsletterSubscriberServiceImpl implements NewsletterSubscriberServ
     }
 
     @Override
-    public void saveOrUpdateSubscriber(NewsletterSubscriber subscriber) {
-        newsletterSubscriberRepository.save(subscriber);
+    public void saveSubscriber(Person person) {
+        if (person.isNewsletterSubscriber()) {
+            newsletterSubscriberRepository.save(new NewsletterSubscriber(person));
 
+        }
     }
 
     @Override
     public void deleteSubscriber(int id) {
+        newsletterSubscriberRepository.deleteById(id);
 
     }
 }
