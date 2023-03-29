@@ -8,7 +8,6 @@ import pl.project.services.ReservationService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/reservations")
 public class ReservationController {
 
 
@@ -28,7 +27,7 @@ public class ReservationController {
         return reservationService.getReservationById(id);
     }
 
-    @PostMapping("")
+    @PostMapping("/reservations")
     public void saveOrUpdateReservation(@RequestBody Reservation reservation) {
         reservationService.saveOrUpdateReservation(reservation);
     }
