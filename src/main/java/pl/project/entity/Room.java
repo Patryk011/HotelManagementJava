@@ -1,15 +1,19 @@
 package pl.project.entity;
 
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
-@Table(name = "promotions")
-public class Promotions {
+@Table(name="Room")
+public class Room {
+
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="room_id")
     private Long id;
+
+
+
 
     public void setId(Long id) {
         this.id = id;
