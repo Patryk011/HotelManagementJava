@@ -2,6 +2,9 @@ package pl.project.entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "hotel")
 public class Hotel {
@@ -13,6 +16,10 @@ public class Hotel {
     private String name;
 
     private String address;
+
+
+    @OneToMany
+    private List<Room> rooms = new ArrayList<>();
 
 
     public String getName() {
