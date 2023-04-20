@@ -13,12 +13,15 @@ public class Hotel {
     @Column(name="hotel_id")
     private Long id;
 
-    private String name;
 
+    @Column(name = "hotel_name")
+    private String name;
+    @Column(name = "hotel_address")
     private String address;
 
 
     @OneToMany
+    @JoinColumn(name = "room_id")
     private List<Room> rooms = new ArrayList<>();
 
 

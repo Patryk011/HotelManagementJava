@@ -9,30 +9,40 @@ public class Room {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="room_id")
+    @Column(name = "room_id")
     private Long id;
 
 
     @ManyToOne
-    @JoinColumn(name = "hotel_id", referencedColumnName = "id")
+    @JoinColumn(name = "hotel_id")
     private Hotel hotel;
+    @Column(name = "room_number")
+    private int number;
 
-    private String number;
+    @Column(name = "room_type")
     private String type;
-    private int capacity;
-    private int price;
 
-    public Room() {}
+    @Column(name = "room_price")
+    private double price;
 
-    public Room(Hotel hotel, String number, String type, int capacity, int price) {
+    public Room() {
+    }
+
+    public Room(Long id, Hotel hotel, int number, String type, double price) {
+        this.id = id;
         this.hotel = hotel;
         this.number = number;
         this.type = type;
-        this.capacity = capacity;
         this.price = price;
     }
 
+    public Long getId() {
+        return id;
+    }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Hotel getHotel() {
         return hotel;
@@ -42,11 +52,11 @@ public class Room {
         this.hotel = hotel;
     }
 
-    public String getNumber() {
+    public int getNumber() {
         return number;
     }
 
-    public void setNumber(String number) {
+    public void setNumber(int number) {
         this.number = number;
     }
 
@@ -58,26 +68,11 @@ public class Room {
         this.type = type;
     }
 
-    public int getCapacity() {
-        return capacity;
-    }
-
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
-    }
-
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.price = price;
-    }
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
     }
 }
