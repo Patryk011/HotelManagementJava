@@ -13,7 +13,7 @@ public class Document_items {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "customer_id")
+    @JoinColumn(name = "document_room_id")
     private Room room;
     @Column(name = "document_items_id")
     private int quantity;
