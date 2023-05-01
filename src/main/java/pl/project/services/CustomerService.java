@@ -7,5 +7,12 @@ import java.util.List;
 public interface CustomerService {
 
 
-    public List<Customer> findAllCustomers;
+    List<Customer> findAllCustomers();
+
+
+    Customer findById(Long id);
+
+    void deleteCustomer(Long id);
+
+
 }
