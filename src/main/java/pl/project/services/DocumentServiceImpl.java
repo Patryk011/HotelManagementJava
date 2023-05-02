@@ -11,7 +11,7 @@ public class DocumentServiceImpl implements DocumentService {
 
 
 
-    DocumentRepository documentRepository;
+    private final DocumentRepository documentRepository;
 
 
     public DocumentServiceImpl(DocumentRepository documentRepository) {
