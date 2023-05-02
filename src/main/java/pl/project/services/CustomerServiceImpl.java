@@ -23,6 +23,11 @@ public class CustomerServiceImpl implements CustomerService{
     }
 
     @Override
+    public Customer findByEmailAddress(String emailAddress) {
+        return customerRepository.findByEmailAddress(emailAddress);
+    }
+
+    @Override
     public Customer addCustomer(Customer customer) {
         return null;
     }

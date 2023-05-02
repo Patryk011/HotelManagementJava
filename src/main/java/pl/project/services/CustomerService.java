@@ -9,6 +9,8 @@ public interface CustomerService {
 
     List<Customer> findAllCustomers();
 
+    Customer findByEmailAddress(String emailAddress);
+
     Customer addCustomer(Customer customer);
     Customer findById(Long id);
 
