@@ -2,6 +2,7 @@ package pl.project.services;
 
 import org.springframework.stereotype.Service;
 import pl.project.entity.Document;
+import pl.project.repository.DocumentItemsRepository;
 import pl.project.repository.DocumentRepository;
 
 import java.util.NoSuchElementException;
@@ -13,9 +14,12 @@ public class DocumentServiceImpl implements DocumentService {
 
     private final DocumentRepository documentRepository;
 
+    private final DocumentItemsRepository documentItemsRepository;
 
-    public DocumentServiceImpl(DocumentRepository documentRepository) {
+
+    public DocumentServiceImpl(DocumentRepository documentRepository, DocumentItemsRepository documentItemsRepository) {
         this.documentRepository = documentRepository;
+        this.documentItemsRepository = documentItemsRepository;
     }
 
     public void updateDocumentStage(Long documentId, boolean hasOffer, boolean hasReservation) {
