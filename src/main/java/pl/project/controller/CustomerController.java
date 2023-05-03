@@ -14,7 +14,7 @@ public class CustomerController {
 
     private final CustomerService customerService;
 
-
+    @Autowired
     public CustomerController(CustomerService customerService) {
         this.customerService = customerService;
     }
@@ -29,10 +29,7 @@ public class CustomerController {
         return customerService.findById(id);
     }
 
-    @GetMapping("/email")
-    public Customer getCustomerByEmailAddress(@RequestParam String emailAddress) {
-        return customerService.findByEmailAddress(emailAddress);
-    }
+
 
     @PostMapping
     public Customer addCustomer(@RequestBody Customer customer) {

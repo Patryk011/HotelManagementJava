@@ -15,7 +15,7 @@ public class Document_items {
     @ManyToOne
     @JoinColumn(name = "document_room_id")
     private Room room;
-    @Column(name = "document_items_id")
+    @Column(name = "document_quantity")
     private int quantity;
     @Column(name = "document_amount")
     private int amount;

@@ -1,5 +1,6 @@
 package pl.project.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.project.entity.Hotel;
 import pl.project.repository.HotelRepository;
@@ -14,6 +15,7 @@ public class HotelServiceImpl implements HotelService {
 
     private final HotelRepository hotelRepository;
 
+    @Autowired
     public HotelServiceImpl(HotelRepository hotelRepository) {
         this.hotelRepository = hotelRepository;
     }

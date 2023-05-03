@@ -1,6 +1,8 @@
 package pl.project.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.project.entity.Customer;
 import pl.project.repository.CustomerRepository;
 
@@ -8,10 +10,12 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
-public class CustomerServiceImpl implements CustomerService{
+public class CustomerServiceImpl implements CustomerService {
+
 
 
     private final CustomerRepository customerRepository;
+
 
     public CustomerServiceImpl(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
@@ -22,10 +26,7 @@ public class CustomerServiceImpl implements CustomerService{
         return customerRepository.findAll();
     }
 
-    @Override
-    public Customer findByEmailAddress(String emailAddress) {
-        return customerRepository.findByEmailAddress(emailAddress);
-    }
+
 
     @Override
     public Customer addCustomer(Customer customer) {

@@ -1,5 +1,6 @@
 package pl.project.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.project.entity.Room;
 import pl.project.repository.RoomRepository;
@@ -13,6 +14,7 @@ public class RoomServiceImpl implements RoomService{
 
     private final RoomRepository roomRepository;
 
+    @Autowired
     public RoomServiceImpl(RoomRepository roomRepository) {
         this.roomRepository = roomRepository;
     }

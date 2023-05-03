@@ -1,5 +1,6 @@
 package pl.project.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.project.entity.Document;
 import pl.project.repository.DocumentItemsRepository;
@@ -17,6 +18,7 @@ public class DocumentServiceImpl implements DocumentService {
     private final DocumentItemsRepository documentItemsRepository;
 
 
+    @Autowired
     public DocumentServiceImpl(DocumentRepository documentRepository, DocumentItemsRepository documentItemsRepository) {
         this.documentRepository = documentRepository;
         this.documentItemsRepository = documentItemsRepository;
