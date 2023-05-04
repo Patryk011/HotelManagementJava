@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "promotion_notification")
-public class Promotion_Notification {
+public class PromotionNotification {
 
 
     @Id
@@ -12,8 +12,6 @@ public class Promotion_Notification {
     @Column(name = "promotion_notification_id")
     private Long id;
 
-    @Column(name = "promotion_notification_title")
-    private String title;
     @Column(name = "promotion_notification_message")
     private String message;
 
@@ -22,13 +20,12 @@ public class Promotion_Notification {
     private Promotion promotion;
 
 
-    public String getTitle() {
-        return title;
-    }
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+
+
 
     public String getMessage() {
         return message;
@@ -52,5 +49,13 @@ public class Promotion_Notification {
 
     public Long getId() {
         return id;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 }

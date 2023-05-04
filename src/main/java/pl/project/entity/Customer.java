@@ -11,10 +11,6 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "customer_id")
     private Long id;
-
-    @Column(name = "customer_pesel")
-    private int pesel;
-
     @Column(name = "customer_firstname")
     private String firstName;
     @Column(name = "customer_lastname")
@@ -26,9 +22,8 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(Long id, int pesel, String firstName, String lastName, String email) {
+    public Customer(Long id, String firstName, String lastName, String email) {
         this.id = id;
-        this.pesel = pesel;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -42,13 +37,7 @@ public class Customer {
         return id;
     }
 
-    public int getPesel() {
-        return pesel;
-    }
 
-    public void setPesel(int pesel) {
-        this.pesel = pesel;
-    }
 
     public String getFirstName() {
         return firstName;

@@ -2,8 +2,8 @@ package pl.project.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import pl.project.entity.Promotion_Notification;
+import pl.project.entity.PromotionNotification;
 
 @Repository
-public interface PromotionNotificationRepository extends JpaRepository<Promotion_Notification, Long> {
+public interface PromotionNotificationRepository extends JpaRepository<PromotionNotification, Long> {
 }
