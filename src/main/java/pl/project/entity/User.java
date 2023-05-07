@@ -13,6 +13,11 @@ public class User {
 
     @Column(name="user_name")
     private String name;
+
+    @Column(name="role_id")
+    private Long roleId;
+
+
     @Column(name="user_role")
     private String role;
 

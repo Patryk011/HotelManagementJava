@@ -8,7 +8,7 @@ public interface DocumentService {
 
 
 
-    void updateDocumentStage(Long documentId, boolean hasOffer, boolean hasReservation);
+    void updateDocumentState(Long documentId, boolean hasOffer, boolean hasReservation);
 
     Document saveDocument(Document document);
 

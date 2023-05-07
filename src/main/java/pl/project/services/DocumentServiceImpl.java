@@ -27,17 +27,17 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Transactional
-    public void updateDocumentStage(Long documentId, boolean hasOffer, boolean hasReservation) {
+    public void updateDocumentState(Long documentId, boolean hasOffer, boolean hasReservation) {
         Document document = documentRepository.findById(documentId).orElseThrow(() -> new NoSuchElementException());
 
-            int stage = 0;
+            int state = 0;
             if (hasOffer) {
-                stage = 1;
+                state = 1;
             }
             if (hasReservation) {
-                stage = 2;
+                state = 2;
             }
-            document.setStage(stage);
+            document.setState(state);
             documentRepository.save(document);
         }
 

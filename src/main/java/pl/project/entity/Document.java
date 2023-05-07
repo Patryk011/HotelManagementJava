@@ -10,8 +10,18 @@ public class Document {
     @Column(name = "document_id")
     private Long id;
 
-    @Column(name = "document_stage")
-    private int stage;
+    @Column(name = "document_state")
+    private int state;
+
+
+    @Column(name = "createdOffer")
+    private boolean createdOffer;
+
+    @Column(name = "createdReservation")
+    private boolean createdReservation;
+
+    @Column(name = "createdInvoice")
+    private boolean createdInvoice;
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
@@ -25,12 +35,12 @@ public class Document {
         this.id = id;
     }
 
-    public int getStage() {
-        return stage;
+    public int getState() {
+        return state;
     }
 
-    public void setStage(int stage) {
-        this.stage = stage;
+    public void setState(int state) {
+        this.state = state;
     }
 
     public Customer getCustomer() {
