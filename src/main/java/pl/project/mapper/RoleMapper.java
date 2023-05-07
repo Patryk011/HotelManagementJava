@@ -1,2 +1,3 @@
-package pl.project.mapper;public class RoleMapper {
+package pl.project.mapper;
+public class RoleMapper {
 }

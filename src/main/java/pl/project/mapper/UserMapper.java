@@ -1,2 +1,3 @@
-package pl.project.mapper;public class UserMapper {
+package pl.project.mapper;
+public class UserMapper {
 }

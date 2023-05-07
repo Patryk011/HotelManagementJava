@@ -1,2 +1,3 @@
-package pl.project.mapper;public class HotelMapper {
+package pl.project.mapper;
+public class HotelMapper {
 }

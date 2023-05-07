@@ -1,2 +1,3 @@
-package pl.project.mapper;public class RoomMapper {
+package pl.project.mapper;
+public class RoomMapper {
 }

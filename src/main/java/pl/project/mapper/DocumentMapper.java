@@ -1,2 +1,4 @@
-package pl.project.mapper;public class DocumentMapper {
+package pl.project.mapper;
+
+public class DocumentMapper {
 }

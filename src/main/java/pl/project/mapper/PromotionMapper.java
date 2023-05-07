@@ -1,2 +1,3 @@
-package pl.project.mapper;public class PromotionMapper {
+package pl.project.mapper;
+public class PromotionMapper {
 }

@@ -1,2 +1,3 @@
-package pl.project.mapper;public class DocumentItemsMapper {
+package pl.project.mapper;
+public class DocumentItemsMapper {
 }
