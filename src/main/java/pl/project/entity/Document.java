@@ -50,6 +50,30 @@ public class Document {
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
+
+    public boolean isCreatedOffer() {
+        return createdOffer;
+    }
+
+    public void setCreatedOffer(boolean createdOffer) {
+        this.createdOffer = createdOffer;
+    }
+
+    public boolean isCreatedReservation() {
+        return createdReservation;
+    }
+
+    public void setCreatedReservation(boolean createdReservation) {
+        this.createdReservation = createdReservation;
+    }
+
+    public boolean isCreatedInvoice() {
+        return createdInvoice;
+    }
+
+    public void setCreatedInvoice(boolean createdInvoice) {
+        this.createdInvoice = createdInvoice;
+    }
 }
 
 
