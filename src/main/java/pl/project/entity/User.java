@@ -14,20 +14,23 @@ public class User {
     @Column(name="user_name")
     private String name;
 
-    @Column(name="role_id")
-    private Long roleId;
 
+    @Column(name = "user_password")
+    private String password;
 
-    @Column(name="user_role")
-    private String role;
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private Role roleId;
+
 
     public User() {
     }
 
-    public User(Long id, String name, String role) {
+    public User(Long id, String name, String password, Role roleId) {
         this.id = id;
         this.name = name;
-        this.role = role;
+        this.password = password;
+        this.roleId = roleId;
     }
 
     public void setId(Long id) {
@@ -46,11 +49,19 @@ public class User {
         this.name = name;
     }
 
-    public String getRole() {
-        return role;
+    public Role getRoleId() {
+        return roleId;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setRoleId(Role roleId) {
+        this.roleId = roleId;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
