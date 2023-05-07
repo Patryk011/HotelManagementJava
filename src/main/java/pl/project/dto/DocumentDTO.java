@@ -1,4 +1,4 @@
 package pl.project.dto;
 
-public class CustomerDto {
+public class DocumentDTO {
 }

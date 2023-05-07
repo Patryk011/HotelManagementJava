@@ -20,8 +20,7 @@ public class Hotel {
     private String address;
 
 
-    @OneToMany
-    @JoinColumn(name = "room_id")
+    @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL)
     private List<Room> rooms = new ArrayList<>();
 
 
