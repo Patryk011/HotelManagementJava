@@ -6,8 +6,8 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "promotion")
-public class Promotion {
+@Table(name = "promotion_msg")
+public class PromotionMsg {
 
 
     @Id
@@ -18,12 +18,7 @@ public class Promotion {
     private String title;
     @Column(name = "promotion_description")
     private String description;
-    @Column(name = "promotion_start_date")
-    private LocalDate startDate;
-    @Column(name = "promotion_end_date")
-    private LocalDate endDate;
-    @Column(name = "promotion_active")
-    private boolean active;
+
 
     public Long getId() {
         return id;
@@ -49,27 +44,5 @@ public class Promotion {
         this.description = description;
     }
 
-    public LocalDate getStartDate() {
-        return startDate;
-    }
 
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-    }
-
-    public LocalDate getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
 }
