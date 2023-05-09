@@ -5,6 +5,7 @@ import pl.project.dto.HotelDTO;
 import pl.project.entity.Hotel;
 import pl.project.entity.Room;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,7 +30,7 @@ public class HotelMapper {
         return hotelDTO;
     }
 
-    public List<HotelDTO> mapToDto(List<Hotel> hotels) {
+    public List<HotelDTO> mapToDto(Collection<Hotel> hotels) {
         return hotels.stream()
                 .map(this::mapToDTO)
                 .collect(Collectors.toList());
