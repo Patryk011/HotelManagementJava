@@ -4,6 +4,10 @@ import org.springframework.stereotype.Component;
 import pl.project.dto.DocumentDTO;
 import pl.project.entity.Document;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 public class DocumentMapper {
 
@@ -19,9 +23,15 @@ public class DocumentMapper {
         return documentDTO;
     }
 
+    public List<DocumentDTO> mapToDto(Collection<Document> documents) {
+        return documents.stream()
+                .map(this::mapToDto)
+                .collect(Collectors.toList());
+    }
+
     public Document mapFromDto(DocumentDTO documentDTO) {
         Document document = new Document();
-        document.setId(documentDTO.getId());
+
         document.setState(documentDTO.getState());
         document.setCreatedOffer(documentDTO.isCreatedOffer());
         document.setCreatedReservation(documentDTO.isCreatedReservation());
