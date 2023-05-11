@@ -1,5 +1,6 @@
 package pl.project.controller;
 
+import pl.project.dto.CustomerDTO;
 import pl.project.entity.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ public class CustomerController {
     }
 
     @GetMapping
-    public List<Customer> getAllCustomers() {
+    public List<CustomerDTO> getAllCustomers() {
         return customerService.findAllCustomers();
     }
 

@@ -13,6 +13,10 @@ public class DocumentItems {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "document_id")
+    private Document document;
+
+    @ManyToOne
     @JoinColumn(name = "document_room_id")
     private Room room;
     @Column(name = "document_quantity")

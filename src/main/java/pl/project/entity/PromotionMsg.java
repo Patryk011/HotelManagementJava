@@ -3,8 +3,6 @@ package pl.project.entity;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
-
 @Entity
 @Table(name = "promotion_msg")
 public class PromotionMsg {

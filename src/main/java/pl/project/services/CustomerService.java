@@ -1,6 +1,7 @@
 package pl.project.services;
 
 import org.springframework.stereotype.Service;
+import pl.project.dto.CustomerDTO;
 import pl.project.entity.Customer;
 
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
 public interface CustomerService {
 
 
-    List<Customer> findAllCustomers();
+    List<CustomerDTO> findAllCustomers();
 
 
     Customer addCustomer(Customer customer);

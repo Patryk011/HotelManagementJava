@@ -1,9 +1,9 @@
 package pl.project.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import pl.project.dto.CustomerDTO;
 import pl.project.entity.Customer;
+import pl.project.mapper.CustomerMapper;
 import pl.project.repository.CustomerRepository;
 
 import java.util.List;
@@ -16,14 +16,17 @@ public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
 
+    private final CustomerMapper customerMapper;
 
-    public CustomerServiceImpl(CustomerRepository customerRepository) {
+
+    public CustomerServiceImpl(CustomerRepository customerRepository, CustomerMapper customerMapper) {
         this.customerRepository = customerRepository;
+        this.customerMapper = customerMapper;
     }
 
     @Override
-    public List<Customer> findAllCustomers() {
-        return customerRepository.findAll();
+    public List<CustomerDTO> findAllCustomers() {
+        return customerMapper.mapToDto(customerRepository.findAll());
     }
 
 
