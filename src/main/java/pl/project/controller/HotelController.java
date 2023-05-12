@@ -2,6 +2,7 @@ package pl.project.controller;
 
 
 import org.springframework.web.bind.annotation.*;
+import pl.project.dto.HotelDTO;
 import pl.project.entity.Hotel;
 import pl.project.services.HotelService;
 
@@ -18,18 +19,18 @@ public class HotelController {
     }
 
     @GetMapping
-    public List<Hotel> getAllHotels() {
+    public List<HotelDTO> getAllHotels() {
         return hotelService.getAllHotels();
     }
 
     @GetMapping("/{id}")
-    public Hotel getHotelById(@PathVariable Long id) {
+    public HotelDTO getHotelById(@PathVariable Long id) {
         return hotelService.getHotelById(id);
     }
 
     @PostMapping
-    public void saveHotel(@RequestBody Hotel hotel) {
-        hotelService.saveHotel(hotel);
+    public void saveHotel(@RequestBody HotelDTO hotelDTO) {
+        hotelService.saveHotel(hotelDTO);
     }
 
     @DeleteMapping("/{id}")

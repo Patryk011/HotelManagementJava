@@ -1,5 +1,6 @@
 package pl.project.services;
 
+import pl.project.dto.HotelDTO;
 import pl.project.entity.Hotel;
 
 import java.util.List;
@@ -7,13 +8,13 @@ import java.util.List;
 public interface HotelService {
 
 
-    List<Hotel> getAllHotels();
+    List<HotelDTO> getAllHotels();
 
 
-    Hotel getHotelById(Long id);
+    HotelDTO getHotelById(Long id);
 
 
-    void saveHotel(Hotel hotel);
+    HotelDTO saveHotel(HotelDTO hotelDTO);
 
     void deleteHotelById(Long id);
 }

@@ -2,6 +2,7 @@ package pl.project.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import pl.project.dto.RoomDTO;
 import pl.project.entity.Room;
 import pl.project.services.RoomService;
 
@@ -20,23 +21,23 @@ public class RoomController {
     }
 
     @GetMapping
-    public List<Room> getAllRooms() {
+    public List<RoomDTO> getAllRooms() {
         return roomService.getAllRooms();
     }
 
     @GetMapping("/{id}")
-    public Room getRoomById(@PathVariable Long id) {
+    public RoomDTO getRoomById(@PathVariable Long id) {
         return roomService.getById(id);
     }
 
     @GetMapping("/type")
-    public Room getRoomByType(@RequestParam String type) {
+    public RoomDTO getRoomByType(@RequestParam String type) {
         return roomService.findByType(type);
     }
 
     @PostMapping
-    public Room addRoom(@RequestBody Room room) {
-        return roomService.addRoom(room);
+    public RoomDTO addRoom(@RequestBody RoomDTO roomDTO) {
+        return roomService.addRoom(roomDTO);
     }
 
     @DeleteMapping("/{id}")

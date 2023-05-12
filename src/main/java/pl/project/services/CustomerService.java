@@ -13,8 +13,8 @@ public interface CustomerService {
     List<CustomerDTO> findAllCustomers();
 
 
-    Customer addCustomer(Customer customer);
-    Customer findById(Long id);
+    CustomerDTO addCustomer(CustomerDTO customer);
+    CustomerDTO findById(Long id);
 
     void deleteCustomer(Long id);
 

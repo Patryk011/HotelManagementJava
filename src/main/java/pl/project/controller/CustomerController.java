@@ -26,15 +26,15 @@ public class CustomerController {
     }
 
     @GetMapping("/{id}")
-    public Customer getCustomerById(@PathVariable Long id) {
+    public CustomerDTO getCustomerById(@PathVariable Long id) {
         return customerService.findById(id);
     }
 
 
 
     @PostMapping
-    public Customer addCustomer(@RequestBody Customer customer) {
-        return customerService.addCustomer(customer);
+    public CustomerDTO addCustomer(@RequestBody CustomerDTO customerDTO) {
+        return customerService.addCustomer(customerDTO);
     }
 
     @DeleteMapping("/{id}")

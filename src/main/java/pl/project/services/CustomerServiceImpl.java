@@ -32,13 +32,17 @@ public class CustomerServiceImpl implements CustomerService {
 
 
     @Override
-    public Customer addCustomer(Customer customer) {
-        return customerRepository.save(customer);
+    public CustomerDTO addCustomer(CustomerDTO customerDTO) {
+        Customer customer = customerMapper.mapFromDto(customerDTO);
+        customer = customerRepository.save(customer);
+
+        return customerMapper.mapToDto(customer);
     }
 
     @Override
-    public Customer findById(Long id) {
-        return customerRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
+    public CustomerDTO findById(Long id) {
+        Customer customer = customerRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
+        return customerMapper.mapToDto(customer);
     }
 
     @Override

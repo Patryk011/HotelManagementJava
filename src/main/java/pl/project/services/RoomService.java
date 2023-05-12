@@ -1,5 +1,6 @@
 package pl.project.services;
 
+import pl.project.dto.RoomDTO;
 import pl.project.entity.Customer;
 import pl.project.entity.Room;
 
@@ -9,13 +10,13 @@ public interface RoomService {
 
 
 
-    List<Room> getAllRooms();
+    List<RoomDTO> getAllRooms();
 
-    Room findByType(String type);
+    RoomDTO findByType(String type);
 
-    Room getById(Long id);
+    RoomDTO getById(Long id);
 
-    Room addRoom(Room room);
+    RoomDTO addRoom(RoomDTO roomDTO);
 
     void deleteRoom(Long id);
 
