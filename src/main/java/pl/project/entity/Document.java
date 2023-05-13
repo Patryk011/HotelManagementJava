@@ -1,6 +1,10 @@
 package pl.project.entity;
 
 import jakarta.persistence.*;
+import org.springframework.cglib.core.Local;
+
+import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
 @Table(name = "document")
@@ -25,6 +29,14 @@ public class Document {
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
+
+    @Column(name = "start_date")
+    private Date startDate;
+
+    @Column(name = "end_date")
+    private Date endDate;
+
+
 
 
     public Long getId() {
@@ -73,6 +85,22 @@ public class Document {
 
     public void setCreatedInvoice(boolean createdInvoice) {
         this.createdInvoice = createdInvoice;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 }
 

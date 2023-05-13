@@ -46,7 +46,16 @@ public class RoomServiceImpl implements RoomService{
 
         Room room = roomMapper.mapFromDto(roomDTO);
         room = roomRepository.save(room);
+
         return roomMapper.mapToDto(room);
+    }
+
+    @Override
+    public boolean isFree(Long id)
+    {
+        Room room = roomRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
+        if(room.isFree()==true) return true;
+        return false;
     }
 
     @Override

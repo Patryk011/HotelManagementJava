@@ -8,6 +8,16 @@ public class RoomDTO {
     private String type;
     private double price;
 
+    public boolean isFree() {
+        return isFree;
+    }
+
+    public void setFree(boolean free) {
+        isFree = free;
+    }
+
+    private boolean isFree;
+
 
     public Long getId() {
         return id;

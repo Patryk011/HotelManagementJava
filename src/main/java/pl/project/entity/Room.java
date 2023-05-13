@@ -25,6 +25,9 @@ public class Room {
     @Column(name = "room_price")
     private double price;
 
+    @Column(name = "isFree")
+    boolean isFree;
+
     public Room() {
     }
 
@@ -74,5 +77,14 @@ public class Room {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+
+    public boolean isFree() {
+        return isFree;
+    }
+
+    public void setFree(boolean free) {
+        isFree = free;
     }
 }
