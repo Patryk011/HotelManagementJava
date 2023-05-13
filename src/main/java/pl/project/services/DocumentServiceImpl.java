@@ -15,6 +15,7 @@ import pl.project.repository.DocumentItemsRepository;
 import pl.project.repository.DocumentRepository;
 import pl.project.repository.RoomRepository;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
@@ -58,6 +59,11 @@ public class DocumentServiceImpl implements DocumentService {
 //            document.setState(state);
 //            documentRepository.save(document);
 //        }
+
+    @Override
+    public List<DocumentDTO> findAllDocuments() {
+        return documentMapper.mapToDto(documentRepository.findAll());
+    }
 
     @Override
     public DocumentDTO saveDocument(DocumentDTO documentDTO) {
