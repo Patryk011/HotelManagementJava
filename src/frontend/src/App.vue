@@ -1,17 +1,33 @@
 <template>
-  {{customer}}
+  <div>
+    <ul>
+      <li v-for="customerItem in customer" :key="customerItem.id">
+        {{ customerItem.firstName }} {{ customerItem.lastName }} - {{ customerItem.email }}
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script>
 import {ref, onMounted} from "vue";
 
 
-let customer = ref("")
+export default {
+  setup() {
+    const customer = ref("");
 
-onMounted(async () => {
-  const response = await fetch("/api/customers");
-  customer.value = await response.text();
-})
+    onMounted(async () => {
+      const response = await fetch("https://localhost:8080/customers");
+      const data = await response.json();
+      customer.value = data;
+      console.log(data);
+    });
+
+    return {
+      customer
+    };
+  }
+};
 </script>
 
 <style>
