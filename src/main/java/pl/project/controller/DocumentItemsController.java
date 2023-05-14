@@ -1,10 +1,7 @@
 package pl.project.controller;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.project.dto.DocumentItemsDTO;
 import pl.project.mapper.DocumentItemsMapper;
 import pl.project.mapper.RoomMapper;
@@ -39,6 +36,7 @@ public class DocumentItemsController {
     }
 
 
+    @GetMapping
     public boolean checkRoomIsFree(Long roomId){
        return roomService.isFree(roomId);
     }
