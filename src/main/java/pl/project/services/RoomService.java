@@ -19,7 +19,7 @@ public interface RoomService {
     RoomDTO addRoom(RoomDTO roomDTO);
 
 
-    public boolean isFree(Long id);
+    boolean isFree(Long id);
 
     void deleteRoom(Long id);
 
