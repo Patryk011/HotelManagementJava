@@ -15,8 +15,8 @@
 	<description>Study project</description>
 	<properties>
 		<java.version>17</java.version>
-		<node.version>v14.21.2</node.version>
-		<npm.version>9.6.6</npm.version>
+		<node.version>v18.13.0</node.version>
+		<npm.version>8.19.3</npm.version>
 	</properties>
 	<dependencies>
 		<dependency>
