@@ -9,7 +9,7 @@ import pl.project.services.RoomService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/room")
+@RequestMapping("api/room")
 public class RoomController {
 
 
@@ -20,7 +20,7 @@ public class RoomController {
         this.roomService = roomService;
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public List<RoomDTO> getAllRooms() {
         return roomService.getAllRooms();
     }

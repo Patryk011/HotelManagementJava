@@ -1,4 +1,5 @@
 // vue.config.js
+
 module.exports = {
   // https://cli.vuejs.org/config/#devserver-proxy
   devServer: {
@@ -10,5 +11,6 @@ module.exports = {
         changeOrigin: true
       }
     }
-  }
+  },
+  lintOnSave: false
 }

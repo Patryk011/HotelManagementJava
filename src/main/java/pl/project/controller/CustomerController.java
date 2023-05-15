@@ -8,8 +8,10 @@ import pl.project.services.CustomerService;
 
 import java.util.List;
 
+
+
 @RestController
-@RequestMapping("/customers")
+@RequestMapping("/api/customers")
 public class CustomerController {
 
 
@@ -20,7 +22,7 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public List<CustomerDTO> getAllCustomers() {
         return customerService.findAllCustomers();
     }
