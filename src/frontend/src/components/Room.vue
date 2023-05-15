@@ -6,7 +6,8 @@
             <tr>
                 <th>Room ID</th>
                 <th>Type</th>
-                <th>Description</th>
+                <th>Room number</th>
+                <th>Vacancy</th>
                 <th>Price</th>
             </tr>
             </thead>
@@ -14,7 +15,8 @@
             <tr v-for="room in rooms" :key="room.id">
                 <td>{{ room.id }}</td>
                 <td>{{ room.type }}</td>
-                <td>{{ room.description }}</td>
+                <td>{{ room.number }}</td>
+                <td>{{ room.isFree }}</td>
                 <td>{{ room.price }}</td>
             </tr>
             </tbody>

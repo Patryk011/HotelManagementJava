@@ -9,7 +9,7 @@ import pl.project.services.HotelService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/hotel")
+@RequestMapping("/api/hotel")
 public class HotelController {
 
     private final HotelService hotelService;
@@ -18,7 +18,7 @@ public class HotelController {
         this.hotelService = hotelService;
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public List<HotelDTO> getAllHotels() {
         return hotelService.getAllHotels();
     }
