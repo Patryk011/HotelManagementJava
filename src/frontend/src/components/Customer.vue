@@ -34,8 +34,8 @@
           <label for="email">Email:</label>
           <input type="email" class="form-control" id="email" v-model="newCustomer.email" required>
         </div>
-        <button type="submit" class="btn btn-primary">Add Customer</button>
-        <button type="button" class="btn btn-secondary" @click="showForm = false">Cancel</button>
+        <button type="submit" class="btn btn-primary add-customer-form">Add Customer</button>
+        <button type="button" class="btn btn-secondary cancel-customer-form" @click="showForm = false">Cancel</button>
       </form>
     </div>
 </template>
@@ -139,32 +139,46 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 300px !important;
 }
 
-.customer-form label {
+.form-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.form-group label {
   text-align: left;
-  margin-bottom: 5px;
+  margin-right: 10px;
 }
 
-.customer-form input[type="text"],
-.customer-form input[type="email"] {
+.form-control {
   width: 200px;
   padding: 8px;
   border: 1px solid black;
   border-radius: 4px;
   box-sizing: border-box;
   margin-bottom: 10px;
-  margin-left: auto;
-  margin-right: auto;
 }
 
-.customer-form .form-actions {
-  margin-top: 10px;
-  text-align: right;
+.form {
+  position: absolute;
+  top: 276px;
+  left: 600px;
 }
 
-.customer-form button {
-  margin-left: 5px;
+.add-customer-form {
+  position: absolute;
+  top: 276px;
+  left: 600px;
 }
+
+.cancel-customer-form {
+  position: absolute;
+  top: 276px;
+  left: 770px;
+}
+
 
 </style>
