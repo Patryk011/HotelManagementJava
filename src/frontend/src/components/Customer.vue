@@ -1,7 +1,8 @@
 <template>
     <div class="container">
-        <h1 class="text-center">Customer List</h1>
-        <table class="table table-striped">
+        <h1 v-if="!showForm" class="text-center">Customer List</h1>
+
+        <table v-if=!showForm class="table table-striped">
             <thead>
             <th>Customer ID</th>
             <th>First Name</th>
@@ -17,6 +18,25 @@
             </tr>
             </tbody>
         </table>
+      <button v-if="!showForm" class="btn btn-primary" @click="showForm = true">Add Customer</button>
+
+      <form v-if="showForm" @submit="addCustomer" class="customer-form">
+        <h1 class="text-form">Customer form</h1>
+        <div class="form-group">
+          <label for="firstName">First Name:</label>
+          <input type="text" class="form-control" id="firstName" v-model="newCustomer.firstName" required>
+        </div>
+        <div class="form-group">
+          <label for="lastName">Last Name:</label>
+          <input type="text" class="form-control" id="lastName" v-model="newCustomer.lastName" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input type="email" class="form-control" id="email" v-model="newCustomer.email" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Customer</button>
+        <button type="button" class="btn btn-secondary" @click="showForm = false">Cancel</button>
+      </form>
     </div>
 </template>
 
@@ -25,17 +45,50 @@ export default {
     name: 'Customers',
     data() {
         return {
+            showForm: false,
             customers: [],
+            newCustomer: {
+              firstName: '',
+              lastName: '',
+              email: ''
+            }
         };
     },
     methods: {
+      async addCustomer(event) {
+        event.preventDefault();
+
+        try {
+          const response = await fetch('/api/customers', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(this.newCustomer)
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+            this.customers.push(data);
+            // Clear the form fields after successful addition
+            this.newCustomer.firstName = '';
+            this.newCustomer.lastName = '';
+            this.newCustomer.email = '';
+          } else {
+            console.error('Failed to add customer:', response.statusText);
+          }
+        } catch (error) {
+          console.error('Error during adding customer:', error);
+        }
+      },
+
         async getCustomers() {
             try {
                 const response = await fetch('/api/customers/all');
                 const data = await response.json();
                 this.customers = data;
             } catch (error) {
-                console.error('Błąd podczas pobierania danych:', error);
+                console.error('Error during fetch data:', error);
             }
         },
     },
@@ -76,6 +129,39 @@ export default {
 
 .table-striped tbody tr:nth-child(odd) {
     background-color: #f9f9f9;
+}
+
+.customer-form {
+  margin-top: 20px;
+  border: 3px solid blue;
+  padding: 20px;
+  border-radius: 4px;
+}
+
+.customer-form label {
+  display: inline-block;
+  width: 100px;
+  text-align: left;
+  margin-bottom: 5px;
+}
+
+.customer-form input[type="text"],
+.customer-form input[type="email"] {
+  width: 200px;
+  padding: 8px;
+  border: 1px solid black;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+}
+
+.customer-form .form-actions {
+  margin-top: 10px;
+  text-align: right;
+}
+
+.customer-form button {
+  margin-left: 5px;
 }
 
 </style>
