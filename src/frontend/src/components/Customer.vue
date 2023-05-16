@@ -136,11 +136,12 @@ export default {
   border: 3px solid blue;
   padding: 20px;
   border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .customer-form label {
-  display: inline-block;
-  width: 100px;
   text-align: left;
   margin-bottom: 5px;
 }
@@ -153,6 +154,8 @@ export default {
   border-radius: 4px;
   box-sizing: border-box;
   margin-bottom: 10px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .customer-form .form-actions {
