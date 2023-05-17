@@ -169,15 +169,15 @@ export default {
 }
 
 .add-customer-form {
-  position: absolute;
-  top: 276px;
-  left: 600px;
+  position: relative;
+  top: 0px;
+  left: -50px;
 }
 
 .cancel-customer-form {
-  position: absolute;
-  top: 276px;
-  left: 770px;
+  position: relative;
+  top: -38px;
+  left: 70px;
 }
 
 
