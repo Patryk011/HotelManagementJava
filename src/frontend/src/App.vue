@@ -1,47 +1,58 @@
 <template>
-  <div id="app" class="main">
-    <div class="navbar">
-      <router-link to="/">Home</router-link>
-      <router-link to="/customers">Customers</router-link>
-      <router-link to="/rooms">Rooms</router-link>
-    </div>
-
+  <div id="app" class="app">
+    <Sidebar/>
     <router-view></router-view>
   </div>
 </template>
 
 <script>
+import Sidebar from "@/components/Sidebar.vue";
+
 export default {
   name: 'App',
+  components: {Sidebar},
 };
 </script>
 
 <style lang="scss">
-.main {
-  margin: 0 auto;
-  text-align: center;
-  position: relative;
+:root {
+  --primary: #4ade80;
+  --primary-alt: #22c55e;
+  --grey: #64748b;
+  --dark: #1e293b;
+  --dark-alt: #334155;
+  --light: #f1f5f9;
+  --sidebar-width: 300px;
+}
 
-  .navbar {
-    position: fixed;
-    left: 0;
-    top: 0;
-    height: 100vh;
-    width: 100px;
-    background-color: #f0f0f0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 20px;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Fira sans', sans-serif;
+}
 
-    a {
-      margin-bottom: 10px;
-      color: #000;
-      text-decoration: none;
+body {
+  background: var(--light);
+}
 
-      &:hover {
-        color: #333;
-      }
+button {
+  cursor: pointer;
+  appearance: none;
+  border: none;
+  outline: none;
+  background: none;
+}
+
+.app {
+  display: flex;
+
+  main {
+    flex: 1 1 0;
+    padding: 2rem;
+
+    @media (max-width: 1024px) {
+      padding-left: 6rem;
     }
   }
 }

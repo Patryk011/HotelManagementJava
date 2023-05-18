@@ -1,49 +1,42 @@
 <template>
 <aside :class="`${is_expanded ? 'is-expanded' : ''}`">
-<div class="logo">
-  <img :src="logoURL" alt="Vue" />
-</div>
+
+
 
 <div class="menu-toggle-wrap">
   <button class="menu-toggle" @click="ToggleMenu">
-    <span class="material-icons">keyboard_double_arrow_right</span>
+    <img src="../assets/arrow.png" width="42" height="42" class="icon">
   </button>
 </div>
 
 <h3>Menu</h3>
 <div class="menu">
   <router-link to="/" class="button">
-    <span class="material-icons">home</span>
+    <img src="../assets/home.png" width="42" height="42" class="icon">
     <span class="text">Home</span>
   </router-link>
-  <router-link to="/about" class="button">
-    <span class="material-icons">description</span>
-    <span class="text">About</span>
+  <router-link to="/customers" class="button">
+    <img src="../assets/customer.png" width="42" height="42" class="icon">
+    <span class="text">Customers</span>
   </router-link>
-  <router-link to="/team" class="button">
-    <span class="material-icons">group</span>
-    <span class="text">Team</span>
+  <router-link to="/rooms" class="button">
+    <img src="../assets/rooms.png" width="42" height="42" class="icon">
+    <span class="text">Rooms</span>
   </router-link>
-  <router-link to="/contact" class="button">
-    <span class="material-icons">email</span>
-    <span class="text">Contact</span>
-  </router-link>
+
 </div>
+
+
 
 <div class="flex"></div>
 
-<div class="menu">
-  <router-link to="/settings" class="button">
-    <span class="material-icons">settings</span>
-    <span class="text">Settings</span>
-  </router-link>
-</div>
+
 </aside>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import logoURL from '../assets/logo.png'
+
 
 const is_expanded = ref(localStorage.getItem("is_expanded") === "true")
 
@@ -72,13 +65,7 @@ aside {
     flex: 1 1 0%;
   }
 
-  .logo {
-    margin-bottom: 1rem;
 
-    img {
-      width: 2rem;
-    }
-  }
 
   .menu-toggle-wrap {
     display: flex;
@@ -91,14 +78,14 @@ aside {
 
     .menu-toggle {
       transition: 0.2s ease-in-out;
-      .material-icons {
+      .icon {
         font-size: 2rem;
         color: var(--light);
         transition: 0.2s ease-out;
       }
 
       &:hover {
-        .material-icons {
+        .icon {
           color: var(--primary);
           transform: translateX(0.5rem);
         }
@@ -129,7 +116,7 @@ aside {
       transition: 0.2s ease-in-out;
       padding: 0.5rem 1rem;
 
-      .material-icons {
+      .icon {
         font-size: 2rem;
         color: var(--light);
         transition: 0.2s ease-in-out;
@@ -142,7 +129,7 @@ aside {
       &:hover {
         background-color: var(--dark-alt);
 
-        .material-icons, .text {
+        .icon, .text {
           color: var(--primary);
         }
       }
@@ -151,7 +138,7 @@ aside {
         background-color: var(--dark-alt);
         border-right: 5px solid var(--primary);
 
-        .material-icons, .text {
+        .icon, .text {
           color: var(--primary);
         }
       }
@@ -171,32 +158,35 @@ aside {
   &.is-expanded {
     width: var(--sidebar-width);
 
-    .menu-toggle-wrap {
-      top: -3rem;
+
 
       .menu-toggle {
         transform: rotate(-180deg);
       }
-    }
+
 
     h3, .button .text {
       opacity: 1;
     }
 
     .button {
-      .material-icons {
+      .icon {
         margin-right: 1rem;
       }
     }
+
 
     .footer {
       opacity: 0;
     }
   }
 
+
+
   @media (max-width: 1024px) {
     position: absolute;
     z-index: 99;
   }
 }
+
 </style>
