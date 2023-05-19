@@ -22,6 +22,7 @@ public class RoomMapper {
         roomDTO.setNumber(room.getNumber());
         roomDTO.setType(room.getType());
         roomDTO.setPrice(room.getPrice());
+        roomDTO.setFree(room.isFree());
 
         return roomDTO;
     }
@@ -37,6 +38,7 @@ public class RoomMapper {
         hotel.setId(roomDTO.getHotelId());
 
         room.setHotel(hotel);
+        room.setFree(roomDTO.isFree());
         room.setNumber(roomDTO.getNumber());
         room.setType(roomDTO.getType());
         room.setPrice(roomDTO.getPrice());
@@ -49,6 +51,7 @@ public class RoomMapper {
 
         hotel.setId(roomDTO.getHotelId());
         room.setHotel(hotel);
+        room.setFree(roomDTO.isFree());
         room.setNumber(roomDTO.getNumber());
         room.setType(roomDTO.getType());
         room.setPrice(roomDTO.getPrice());

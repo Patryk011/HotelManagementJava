@@ -9,13 +9,13 @@ import pl.project.services.RoomService;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/room")
+@RequestMapping("/api/room")
 public class RoomController {
 
 
     private final RoomService roomService;
 
-
+    @Autowired
     public RoomController(RoomService roomService) {
         this.roomService = roomService;
     }

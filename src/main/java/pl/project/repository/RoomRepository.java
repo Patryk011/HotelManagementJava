@@ -7,5 +7,6 @@ import pl.project.entity.Room;
 @Repository
 public interface RoomRepository extends JpaRepository<Room, Long> {
 
+    Room findByHotelIdAndNumber(Long hotelId, int number);
     Room findByType(String type);
 }

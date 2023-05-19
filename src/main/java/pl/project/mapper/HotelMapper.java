@@ -48,5 +48,18 @@ public class HotelMapper {
         hotel.setRooms(rooms);
         return hotel;
     }
+    public Hotel mapFromDTO(HotelDTO hotelDTO, Hotel hotel) {
+
+        hotel.setName(hotelDTO.getName());
+        hotel.setAddress(hotelDTO.getAddress());
+
+        List<Room> rooms = hotelDTO.getRooms().stream()
+                .map(roomDTO -> roomMapper.mapFromDto(roomDTO))
+                .collect(Collectors.toList());
+
+        hotel.setRooms(rooms);
+        return hotel;
+    }
+
 }
 

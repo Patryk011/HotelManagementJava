@@ -1,5 +1,6 @@
 package pl.project.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HotelDTO {
@@ -7,7 +8,7 @@ public class HotelDTO {
     private Long id;
     private String name;
     private String address;
-    private List<RoomDTO> rooms;
+    private List<RoomDTO> rooms = new ArrayList<>();
 
 
     public Long getId() {

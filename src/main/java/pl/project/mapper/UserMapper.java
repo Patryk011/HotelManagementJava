@@ -38,8 +38,8 @@ public class UserMapper {
         Role role = new Role();
         role.setId(userDTO.getId());
 
-        user.setName(user.getName());
-        user.setPassword(user.getPassword());
+        user.setName(userDTO.getName());
+        user.setPassword(userDTO.getPassword());
         user.setRoleId(role);
 
         return user;

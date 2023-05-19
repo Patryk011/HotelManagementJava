@@ -23,6 +23,10 @@
     <img src="../assets/rooms.png" width="42" height="42" class="icon">
     <span class="text">Rooms</span>
   </router-link>
+  <router-link to="/hotel" class="button">
+    <img src="../assets/hotel.png" width="42" height="42" class="icon">
+    <span class="text">Hotel</span>
+  </router-link>
 
 </div>
 

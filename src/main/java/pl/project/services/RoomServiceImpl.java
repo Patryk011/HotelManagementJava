@@ -44,6 +44,11 @@ public class RoomServiceImpl implements RoomService{
     @Override
     public RoomDTO addRoom(RoomDTO roomDTO) {
 
+        Room existingRoom = roomRepository.findByHotelIdAndNumber(roomDTO.getHotelId(), roomDTO.getNumber());
+        if (existingRoom != null) {
+            throw new IllegalArgumentException("Room with this number " + roomDTO.getNumber() + " exist in this Hotel.");
+        }
+
         Room room = roomMapper.mapFromDto(roomDTO);
         room = roomRepository.save(room);
 

@@ -8,6 +8,8 @@ public class RoomDTO {
     private String type;
     private double price;
 
+    private boolean isFree;
+
     public boolean isFree() {
         return isFree;
     }
@@ -16,7 +18,7 @@ public class RoomDTO {
         isFree = free;
     }
 
-    private boolean isFree;
+
 
 
     public Long getId() {
