@@ -30,6 +30,12 @@ public class RoomServiceImpl implements RoomService{
     }
 
     @Override
+    public List<RoomDTO> findByHotelId(Long hotelId) {
+        List<Room> rooms = roomRepository.findByHotelId(hotelId);
+        return roomMapper.mapToDto(rooms);
+    }
+
+    @Override
     public RoomDTO findByType(String type) {
         Room room = roomRepository.findByType(type);
         return roomMapper.mapToDto(room);

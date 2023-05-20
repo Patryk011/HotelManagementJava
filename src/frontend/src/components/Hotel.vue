@@ -7,16 +7,42 @@
       <th>Hotel ID</th>
       <th>Name</th>
       <th>Address</th>
+      <th>Rooms</th>
       </thead>
       <tbody>
       <tr v-for="hotel in hotels" :key="hotel.id">
         <td>{{ hotel.id }}</td>
         <td>{{ hotel.name }}</td>
         <td>{{ hotel.address }}</td>
+        <td>
+          <button class="btn btn-primary" @click="showRooms(hotel.id)">Show Rooms</button>
+        </td>
       </tr>
       </tbody>
     </table>
-    <button v-if="!showForm" class="btn btn-primary" @click="showForm = true">Add Hotel</button>
+
+    <table v-if="showRoomsTable" class="table table-striped">
+      <caption>Rooms for {{ selectedHotel.name }}</caption>
+      <thead>
+      <th>Room ID</th>
+      <th>Type</th>
+      <th>Room Number</th>
+      <th>Vacancy</th>
+      <th>Price</th>
+
+      </thead>
+      <tbody>
+      <tr v-for="room in rooms" :key="room.id">
+        <td>{{ room.id }}</td>
+        <td>{{ room.type }}</td>
+        <td>{{ room.number }}</td>
+        <td>{{ room.free ? "Yes" : "No" }}</td>
+        <td>{{ room.price }}</td>
+      </tr>
+      </tbody>
+    </table>
+
+    <button v-if="!showForm && !showRoomsTable" class="btn btn-primary" @click="showForm = true">Add Hotel</button>
 
     <form v-if="showForm" @submit="addHotel" class="hotel-form">
       <h1 class="text-form">Hotel Form</h1>
@@ -40,7 +66,10 @@ export default {
   data() {
     return {
       showForm: false,
+      showRoomsTable: false,
       hotels: [],
+      rooms: [],
+      selectedHotel: {},
       newHotel: {
         name: '',
         address: ''
@@ -81,6 +110,25 @@ export default {
         this.hotels = data;
       } catch (error) {
         console.error('Error during fetch data:', error);
+      }
+    },
+
+    async getHotelRooms(hotelId) {
+      try {
+        const response = await fetch(`/api/hotel/${hotelId}/rooms`);
+        const data = await response.json();
+        this.rooms = data;
+        this.showRoomsTable = true;
+      } catch (error) {
+        console.error('Error during fetch data:', error);
+      }
+    },
+
+    showRooms(hotelId) {
+      const hotel = this.hotels.find(hotel => hotel.id === hotelId);
+      if (hotel) {
+        this.selectedHotel = hotel;
+        this.getHotelRooms(hotelId);
       }
     },
   },
