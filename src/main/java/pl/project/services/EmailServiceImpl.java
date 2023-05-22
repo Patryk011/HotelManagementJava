@@ -23,6 +23,8 @@ public class EmailServiceImpl implements EmailService {
     public void sendEmail(String to, String subject, String message) {
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
 
+        simpleMailMessage.setFrom("hotelapp12@gmail.com");
+
         simpleMailMessage.setTo(to);
         simpleMailMessage.setSubject(subject);
         simpleMailMessage.setText(message);
