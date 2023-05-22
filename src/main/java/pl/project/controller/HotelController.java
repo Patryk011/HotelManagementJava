@@ -40,8 +40,8 @@ public class HotelController {
     }
 
     @PostMapping
-    public void saveHotel(@RequestBody HotelDTO hotelDTO) {
-        hotelService.saveHotel(hotelDTO);
+    public HotelDTO saveHotel(@RequestBody HotelDTO hotelDTO) {
+       return hotelService.saveHotel(hotelDTO);
     }
 
     @DeleteMapping("/{id}")
