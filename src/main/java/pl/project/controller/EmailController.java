@@ -1,10 +1,11 @@
 package pl.project.controller;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pl.project.dto.EmailMessageDTO;
+import pl.project.email.EmailMessage;
 import pl.project.services.EmailService;
 
 @RestController
@@ -19,8 +20,8 @@ public class EmailController {
     }
 
     @PostMapping("/send")
-    public EmailMessageDTO sendEmail(@RequestBody EmailMessageDTO emailMessageDTO) {
-        return emailService.sendEmail(emailMessageDTO);
+    public ResponseEntity sendEmail(@RequestBody EmailMessage emailMessage) {
+        this.emailService.sendEmail(emailMessage.getTo(), emailMessage.getSubject(), emailMessage.getMessage());
+        return ResponseEntity.ok("Success");
     }
-
 }

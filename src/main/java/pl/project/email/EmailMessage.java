@@ -1,33 +1,18 @@
-package pl.project.entity;
+package pl.project.email;
 
 
 import jakarta.persistence.*;
 
-@Entity
+
 public class EmailMessage {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "email_id")
-    private Long id;
 
-    @Column(name = "email_to")
+
+
     private String to;
-
-
-    @Column(name="email_subject")
     private String subject;
-
-    @Column(name="email_message")
     private String message;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
 
     public String getTo() {
         return to;
