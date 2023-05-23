@@ -56,6 +56,7 @@ public class RoomServiceImpl implements RoomService{
         }
 
         Room room = roomMapper.mapFromDto(roomDTO);
+        room.setFree(true);
         room = roomRepository.save(room);
 
         return roomMapper.mapToDto(room);

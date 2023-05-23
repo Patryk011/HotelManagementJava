@@ -4,7 +4,7 @@ public class DocumentItemsDTO {
 
 
     private Long id;
-    private Long roomId;
+    private int roomNumber;
     private int quantity;
     private int amount;
 
@@ -17,12 +17,12 @@ public class DocumentItemsDTO {
         this.id = id;
     }
 
-    public Long getRoomId() {
-        return roomId;
+    public int getRoomNumber() {
+        return roomNumber;
     }
 
-    public void setRoomId(Long roomId) {
-        this.roomId = roomId;
+    public void setRoomNumber(int roomNumber) {
+        this.roomNumber = roomNumber;
     }
 
     public int getQuantity() {
