@@ -70,7 +70,7 @@ export default {
           if (response.ok) {
             const data = await response.json();
             this.customers.push(data);
-            // Clear the form fields after successful addition
+
             this.newCustomer.firstName = '';
             this.newCustomer.lastName = '';
             this.newCustomer.email = '';
