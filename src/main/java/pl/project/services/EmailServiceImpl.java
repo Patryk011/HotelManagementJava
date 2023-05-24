@@ -1,9 +1,17 @@
 package pl.project.services;
 
+import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import pl.project.dto.EmailDTO;
+import pl.project.email.EmailReceiver;
+
+
+import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 
 
 @Service
@@ -11,12 +19,15 @@ public class EmailServiceImpl implements EmailService {
 
     private final JavaMailSender mailSender;
 
+    private final EmailReceiver emailReceiver;
+
 
 
 
     @Autowired
-    public EmailServiceImpl(JavaMailSender mailSender) {
+    public EmailServiceImpl(JavaMailSender mailSender, EmailReceiver emailReceiver) {
         this.mailSender = mailSender;
+        this.emailReceiver = emailReceiver;
     }
 
     @Override
@@ -34,4 +45,27 @@ public class EmailServiceImpl implements EmailService {
 
 
     }
+
+    @Override
+    public List<EmailDTO> getEmails() {
+        try {
+            return emailReceiver.receiveEmails();
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            return Collections.emptyList();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    @Override
+    public void deleteEmail(int index){
+        try {
+            emailReceiver.deleteEmail(index);
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
+
