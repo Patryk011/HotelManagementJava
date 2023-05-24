@@ -40,7 +40,7 @@ export default {
         });
 
         if (response.ok) {
-          // Usunięcie wiadomości z listy po udanym usunięciu na serwerze
+
           this.emails.splice(index, 1);
         } else {
           console.error('Błąd podczas usuwania wiadomości:', response.status);
