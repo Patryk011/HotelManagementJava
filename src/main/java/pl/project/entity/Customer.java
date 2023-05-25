@@ -2,6 +2,9 @@ package pl.project.entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "customer")
 public class Customer {
@@ -17,6 +20,9 @@ public class Customer {
     private String lastName;
     @Column(name = "customer_email")
     private String email;
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    private List<Reservation> reservations = new ArrayList<>();
 
 
     public Customer() {
@@ -61,5 +67,13 @@ public class Customer {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(List<Reservation> reservations) {
+        this.reservations = reservations;
     }
 }
