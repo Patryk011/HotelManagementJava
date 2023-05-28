@@ -31,7 +31,7 @@
       </tr>
       </tbody>
     </table>
-    <button v-if="!showForm && !editForm" class="btn btn-primary" @click="showForm = true">Add Reservation</button>
+    <button v-if="!showForm && !editForm" class="btn btn-primary" @click="showForm = true">Create Reservation</button>
 
     <form v-if="showForm" @submit="createReservation" class="reservation-form">
       <h1 class="text-form">Reservation Form</h1>

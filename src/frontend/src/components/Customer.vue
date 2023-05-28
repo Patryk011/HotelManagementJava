@@ -1,13 +1,14 @@
 <template>
     <div class="container">
-        <h1 v-if="!showForm" class="text-center">Customer List</h1>
+        <h1 v-if="!showForm && !reservationTable" class="text-center">Customer List</h1>
 
-        <table v-if=!showForm class="table table-striped">
+        <table v-if="!showForm && !reservationTable" class="table table-striped">
             <thead>
             <th>Customer ID</th>
             <th>First Name</th>
             <th>Last Name</th>
             <th>Email</th>
+            <th>Reservations</th>
             </thead>
             <tbody>
             <tr v-for="customer in customers" :key="customer.id">
@@ -15,10 +16,13 @@
                 <td>{{ customer.firstName }}</td>
                 <td>{{ customer.lastName }}</td>
                 <td>{{ customer.email }}</td>
+              <td>
+                <button class = "btn btn-primary" @click="showReservations(customer.id)">Reservations</button>
+              </td>
             </tr>
             </tbody>
         </table>
-      <button v-if="!showForm" class="btn btn-primary" @click="showForm = true">Add Customer</button>
+      <button v-if="!showForm && !reservationTable" class="btn btn-primary" @click="showForm = true">Add Customer</button>
 
       <form v-if="showForm" @submit="addCustomer" class="customer-form">
         <h1 class="text-form">Customer form</h1>
@@ -37,16 +41,51 @@
         <button type="submit" class="btn btn-primary add-customer-form">Add Customer</button>
         <button type="button" class="btn btn-secondary cancel-customer-form" @click="showForm = false">Cancel</button>
       </form>
+
+
+
+      <table v-if="reservationTable" class="table table-striped">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Customer ID</th>
+          <th>Room ID</th>
+          <th>Hotel ID</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="reservation in reservations" :key="reservation.id">
+          <td>{{ reservation.id }}</td>
+          <td>{{ reservation.customerId }}</td>
+          <td>{{ reservation.roomId }}</td>
+          <td>{{ reservation.hotelId }}</td>
+          <td>{{ reservation.startDate }}</td>
+          <td>{{ reservation.endDate }}</td>
+          <td>{{ reservation.status }}</td>
+        </tr>
+        </tbody>
+      </table>
+      <button v-if="reservationTable" class="btn btn-secondary" @click="reservationTable = false;">Back</button>
     </div>
 </template>
 
 <script>
+
+
 export default {
     name: 'Customers',
+
+
     data() {
         return {
             showForm: false,
+            reservationTable: false,
             customers: [],
+            selectedCustomer: {},
+            reservations: [],
             newCustomer: {
               firstName: '',
               lastName: '',
@@ -91,6 +130,25 @@ export default {
                 console.error('Error during fetch data:', error);
             }
         },
+
+      async getCustomerReservations(customerId) {
+        try {
+          const response = await fetch(`/api/customers/${customerId}/reservations`);
+          const data = await response.json();
+          this.reservations = data;
+          this.reservationTable = true;
+        } catch(error) {
+          console.error("Error during fetch data:", error);
+        }
+      },
+
+      showReservations(customerId) {
+        const customer = this.customers.find(customer => customer.id === customerId);
+        if (customer) {
+          this.selectedCustomer = customer;
+          this.getCustomerReservations(customerId);
+        }
+      },
     },
     created() {
         this.getCustomers();
@@ -102,7 +160,7 @@ export default {
 
 
 .container {
-    max-width: 800px;
+    max-width: 1000px;
     margin: 0 auto;
     padding: 20px;
 }
@@ -154,7 +212,7 @@ export default {
 }
 
 .form-control {
-  width: 200px;
+  width: 300px;
   padding: 8px;
   border: 1px solid black;
   border-radius: 4px;

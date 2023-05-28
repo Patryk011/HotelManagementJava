@@ -1,10 +1,11 @@
 package pl.project.controller;
 
 import pl.project.dto.CustomerDTO;
-import pl.project.entity.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import pl.project.dto.ReservationDTO;
 import pl.project.services.CustomerService;
+import pl.project.services.ReservationService;
 
 import java.util.List;
 
@@ -17,15 +18,26 @@ public class CustomerController {
 
     private final CustomerService customerService;
 
+    private final ReservationService reservationService;
+
+
+
+
     @Autowired
-    public CustomerController(CustomerService customerService) {
+    public CustomerController(CustomerService customerService, ReservationService reservationService) {
         this.customerService = customerService;
+        this.reservationService = reservationService;
     }
 
     @GetMapping("/all")
     public List<CustomerDTO> getAllCustomers() {
         return customerService.findAllCustomers();
     }
+    @GetMapping("/{id}/reservations")
+    public List<ReservationDTO> findByCustomerId(@PathVariable Long id) {
+        return reservationService.findByCustomerId(id);
+    }
+
 
     @GetMapping("/{id}")
     public CustomerDTO getCustomerById(@PathVariable Long id) {
