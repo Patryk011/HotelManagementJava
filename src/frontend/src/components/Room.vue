@@ -21,7 +21,9 @@
         <td>{{ room.price }}</td>
         <td>{{ room.hotelId }}</td>
         <td>
-          <button class = "btn btn-primary" @click="showEditForm(room.id)">Edit</button></td>
+          <button class = "btn btn-primary " @click="showEditForm(room.id)">Edit</button>
+          <button class = "btn btn-danger delete" @click="deleteRoom(room.id)">Delete</button>
+        </td>
       </tr>
       </tbody>
     </table>
@@ -186,23 +188,25 @@ export default {
       }
     },
 
-    async editRoom(roomId) {
+    async deleteRoom(roomId) {
       try {
-        const response = await fetch(`/api/room/${roomId}`);
-        const data = await response.json();
+        const response = await fetch(`/api/room/${roomId}`, {
+          method: 'DELETE'
+        });
+        if (response.ok) {
+          const index = this.rooms.findIndex(room => room.id === roomId);
+          if (index !== -1) {
+            this.rooms.splice(index, 1);
+          }
+        } else {
+          console.error('Failed to delete room:',  response.statusText);
+        }
+      } catch(error) {
+        console.error('Error during delete room:', error);
+      }
+    }
 
-        this.newRoom = {
-          type: data.type,
-          number: data.number,
-          isFree: data.isFree,
-          price: data.price,
-          hotelId: data.hotelId
-        };
-        this.showForm = true;
-      } catch (error) {
-        console.error('Error during editing room:', error);
-      }
-      }
+
 
 
   },
@@ -289,5 +293,9 @@ export default {
   position: relative;
   top: -38px;
   left: 70px;
+}
+
+.delete {
+  margin-left: 10px;
 }
 </style>

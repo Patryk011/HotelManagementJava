@@ -1,8 +1,9 @@
 <template>
   <div class="container">
-    <h1 v-if="!showForm" class="text-center">Hotel List</h1>
+    <h1 v-if="!showForm && !showRoomsTable" class="text-center">Hotel List</h1>
+    <h1 v-else-if="showRoomsTable" class="text-center">Rooms for {{ selectedHotel.name }} (Hotel-ID: {{ selectedHotel.id }})</h1>
 
-    <table v-if="!showForm" class="table table-striped">
+    <table v-if="!showForm && !showRoomsTable" class="table table-striped">
       <thead>
       <th>Hotel ID</th>
       <th>Name</th>
@@ -22,7 +23,7 @@
     </table>
 
     <table v-if="showRoomsTable" class="table table-striped">
-      <caption>Rooms for {{ selectedHotel.name }}</caption>
+
       <thead>
       <th>Room ID</th>
       <th>Type</th>
@@ -41,7 +42,7 @@
       </tr>
       </tbody>
     </table>
-
+    <button v-if="showRoomsTable" class="btn btn-secondary" @click="showRoomsTable = false">Back</button>
     <button v-if="!showForm && !showRoomsTable" class="btn btn-primary" @click="showForm = true">Add Hotel</button>
 
     <form v-if="showForm" @submit="addHotel" class="hotel-form">

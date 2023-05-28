@@ -5,6 +5,7 @@ import Home from "@/components/Home.vue";
 import Hotel from "@/components/Hotel.vue";
 import Email from "@/components/Email.vue";
 import EmailReceiver from "@/components/EmailReceiver.vue"
+import Reservation from "@/components/Reservation.vue";
 
 
 
@@ -14,7 +15,8 @@ const routes = [
     { path: '/hotel', component: Hotel},
     { path: '/', component: Home },
     { path: '/send', component: Email},
-    { path: '/email', component: EmailReceiver}
+    { path: '/email', component: EmailReceiver},
+    { path: '/reservation', component: Reservation}
 ];
 
 const router = createRouter({

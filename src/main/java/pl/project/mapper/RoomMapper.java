@@ -4,6 +4,8 @@ import org.springframework.stereotype.Component;
 import pl.project.dto.RoomDTO;
 import pl.project.entity.Hotel;
 import pl.project.entity.Room;
+import pl.project.repository.CustomerRepository;
+import pl.project.repository.HotelRepository;
 
 import java.util.Collection;
 import java.util.List;
@@ -12,6 +14,11 @@ import java.util.stream.Collectors;
 
 @Component
 public class RoomMapper {
+
+
+
+
+
 
 
     public RoomDTO mapToDto(Room room){

@@ -27,14 +27,20 @@
     <img src="../assets/hotel.png" width="42" height="42" class="icon">
     <span class="text">Hotel</span>
   </router-link>
+  <router-link to="/reservation" class="button">
+    <img src="../assets/reservation.png" width="42" height="42" class="icon">
+    <span class="text">Reservation</span>
+  </router-link>
   <router-link to="/send" class="button">
     <img src="../assets/send.png" width="42" height="42" class="icon">
     <span class="text">Send Email</span>
   </router-link>
+
   <router-link to="/email" class="button">
     <img src="../assets/email.png" width="42" height="42" class="icon">
     <span class="text">Email</span>
   </router-link>
+
 
 </div>
 
