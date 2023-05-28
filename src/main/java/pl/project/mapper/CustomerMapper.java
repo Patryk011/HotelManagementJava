@@ -4,6 +4,7 @@ package pl.project.mapper;
 import org.springframework.stereotype.Component;
 import pl.project.dto.CustomerDTO;
 import pl.project.entity.Customer;
+import pl.project.entity.Reservation;
 
 import java.util.Collection;
 import java.util.List;
@@ -12,12 +13,20 @@ import java.util.stream.Collectors;
 @Component
 public class CustomerMapper {
 
+    private final ReservationMapper reservationMapper;
+
+
+    public CustomerMapper(ReservationMapper reservationMapper) {
+        this.reservationMapper = reservationMapper;
+    }
+
     public CustomerDTO mapToDto(Customer customer) {
         CustomerDTO customerDTO = new CustomerDTO();
         customerDTO.setId(customer.getId());
         customerDTO.setFirstName(customer.getFirstName());
         customerDTO.setLastName(customer.getLastName());
         customerDTO.setEmail(customer.getEmail());
+        customerDTO.setReservations(reservationMapper.mapToDTO(customer.getReservations()));
 
         return customerDTO;
     }
@@ -34,6 +43,8 @@ public class CustomerMapper {
         customer.setLastName(customerDTO.getLastName());
         customer.setEmail(customerDTO.getEmail());
 
+        List<Reservation> reservations = customerDTO.getReservations().stream().map(reservationDTO -> reservationMapper.mapFromDTO(reservationDTO)).collect(Collectors.toList());
+        customer.setReservations(reservations);
         return customer;
     }
 
@@ -43,6 +54,8 @@ public class CustomerMapper {
         customer.setFirstName(customerDTO.getFirstName());
         customer.setLastName(customerDTO.getLastName());
         customer.setEmail(customerDTO.getEmail());
+        List<Reservation> reservations = customerDTO.getReservations().stream().map(reservationDTO -> reservationMapper.mapFromDTO(reservationDTO)).collect(Collectors.toList());
+        customer.setReservations(reservations);
 
         return customer;
     }

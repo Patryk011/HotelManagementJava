@@ -35,6 +35,11 @@ public class RoomController {
         return roomService.findByType(type);
     }
 
+    @PutMapping("/{id}")
+    public RoomDTO updateRoom(@PathVariable Long id, @RequestBody RoomDTO roomDTO) {
+        return roomService.updateRoom(id, roomDTO);
+    }
+
     @PostMapping
     public RoomDTO addRoom(@RequestBody RoomDTO roomDTO) {
         return roomService.addRoom(roomDTO);

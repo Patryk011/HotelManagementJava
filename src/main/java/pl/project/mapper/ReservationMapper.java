@@ -26,7 +26,7 @@ public class ReservationMapper {
             return reservationDTO;
         }
 
-        public List<ReservationDTO> mapToDto(Collection<Reservation> reservations) {
+        public List<ReservationDTO> mapToDTO(Collection<Reservation> reservations) {
             return reservations.stream()
                     .map(this::mapToDTO)
                     .collect(Collectors.toList());

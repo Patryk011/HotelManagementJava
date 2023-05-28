@@ -1,8 +1,8 @@
 <template>
   <div class="container">
-    <h1 v-if="!showForm" class="text-center">Room List</h1>
+    <h1 v-if="!showForm && !editForm" class="text-center">Room List</h1>
 
-    <table v-if="!showForm" class="table table-striped">
+    <table v-if="!showForm && !editForm" class="table table-striped">
       <thead>
       <th>Room ID</th>
       <th>Type</th>
@@ -10,6 +10,7 @@
       <th>Vacancy</th>
       <th>Price</th>
       <th>Hotel ID</th>
+      <th>Actions</th>
       </thead>
       <tbody>
       <tr v-for="room in rooms" :key="room.id">
@@ -19,10 +20,12 @@
         <td>{{ room.free == true ? "Yes" : "No" }}</td>
         <td>{{ room.price }}</td>
         <td>{{ room.hotelId }}</td>
+        <td>
+          <button class = "btn btn-primary" @click="showEditForm(room.id)">Edit</button></td>
       </tr>
       </tbody>
     </table>
-    <button v-if="!showForm" class="btn btn-primary" @click="showForm = true">Add Room</button>
+    <button v-if="!showForm && !editForm" class="btn btn-primary" @click="showForm = true">Add Room</button>
 
     <form v-if="showForm" @submit="addRoom" class="room-form">
       <h1 class="text-form">Room Form</h1>
@@ -46,6 +49,36 @@
       <button type="submit" class="btn btn-primary add-room-form">Add Room</button>
       <button type="button" class="btn btn-secondary cancel-room-form" @click="showForm = false">Cancel</button>
     </form>
+
+    <form v-if="editForm" @submit="updateRoom" class="room-form">
+      <h1 class="text-form">Edit Room</h1>
+      <div class="form-group">
+        <label for="type">Type:</label>
+        <input type="text" class="form-control" id="type" v-model="editRoom.type" >
+      </div>
+      <div class="form-group">
+        <label for="number">Room Number:</label>
+        <input type="number" class="form-control" id="number" v-model="editRoom.number" >
+      </div>
+      <div class="form-group">
+        <label for="vacancy">Vacancy:</label>
+        <select class="form-control" id="vacancy" v-model="editRoom.free">
+          <option :value="true">Yes</option>
+          <option :value="false">No</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="price">Price:</label>
+        <input type="number" class="form-control" id="price" v-model="editRoom.price" >
+      </div>
+      <div class="form-group">
+        <label for="hotelId">Hotel ID:</label>
+        <input type="number" class="form-control" id="hotelId" v-model="editRoom.hotelId" >
+      </div>
+      <button type="submit" class="btn btn-primary edit-room-form">Update Room</button>
+      <button type="button" class="btn btn-secondary cancel-room-form" @click="editForm = false">Cancel</button>
+    </form>
   </div>
 </template>
 
@@ -55,11 +88,13 @@ export default {
   data() {
     return {
       showForm: false,
+      editForm: false,
+
       rooms: [],
       newRoom: {
         type: '',
         number: null,
-        isFree: false,
+        isFree: null,
         price: null,
         hotelId: null
       },
@@ -83,7 +118,7 @@ export default {
           this.rooms.push(data);
           this.newRoom.type = '';
           this.newRoom.number = null;
-          this.newRoom.isFree = false;
+          this.newRoom.isFree = null;
           this.newRoom.price = null;
           this.newRoom.hotelId = null;
         } else {
@@ -91,6 +126,53 @@ export default {
         }
       } catch (error) {
         console.error('Error during adding room:', error);
+      }
+    },
+
+    async updateRoom(e) {
+      e.preventDefault();
+
+      try {
+        const response = await fetch(`/api/room/${this.editRoom.id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(this.editRoom)
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          const index = this.rooms.findIndex(room => room.id === this.editRoom.id);
+          if (index !== -1) {
+            this.rooms.splice(index, 1, data);
+          }
+
+          this.editForm = false;
+        } else {
+          console.error('Failed to update room:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Error during updating room:', error);
+      }
+    },
+
+    async showEditForm(roomId) {
+      try {
+        const response = await fetch(`/api/room/${roomId}`);
+        const data = await response.json();
+
+        this.editRoom = {
+          id: data.id,
+          type: data.type,
+          number: data.number,
+          isFree: data.isFree,
+          price: data.price,
+          hotelId: data.hotelId
+        };
+        this.editForm = true;
+      } catch (error) {
+        console.error('Error during showing edit form:', error);
       }
     },
 
@@ -103,6 +185,25 @@ export default {
         console.error('Error during fetch data:', error);
       }
     },
+
+    async editRoom(roomId) {
+      try {
+        const response = await fetch(`/api/room/${roomId}`);
+        const data = await response.json();
+
+        this.newRoom = {
+          type: data.type,
+          number: data.number,
+          isFree: data.isFree,
+          price: data.price,
+          hotelId: data.hotelId
+        };
+        this.showForm = true;
+      } catch (error) {
+        console.error('Error during editing room:', error);
+      }
+      }
+
 
   },
   created() {

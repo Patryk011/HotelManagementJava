@@ -39,7 +39,7 @@ public class PaymentMapper {
         return payment;
     }
 
-    public Payment mapFromDTO(PaymentDTO paymentDTO, Payment payment) {
+    public Payment mapFromDTO(Payment payment, PaymentDTO paymentDTO) {
         Reservation reservation = new Reservation();
         reservation.setId(paymentDTO.getReservationId());
         payment.setAmount(paymentDTO.getAmount());

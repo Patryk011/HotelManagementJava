@@ -21,7 +21,10 @@ public interface RoomService {
     RoomDTO addRoom(RoomDTO roomDTO);
 
 
-    boolean isFree(Long id);
+    RoomDTO updateRoom(Long id, RoomDTO roomDTO);
+
+
+//    boolean isFree(Long id);
 
     void deleteRoom(Long id);
 

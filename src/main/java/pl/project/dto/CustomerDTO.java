@@ -2,12 +2,17 @@ package pl.project.dto;
 
 import jakarta.persistence.Column;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CustomerDTO {
 
     private Long id;
     private String firstName;
     private String lastName;
     private String email;
+
+    private List<ReservationDTO> reservations = new ArrayList<>();
 
 
     public Long getId() {
@@ -16,6 +21,15 @@ public class CustomerDTO {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+
+    public List<ReservationDTO> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(List<ReservationDTO> reservations) {
+        this.reservations = reservations;
     }
 
     public String getFirstName() {

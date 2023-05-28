@@ -3,8 +3,10 @@ package pl.project.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.project.dto.RoomDTO;
+import pl.project.entity.Hotel;
 import pl.project.entity.Room;
 import pl.project.mapper.RoomMapper;
+import pl.project.repository.HotelRepository;
 import pl.project.repository.RoomRepository;
 
 import java.util.List;
@@ -16,11 +18,14 @@ public class RoomServiceImpl implements RoomService{
 
     private final RoomRepository roomRepository;
 
+    private final HotelRepository hotelRepository;
+
     private final RoomMapper roomMapper;
 
     @Autowired
-    public RoomServiceImpl(RoomRepository roomRepository, RoomMapper roomMapper) {
+    public RoomServiceImpl(RoomRepository roomRepository, HotelRepository hotelRepository, RoomMapper roomMapper) {
         this.roomRepository = roomRepository;
+        this.hotelRepository = hotelRepository;
         this.roomMapper = roomMapper;
     }
 
@@ -63,12 +68,23 @@ public class RoomServiceImpl implements RoomService{
     }
 
     @Override
-    public boolean isFree(Long id)
-    {
-        Room room = roomRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
-        if(room.isFree()==true) return true;
-        return false;
+    public RoomDTO updateRoom(Long id, RoomDTO roomDTO) {
+        Room existingRoom = roomRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Room with ID " + id + " not found."));
+
+        existingRoom = roomMapper.mapFromDto(existingRoom, roomDTO);
+        roomRepository.save(existingRoom);
+        return roomMapper.mapToDto(existingRoom);
     }
+
+
+//    @Override
+//    public boolean isFree(Long id)
+//    {
+//        Room room = roomRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
+//        if(room.isFree()==true) return true;
+//        return false;
+//    }
 
     @Override
     public void deleteRoom(Long id) {
