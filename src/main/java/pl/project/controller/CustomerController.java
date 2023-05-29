@@ -45,6 +45,13 @@ public class CustomerController {
     }
 
 
+    @GetMapping("/filter")
+    public List<CustomerDTO> getCustomersByEmail(@RequestParam String email) {
+        return customerService.findCustomersByEmail(email);
+    }
+
+
+
 
     @PostMapping
     public CustomerDTO addCustomer(@RequestBody CustomerDTO customerDTO) {

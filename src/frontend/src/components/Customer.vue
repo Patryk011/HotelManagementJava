@@ -1,6 +1,10 @@
 <template>
     <div class="container">
         <h1 v-if="!showForm && !reservationTable" class="text-center">Customer List</h1>
+      <div v-if="!showForm && !reservationTable" class="form-group">
+        <label for="filterEmail">Find by Email:</label>
+        <input type="email" class="form-control" id="filterEmail" v-model="filterEmail" @input="getCustomers" placeholder="Enter email">
+      </div>
 
         <table v-if="!showForm && !reservationTable" class="table table-striped">
             <thead>
@@ -23,6 +27,9 @@
             </tbody>
         </table>
       <button v-if="!showForm && !reservationTable" class="btn btn-primary" @click="showForm = true">Add Customer</button>
+
+
+
 
       <form v-if="showForm" @submit="addCustomer" class="customer-form">
         <h1 class="text-form">Customer form</h1>
@@ -90,7 +97,8 @@ export default {
               firstName: '',
               lastName: '',
               email: ''
-            }
+            },
+            filterEmail: '',
         };
     },
     methods: {
@@ -121,15 +129,20 @@ export default {
         }
       },
 
-        async getCustomers() {
-            try {
-                const response = await fetch('/api/customers/all');
-                const data = await response.json();
-                this.customers = data;
-            } catch (error) {
-                console.error('Error during fetch data:', error);
-            }
-        },
+      async getCustomers() {
+        try {
+          let url = 'api/customers/all';
+          if (this.filterEmail) {
+            url = 'api/customers/filter?email=' + encodeURIComponent(this.filterEmail);
+          }
+          const response = await fetch(url);
+          const data = await response.json();
+          this.customers = data;
+        } catch (error) {
+          console.error('Error during fetch data:', error);
+        }
+      },
+
 
       async getCustomerReservations(customerId) {
         try {
@@ -156,42 +169,40 @@ export default {
 };
 </script>
 
-<style scoped>
-
-
+<style lang="scss" scoped>
 .container {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
 .text-center {
-    text-align: center;
+  text-align: center;
 }
 
 .table {
-    width: 100%;
-    border-collapse: collapse;
-}
+  margin-top: 50px;
+  width: 100%;
+  border-collapse: collapse;
 
-.table th,
-.table td {
+  th,
+  td {
     padding: 10px;
     border: 1px solid #ccc;
-}
+  }
 
-.table th {
+  th {
     background-color: #f0f0f0;
     font-weight: bold;
-}
+  }
 
-.table-striped tbody tr:nth-child(odd) {
+  tbody tr:nth-child(odd) {
     background-color: #f9f9f9;
+  }
 }
 
 .customer-form {
   margin-top: 20px;
-  border: 3px solid blue;
   padding: 20px;
   border-radius: 4px;
   display: flex;
@@ -201,29 +212,24 @@ export default {
 }
 
 .form-group {
+  margin-top: 50px;
   display: flex;
   flex-direction: row;
   align-items: center;
-}
 
-.form-group label {
-  text-align: left;
-  margin-right: 10px;
-}
+  label {
+    text-align: left;
+    margin-right: 10px;
+  }
 
-.form-control {
-  width: 300px;
-  padding: 8px;
-  border: 1px solid black;
-  border-radius: 4px;
-  box-sizing: border-box;
-  margin-bottom: 10px;
-}
-
-.form {
-  position: absolute;
-  top: 276px;
-  left: 600px;
+  .form-control {
+    width: 300px;
+    padding: 8px;
+    border: 1px solid black;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+  }
 }
 
 .add-customer-form {
@@ -237,6 +243,4 @@ export default {
   top: -38px;
   left: 70px;
 }
-
-
 </style>

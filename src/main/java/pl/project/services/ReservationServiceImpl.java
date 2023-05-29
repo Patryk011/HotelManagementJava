@@ -1,5 +1,6 @@
 package pl.project.services;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import pl.project.dto.ReservationDTO;
 import pl.project.entity.Customer;
@@ -51,6 +52,10 @@ public class ReservationServiceImpl implements ReservationService {
     public ReservationDTO createReservation(ReservationDTO reservationDTO) {
         Reservation reservation = reservationMapper.mapFromDTO(reservationDTO);
         reservation = reservationRepository.save(reservation);
+
+        Room room = roomRepository.findById(reservationDTO.getRoomId()).orElseThrow(() -> new NoSuchElementException());
+        room.setFree(false);
+        roomRepository.save(room);
 
         return reservationMapper.mapToDTO(reservation);
     }

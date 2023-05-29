@@ -217,7 +217,7 @@ export default {
 </script>
 <style scoped>
 .container {
-  max-width: 800px;
+  max-width: 1000px;
   margin: 0 auto;
   padding: 20px;
 }
@@ -248,7 +248,6 @@ export default {
 
 .room-form {
   margin-top: 20px;
-  border: 3px solid blue;
   padding: 20px;
   border-radius: 4px;
   display: flex;

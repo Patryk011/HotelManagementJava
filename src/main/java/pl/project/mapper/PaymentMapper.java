@@ -18,7 +18,7 @@ public class PaymentMapper {
         paymentDTO.setId(payment.getId());
         paymentDTO.setReservationId(payment.getReservation().getId());
         paymentDTO.setAmount(payment.getAmount());
-        paymentDTO.setStatus(payment.getStatus());
+        paymentDTO.setPaid(payment.isPaid());
         return paymentDTO;
     }
 
@@ -35,7 +35,7 @@ public class PaymentMapper {
 
         payment.setReservation(reservation);
         payment.setAmount(paymentDTO.getAmount());
-        payment.setStatus(paymentDTO.getStatus());
+        payment.setPaid(paymentDTO.isPaid());
         return payment;
     }
 
@@ -43,7 +43,7 @@ public class PaymentMapper {
         Reservation reservation = new Reservation();
         reservation.setId(paymentDTO.getReservationId());
         payment.setAmount(paymentDTO.getAmount());
-        payment.setStatus(paymentDTO.getStatus());
+        payment.setPaid(paymentDTO.isPaid());
         return payment;
     }
 }

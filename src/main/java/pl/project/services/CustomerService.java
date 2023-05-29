@@ -16,6 +16,9 @@ public interface CustomerService {
     CustomerDTO addCustomer(CustomerDTO customer);
     CustomerDTO findById(Long id);
 
+    List<CustomerDTO> findCustomersByEmail(String email);
+    CustomerDTO findByEmail(String email);
+
     CustomerDTO updateCustomer(Long id, CustomerDTO customerDTO);
 
     void deleteCustomer(Long id);

@@ -7,16 +7,16 @@ public class PaymentDTO {
     private Long id;
     private Long reservationId;
     private double amount;
-    private String status;
+    private boolean isPaid;
 
     public PaymentDTO() {
     }
 
-    public PaymentDTO(Long id, Long reservationId, double amount, String status) {
+    public PaymentDTO(Long id, Long reservationId, double amount, boolean isPaid) {
         this.id = id;
         this.reservationId = reservationId;
         this.amount = amount;
-        this.status = status;
+        this.isPaid = isPaid;
     }
 
     public Long getId() {
@@ -43,12 +43,11 @@ public class PaymentDTO {
         this.amount = amount;
     }
 
-    public String getStatus() {
-        return status;
+    public boolean isPaid() {
+        return isPaid;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setPaid(boolean paid) {
+        isPaid = paid;
     }
-
 }

@@ -175,7 +175,6 @@ export default {
 
   .hotel-form {
     margin-top: 20px;
-    border: 3px solid blue;
     padding: 20px;
     border-radius: 4px;
     display: flex;

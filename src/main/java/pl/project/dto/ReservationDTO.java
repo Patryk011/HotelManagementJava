@@ -6,6 +6,8 @@ public class ReservationDTO {
 
     private Long id;
     private Long customerId;
+
+    private String customerEmail;
     private Long roomId;
     private Long hotelId;
     private Date startDate;
@@ -15,9 +17,10 @@ public class ReservationDTO {
     public ReservationDTO() {
     }
 
-    public ReservationDTO(Long id, Long customerId, Long roomId, Long hotelId, Date startDate, Date endDate, String status) {
+    public ReservationDTO(Long id, Long customerId, String customerEmail, Long roomId, Long hotelId, Date startDate, Date endDate, String status) {
         this.id = id;
         this.customerId = customerId;
+        this.customerEmail = customerEmail;
         this.roomId = roomId;
         this.hotelId = hotelId;
         this.startDate = startDate;
@@ -79,5 +82,13 @@ public class ReservationDTO {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getCustomerEmail() {
+        return customerEmail;
+    }
+
+    public void setCustomerEmail(String customerEmail) {
+        this.customerEmail = customerEmail;
     }
 }

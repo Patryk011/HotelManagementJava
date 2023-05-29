@@ -34,7 +34,7 @@ public class ReservationMapper {
     public ReservationDTO mapToDTO(Reservation reservation) {
         ReservationDTO reservationDTO = new ReservationDTO();
         reservationDTO.setId(reservation.getId());
-        reservationDTO.setCustomerId(reservation.getCustomer().getId());
+        reservationDTO.setCustomerEmail(reservation.getCustomer().getEmail());
         reservationDTO.setRoomId(reservation.getRoom().getId());
         reservationDTO.setHotelId(reservation.getHotel().getId());
         reservationDTO.setStartDate(reservation.getStartDate());
@@ -58,7 +58,7 @@ public class ReservationMapper {
 
         Room room = roomRepository.findById(reservationDTO.getRoomId()).orElseThrow(() -> new EntityNotFoundException("Room not found"));
 
-        Customer customer = customerRepository.findById(reservationDTO.getCustomerId()).orElseThrow(() -> new EntityNotFoundException("Customer not found"));
+        Customer customer = customerRepository.findByEmail(reservationDTO.getCustomerEmail());
 
 
         reservation.setCustomer(customer);
@@ -76,7 +76,7 @@ public class ReservationMapper {
 
         Room room = roomRepository.findById(reservationDTO.getRoomId()).orElseThrow(() -> new EntityNotFoundException("Room not found"));
 
-        Customer customer = customerRepository.findById(reservationDTO.getCustomerId()).orElseThrow(() -> new EntityNotFoundException("Customer not found"));
+        Customer customer = customerRepository.findByEmail(reservationDTO.getCustomerEmail());
 
 
         reservation.setCustomer(customer);

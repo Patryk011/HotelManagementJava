@@ -6,6 +6,7 @@ import pl.project.entity.Customer;
 import pl.project.mapper.CustomerMapper;
 import pl.project.repository.CustomerRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -52,6 +53,26 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerDTO findById(Long id) {
         Customer customer = customerRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
+        return customerMapper.mapToDto(customer);
+    }
+
+    @Override
+    public List<CustomerDTO> findCustomersByEmail(String email) {
+        List<CustomerDTO> filteredCustomers = new ArrayList<>();
+        List<CustomerDTO> allCustomers = customerMapper.mapToDto(customerRepository.findAll());
+
+        for (CustomerDTO customer : allCustomers) {
+            if (customer.getEmail().equals(email)) {
+                filteredCustomers.add(customer);
+            }
+        }
+
+        return filteredCustomers;
+    }
+
+    @Override
+    public CustomerDTO findByEmail(String email) {
+        Customer customer = customerRepository.findByEmail(email);
         return customerMapper.mapToDto(customer);
     }
 

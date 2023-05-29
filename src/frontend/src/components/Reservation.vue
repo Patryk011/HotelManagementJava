@@ -6,7 +6,7 @@
       <thead>
       <tr>
         <th>ID</th>
-        <th>Customer ID</th>
+        <th>Customer Email</th>
         <th>Room ID</th>
         <th>Hotel ID</th>
         <th>Start Date</th>
@@ -18,11 +18,11 @@
       <tbody>
       <tr v-for="reservation in reservations" :key="reservation.id">
         <td>{{ reservation.id }}</td>
-        <td>{{ reservation.customerId }}</td>
+        <td>{{ reservation.customerEmail }}</td>
         <td>{{ reservation.roomId }}</td>
         <td>{{ reservation.hotelId }}</td>
-        <td>{{ reservation.startDate }}</td>
-        <td>{{ reservation.endDate }}</td>
+        <td>{{ formatDate(reservation.startDate) }}</td>
+        <td>{{ formatDate(reservation.endDate) }}</td>
         <td>{{ reservation.status }}</td>
         <td>
           <button class="btn btn-primary" @click="showEditForm(reservation.id)">Edit</button>
@@ -36,8 +36,8 @@
     <form v-if="showForm" @submit="createReservation" class="reservation-form">
       <h1 class="text-form">Reservation Form</h1>
       <div class="form-group">
-        <label for="customerId">Customer ID:</label>
-        <input type="number" class="form-control" id="customerId" v-model="newReservation.customerId" required>
+        <label for="customerEmail">Customer Email:</label>
+        <input type="text" class="form-control" id="customerEmail" v-model="newReservation.customerEmail" required>
       </div>
       <div class="form-group">
         <label for="roomId">Room ID:</label>
@@ -66,8 +66,8 @@
     <form v-if="editForm" @submit="updateReservation" class="reservation-form">
       <h1 class="text-form">Edit Reservation</h1>
       <div class="form-group">
-        <label for="customerId">Customer ID:</label>
-        <input type="number" class="form-control" id="customerId" v-model="editReservation.customerId">
+        <label for="customerEmail">Customer Email:</label>
+        <input type="text" class="form-control" id="customerEmail" v-model="editReservation.customerEmail">
       </div>
       <div class="form-group">
         <label for="roomId">Room ID:</label>
@@ -104,7 +104,7 @@ export default {
       editForm: false,
       reservations: [],
       newReservation: {
-        customerId: null,
+        customerEmail: '',
         roomId: null,
         hotelId: null,
         startDate: null,
@@ -113,7 +113,7 @@ export default {
       },
       editReservation: {
         id: null,
-        customerId: null,
+        customerEmail: '',
         roomId: null,
         hotelId: null,
         startDate: null,
@@ -138,7 +138,7 @@ export default {
         if (response.ok) {
           const data = await response.json();
           this.reservations.push(data);
-          this.newReservation.customerId = null;
+          this.newReservation.customerEmail = '';
           this.newReservation.roomId = null;
           this.newReservation.hotelId = null;
           this.newReservation.startDate = null;
@@ -187,7 +187,7 @@ export default {
 
         this.editReservation = {
           id: data.id,
-          customerId: data.customerId,
+          customerEmail: data.customerEmail,
           roomId: data.roomId,
           hotelId: data.hotelId,
           startDate: data.startDate,
@@ -226,6 +226,11 @@ export default {
       } catch (error) {
         console.error('Error during fetching reservations:', error);
       }
+    },
+
+    formatDate(dateString) {
+      const date = new Date(dateString);
+      return date.toLocaleDateString();
     }
   },
   created() {
@@ -236,7 +241,7 @@ export default {
 
 <style scoped>
 .container {
-  max-width: 800px;
+  max-width: 1000px;
   margin: 0 auto;
   padding: 20px;
 }
@@ -267,7 +272,6 @@ export default {
 
 .reservation-form {
   margin-top: 20px;
-  border: 3px solid blue;
   padding: 20px;
   border-radius: 4px;
   display: flex;
