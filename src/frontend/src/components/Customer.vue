@@ -1,6 +1,7 @@
 <template>
     <div class="container">
         <h1 v-if="!showForm && !reservationTable" class="text-center">Customer List</h1>
+      <h1 v-else-if="reservationTable" class="text-center">Reservations {{ selectedCustomer.firstName }} {{selectedCustomer.lastName}}, ID: {{selectedCustomer.id}} </h1>
       <div v-if="!showForm && !reservationTable" class="form-group">
         <label for="filterEmail">Find by Email:</label>
         <input type="email" class="form-control" id="filterEmail" v-model="filterEmail" @input="getCustomers" placeholder="Enter email">
@@ -55,7 +56,7 @@
         <thead>
         <tr>
           <th>ID</th>
-          <th>Customer ID</th>
+          <th>Customer Email</th>
           <th>Room ID</th>
           <th>Hotel ID</th>
           <th>Start Date</th>
@@ -66,11 +67,11 @@
         <tbody>
         <tr v-for="reservation in reservations" :key="reservation.id">
           <td>{{ reservation.id }}</td>
-          <td>{{ reservation.customerId }}</td>
+          <td>{{ reservation.customerEmail }}</td>
           <td>{{ reservation.roomId }}</td>
           <td>{{ reservation.hotelId }}</td>
-          <td>{{ reservation.startDate }}</td>
-          <td>{{ reservation.endDate }}</td>
+          <td>{{ formatDate(reservation.startDate) }}</td>
+          <td>{{ formatDate(reservation.endDate) }}</td>
           <td>{{ reservation.status }}</td>
         </tr>
         </tbody>
@@ -128,6 +129,11 @@ export default {
           console.error('Error during adding customer:', error);
         }
       },
+      formatDate(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleDateString();
+      },
+
 
       async getCustomers() {
         try {
