@@ -3,6 +3,7 @@ package pl.project.controller;
 import pl.project.dto.CustomerDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import pl.project.dto.HotelDTO;
 import pl.project.dto.ReservationDTO;
 import pl.project.services.CustomerService;
 import pl.project.services.ReservationService;
@@ -56,6 +57,11 @@ public class CustomerController {
     @PostMapping
     public CustomerDTO addCustomer(@RequestBody CustomerDTO customerDTO) {
         return customerService.addCustomer(customerDTO);
+    }
+
+    @PutMapping("/{id}")
+    public CustomerDTO updateCustomer(@PathVariable Long id, @RequestBody CustomerDTO customerDTO) {
+        return customerService.updateCustomer(id, customerDTO);
     }
 
     @DeleteMapping("/{id}")

@@ -49,4 +49,14 @@ public class HotelServiceImpl implements HotelService {
     public void deleteHotelById(Long id) {
         hotelRepository.deleteById(id);
     }
+
+    @Override
+    public HotelDTO updateHotel(Long hotelId, HotelDTO hotelDTO) {
+        Hotel existingHotel = hotelRepository.findById(hotelId)
+                .orElseThrow(() -> new NoSuchElementException("Hotel with ID " + hotelId + " not found."));
+
+        existingHotel = hotelMapper.mapFromDTO(existingHotel, hotelDTO);
+        hotelRepository.save(existingHotel);
+        return hotelMapper.mapToDTO(existingHotel);
+    }
 }

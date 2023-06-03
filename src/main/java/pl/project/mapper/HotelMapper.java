@@ -48,7 +48,7 @@ public class HotelMapper {
         hotel.setRooms(rooms);
         return hotel;
     }
-    public Hotel mapFromDTO(HotelDTO hotelDTO, Hotel hotel) {
+    public Hotel mapFromDTO(Hotel hotel, HotelDTO hotelDTO) {
 
         hotel.setName(hotelDTO.getName());
         hotel.setAddress(hotelDTO.getAddress());

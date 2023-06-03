@@ -4,6 +4,7 @@ package pl.project.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pl.project.dto.HotelDTO;
+import pl.project.dto.ReservationDTO;
 import pl.project.dto.RoomDTO;
 import pl.project.services.HotelService;
 import pl.project.services.RoomService;
@@ -47,6 +48,12 @@ public class HotelController {
     @DeleteMapping("/{id}")
     public void deleteHotelById(@PathVariable Long id) {
         hotelService.deleteHotelById(id);
+    }
+
+
+    @PutMapping("/{id}")
+    public HotelDTO updateHotel(@PathVariable Long id, @RequestBody HotelDTO hotelDTO) {
+        return hotelService.updateHotel(id, hotelDTO);
     }
 }
 

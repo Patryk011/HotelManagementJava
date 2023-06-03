@@ -9,6 +9,7 @@
       <th>Name</th>
       <th>Address</th>
       <th>Rooms</th>
+      <th>Actions</th>
       </thead>
       <tbody>
       <tr v-for="hotel in hotels" :key="hotel.id">
@@ -18,19 +19,21 @@
         <td>
           <button class="btn btn-primary" @click="showRooms(hotel.id)">Show Rooms</button>
         </td>
+        <td>
+          <button class="btn btn-primary" @click="editHotel(hotel)">Edit</button>
+          <button class="btn btn-danger" @click="deleteHotel(hotel.id)">Delete</button>
+        </td>
       </tr>
       </tbody>
     </table>
 
     <table v-if="showRoomsTable" class="table table-striped">
-
       <thead>
       <th>Room ID</th>
       <th>Type</th>
       <th>Room Number</th>
       <th>Vacancy</th>
       <th>Price</th>
-
       </thead>
       <tbody>
       <tr v-for="room in rooms" :key="room.id">
@@ -45,8 +48,8 @@
     <button v-if="showRoomsTable" class="btn btn-secondary" @click="showRoomsTable = false">Back</button>
     <button v-if="!showForm && !showRoomsTable" class="btn btn-primary" @click="showForm = true">Add Hotel</button>
 
-    <form v-if="showForm" @submit="addHotel" class="hotel-form">
-      <h1 class="text-form">Hotel Form</h1>
+    <form v-if="showForm && !isEditing" @submit="addHotel" class="hotel-form">
+      <h1 class="text-form">Add Hotel</h1>
       <div class="form-group">
         <label for="name">Name:</label>
         <input type="text" class="form-control" id="name" v-model="newHotel.name" required>
@@ -55,11 +58,27 @@
         <label for="address">Address:</label>
         <input type="text" class="form-control" id="address" v-model="newHotel.address" required>
       </div>
-      <button type="submit" class="btn btn-primary add-hotel-form">Add Hotel</button>
-      <button type="button" class="btn btn-secondary cancel-hotel-form" @click="showForm = false">Cancel</button>
+      <button type="submit" class="btn btn-primary">Save</button>
+      <button type="button" class="btn btn-secondary" @click="cancelEdit">Cancel</button>
+    </form>
+
+    <form v-if="showForm && isEditing" @submit="saveHotel" class="hotel-form">
+      <h1 class="text-form">Edit Hotel</h1>
+      <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" class="form-control" id="name" v-model="editedHotel.name" required>
+      </div>
+      <div class="form-group">
+        <label for="address">Address:</label>
+        <input type="text" class="form-control" id="address" v-model="editedHotel.address" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Save</button>
+      <button type="button" class="btn btn-secondary" @click="cancelEdit">Cancel</button>
     </form>
   </div>
 </template>
+
+
 
 <script>
 export default {
@@ -68,12 +87,18 @@ export default {
     return {
       showForm: false,
       showRoomsTable: false,
+      isEditing: false,
       hotels: [],
       rooms: [],
       selectedHotel: {},
       newHotel: {
         name: '',
         address: ''
+      },
+      editedHotel: {
+        id: '',
+        name: '',
+        address: '',
       }
     };
   },
@@ -93,7 +118,7 @@ export default {
         if (response.ok) {
           const data = await response.json();
           this.hotels.push(data);
-          // Clear the form fields after successful addition
+
           this.newHotel.name = '';
           this.newHotel.address = '';
         } else {
@@ -101,6 +126,22 @@ export default {
         }
       } catch (error) {
         console.error('Error during adding hotel:', error);
+      }
+    },
+
+    async deleteHotel(hotelId) {
+      try {
+        const response = await fetch(`/api/hotel/${hotelId}`, {
+          method: 'DELETE'
+        });
+
+        if (response.ok) {
+          this.hotels = this.hotels.filter(hotel => hotel.id !== hotelId);
+        } else {
+          console.error('Failed to delete hotel:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Error during deleting hotel:', error);
       }
     },
 
@@ -123,6 +164,55 @@ export default {
       } catch (error) {
         console.error('Error during fetch data:', error);
       }
+    },
+
+    editHotel(hotel) {
+      this.isEditing = true;
+      this.editedHotel.id = hotel.id;
+      this.editedHotel.name = hotel.name;
+      this.editedHotel.address = hotel.address;
+      this.showForm = true;
+    },
+
+    async saveHotel(event) {
+      event.preventDefault();
+
+      try {
+        const response = await fetch(`/api/hotel/${this.editedHotel.id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(this.editedHotel)
+        });
+
+        if (response.ok) {
+          const updatedHotel = await response.json();
+          const index = this.hotels.findIndex(hotel => hotel.id === updatedHotel.id);
+          if (index !== -1) {
+            this.hotels.splice(index, 1, updatedHotel);
+          }
+          this.resetForm();
+        } else {
+          console.error('Failed to update hotel:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Error during updating hotel:', error);
+      }
+    },
+
+    cancelEdit() {
+      this.resetForm();
+    },
+
+    resetForm() {
+      this.showForm = false;
+      this.isEditing = false;
+      this.newHotel.name = '';
+      this.newHotel.address = '';
+      this.editedHotel.id = '';
+      this.editedHotel.name = '';
+      this.editedHotel.address = '';
     },
 
     showRooms(hotelId) {
