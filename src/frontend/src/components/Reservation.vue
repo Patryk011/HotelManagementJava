@@ -55,10 +55,6 @@
         <label for="endDate">End Date:</label>
         <input type="date" class="form-control" id="endDate" v-model="newReservation.endDate" required>
       </div>
-      <div class="form-group">
-        <label for="status">Status:</label>
-        <input type="text" class="form-control" id="status" v-model="newReservation.status" required>
-      </div>
       <button type="submit" class="btn btn-primary add-reservation-form">Add Reservation</button>
       <button type="button" class="btn btn-secondary cancel-reservation-form" @click="showForm = false">Cancel</button>
     </form>
@@ -85,10 +81,7 @@
         <label for="endDate">End Date:</label>
         <input type="date" class="form-control" id="endDate" v-model="editReservation.endDate">
       </div>
-      <div class="form-group">
-        <label for="status">Status:</label>
-        <input type="text" class="form-control" id="status" v-model="editReservation.status">
-      </div>
+
       <button type="submit" class="btn btn-primary edit-reservation-form">Update Reservation</button>
       <button type="button" class="btn btn-secondary cancel-reservation-form" @click="editForm = false">Cancel</button>
     </form>

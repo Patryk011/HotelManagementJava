@@ -8,7 +8,7 @@
       <th>Type</th>
       <th>Room Number</th>
       <th>Vacancy</th>
-      <th>Price</th>
+      <th>Price per night</th>
       <th>Hotel ID</th>
       <th>Actions</th>
       </thead>

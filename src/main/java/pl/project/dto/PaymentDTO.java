@@ -6,15 +6,18 @@ public class PaymentDTO {
 
     private Long id;
     private Long reservationId;
+
+    private Long customerId;
     private double amount;
     private boolean isPaid;
 
     public PaymentDTO() {
     }
 
-    public PaymentDTO(Long id, Long reservationId, double amount, boolean isPaid) {
+    public PaymentDTO(Long id, Long reservationId, Long customerId, double amount, boolean isPaid) {
         this.id = id;
         this.reservationId = reservationId;
+        this.customerId = customerId;
         this.amount = amount;
         this.isPaid = isPaid;
     }
@@ -49,5 +52,13 @@ public class PaymentDTO {
 
     public void setPaid(boolean paid) {
         isPaid = paid;
+    }
+
+    public Long getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
     }
 }

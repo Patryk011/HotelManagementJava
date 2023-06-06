@@ -77,14 +77,13 @@ public class RoomServiceImpl implements RoomService{
         return roomMapper.mapToDto(existingRoom);
     }
 
+    @Override
+    public double getRoomPrice(Long id) {
+        Room room = roomRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Room with ID " + id + " not found."));
 
-//    @Override
-//    public boolean isFree(Long id)
-//    {
-//        Room room = roomRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
-//        if(room.isFree()==true) return true;
-//        return false;
-//    }
+        return room.getPrice();
+    }
+
 
     @Override
     public void deleteRoom(Long id) {

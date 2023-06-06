@@ -18,6 +18,8 @@ public interface RoomService {
 
     RoomDTO getById(Long id);
 
+    double getRoomPrice(Long id);
+
     RoomDTO addRoom(RoomDTO roomDTO);
 
 

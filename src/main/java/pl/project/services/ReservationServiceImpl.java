@@ -1,9 +1,9 @@
 package pl.project.services;
 
-import jakarta.persistence.EntityNotFoundException;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import pl.project.dto.PaymentDTO;
 import pl.project.dto.ReservationDTO;
-import pl.project.entity.Customer;
 import pl.project.entity.Reservation;
 import pl.project.entity.Room;
 import pl.project.mapper.ReservationMapper;
@@ -24,14 +24,17 @@ public class ReservationServiceImpl implements ReservationService {
 
     private final CustomerRepository customerRepository;
 
+    private final PaymentService paymentService;
+
     private final RoomRepository roomRepository;
 
     private final ReservationMapper reservationMapper;
 
-    public ReservationServiceImpl(ReservationRepository reservationRepository, HotelRepository hotelRepository, CustomerRepository customerRepository, RoomRepository roomRepository, ReservationMapper reservationMapper) {
+    public ReservationServiceImpl(ReservationRepository reservationRepository, HotelRepository hotelRepository, CustomerRepository customerRepository, PaymentService paymentService, RoomRepository roomRepository, ReservationMapper reservationMapper) {
         this.reservationRepository = reservationRepository;
         this.hotelRepository = hotelRepository;
         this.customerRepository = customerRepository;
+        this.paymentService = paymentService;
         this.roomRepository = roomRepository;
         this.reservationMapper = reservationMapper;
     }
@@ -51,7 +54,10 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public ReservationDTO createReservation(ReservationDTO reservationDTO) {
         Reservation reservation = reservationMapper.mapFromDTO(reservationDTO);
+        reservation.setStatus("pending");
         reservation = reservationRepository.save(reservation);
+
+        PaymentDTO paymentDTO = paymentService.createPayment(reservation.getId());
 
         Room room = roomRepository.findById(reservationDTO.getRoomId()).orElseThrow(() -> new NoSuchElementException());
         room.setFree(false);

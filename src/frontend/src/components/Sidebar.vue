@@ -31,6 +31,10 @@
     <img src="../assets/reservation.png" width="42" height="42" class="icon">
     <span class="text">Reservation</span>
   </router-link>
+  <router-link to="/payment" class="button">
+    <img src="../assets/payment.png" width="42" height="42" class="icon">
+    <span class="text">Payment</span>
+  </router-link>
   <router-link to="/send" class="button">
     <img src="../assets/send.png" width="42" height="42" class="icon">
     <span class="text">Send Email</span>
