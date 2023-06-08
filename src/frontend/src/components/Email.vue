@@ -82,7 +82,7 @@ export default {
 .title {
   font-size: 2em;
   color: #2f3542;
-  margin-bottom: 1em;
+  margin-bottom: 16px;
   margin-top: 30px;
 
 }
@@ -92,7 +92,7 @@ export default {
   flex-direction: column;
   width: 100%;
   max-width: 800px;
-  padding: 2em;
+  padding: 32px;
   background-color: #ffffff;
   border-radius: 10px;
   box-shadow: 0px 10px 20px -10px rgba(0, 0, 0, 0.07);
@@ -103,15 +103,15 @@ export default {
   font-size: 1em;
   font-weight: 500;
   color: #57606f;
-  margin-bottom: .5em;
+  margin-bottom: 8px;
 }
 
 .email-form input, .email-form textarea {
-  font-size: .9em;
-  padding: .6em;
+  font-size: 14px;
+  padding: 10px;
   border: none;
   border-radius: 5px;
-  margin-bottom: 1em;
+  margin-bottom: 16px;
   box-shadow: 0px 2px 5px -2px rgba(0, 0, 0, 0.1);
   transition: box-shadow .3s ease;
 }
@@ -128,8 +128,8 @@ export default {
 
 .email-form button[type="submit"] {
   align-self: flex-end;
-  font-size: .9em;
-  padding: .6em 1.5em;
+  font-size: 14px;
+  padding: 10px 48px;
   background-color: #007bff;
   color: #ffffff;
   border: none;

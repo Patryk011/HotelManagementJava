@@ -53,43 +53,77 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap');
+
 .home {
   text-align: center;
+  font-family: 'Roboto', sans-serif;
+  padding: 1em;
+  color: #333;
+
 }
 
 .statistics {
   display: flex;
-  justify-content: space-around;
-  margin-top: 100px;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 90px
 }
 
 .statistic-box {
-  border: 1px solid #ccc;
   border-radius: 10px;
   padding: 20px;
-  width: 300px;
-  height: 100px;
+  width: 100%;
+  height: 150px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+  transition: transform .3s ease-in-out;
 
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  @media (min-width: 768px) {
+    width: 45%;
+  }
+
+  @media (min-width: 1024px) {
+    width: 23%;
+  }
+
+  h2 {
+    margin: 0;
+    font-size: 2em;
+    font-weight: 500;
+    color: white;
+  }
+
+  p {
+    margin: 0;
+    font-size: 1em;
+    font-weight: 300;
+    color: white;
+  }
 }
 
 .reservation-box {
-  background-color: #16a4b8;
+  background: linear-gradient(135deg, #16a4b8, #16a489);
 }
 
 .customer-box {
-  background-color: #27a747;
+  background: linear-gradient(135deg, #27a747, #27a782);
 }
 
 .hotel-box {
-  background-color: #fdc008;
+  background: linear-gradient(135deg, #fdc008, #fd9050);
 }
 
 .room-box {
-  background-color: #dd3544;
+  background: linear-gradient(135deg, #dd3544, #dd5868);
 }
 </style>
