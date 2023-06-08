@@ -69,68 +69,77 @@ export default {
 
 <style scoped lang="scss">
 .container {
-  text-align: center;
-  justify-content: center;
+  display: flex;
+  justify-content: flex-start;
   align-items: center;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #f4f5f7;
+  padding-left: 2em;
+
 }
 
 .title {
+  font-size: 2em;
+  color: #2f3542;
+  margin-bottom: 1em;
+  margin-top: 30px;
 
-  margin-bottom: 20px;
 }
 
 .email-form {
-  text-align: left;
-  margin: 50px auto;
-  width: 450px;
-  padding: 20px;
-  background-color: #f0f0f0;
-  border-radius: 4px;
-}
-.email-form input:focus,
-.email-form textarea:focus {
-  outline-color: #728FCE;
-  outline-width: 2px;
-  outline-style: solid;
-}
-
-
-
-
-
-
-
-label {
-  font-weight: bold;
-  margin-bottom: 10px;
-  }
-
-
-input[type="email"],
-input[type="text"],
-textarea {
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  margin-bottom: 10px;
+  max-width: 800px;
+  padding: 2em;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0px 10px 20px -10px rgba(0, 0, 0, 0.07);
+  margin-top: 50px;
 }
 
-button[type="submit"] {
-  background-color: #007bff;
-  color: #fff;
+.email-form label {
+  font-size: 1em;
+  font-weight: 500;
+  color: #57606f;
+  margin-bottom: .5em;
+}
+
+.email-form input, .email-form textarea {
+  font-size: .9em;
+  padding: .6em;
   border: none;
-  border-radius: 4px;
-  padding: 10px 20px;
+  border-radius: 5px;
+  margin-bottom: 1em;
+  box-shadow: 0px 2px 5px -2px rgba(0, 0, 0, 0.1);
+  transition: box-shadow .3s ease;
+}
+
+.email-form input:focus, .email-form textarea:focus {
+  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.15);
+  outline: none;
+}
+
+.email-form textarea {
+  min-height: 150px;
+  resize: vertical;
+}
+
+.email-form button[type="submit"] {
+  align-self: flex-end;
+  font-size: .9em;
+  padding: .6em 1.5em;
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
   cursor: pointer;
+  transition: background-color .3s ease;
 }
 
-button[type="submit"]:hover {
+.email-form button[type="submit"]:hover {
   background-color: #0056b3;
-}
-
-.email-message {
-  height: 100px;
 }
 
 

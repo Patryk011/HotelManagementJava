@@ -2,7 +2,7 @@
   <div class="container">
     <h1 v-if="!showForm && !editForm" class="text-center">Room List</h1>
 
-    <table v-if="!showForm && !editForm" class="table table-striped">
+    <table v-if="!showForm && !editForm && !showAvailableRooms" class="table table-striped">
       <thead>
       <th>Room ID</th>
       <th>Type</th>
@@ -27,7 +27,38 @@
       </tr>
       </tbody>
     </table>
+
+    <table v-if="showAvailableRooms && !editForm && !showForm" class="table table-striped">
+      <thead>
+      <tr>
+        <th>Room ID</th>
+        <th>Type</th>
+        <th>Room Number</th>
+        <th>Vacancy</th>
+        <th>Price per night</th>
+        <th>Hotel ID</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr v-for="room in availableRooms" :key="room.id">
+        <td>{{ room.id }}</td>
+        <td>{{ room.type }}</td>
+        <td>{{ room.number }}</td>
+        <td>{{ room.free == true ? "Yes" : "No" }}</td>
+        <td>{{ room.price }}</td>
+        <td>{{ room.hotelId }}</td>
+        <td>
+          <button class = "btn btn-primary " @click="showEditForm(room.id)">Edit</button>
+          <button class = "btn btn-danger delete" @click="deleteRoom(room.id)">Delete</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
     <button v-if="!showForm && !editForm" class="btn btn-primary" @click="showForm = true">Add Room</button>
+    <button v-if="!showForm && !editForm" class="btn btn-primary available" @click="toggleAvailableRooms">{{ showAvailableRooms ? 'Back' : 'Show Available Rooms' }}</button>
+
 
     <form v-if="showForm" @submit="addRoom" class="room-form">
       <h1 class="text-form">Room Form</h1>
@@ -48,8 +79,10 @@
         <label for="hotelId">Hotel ID:</label>
         <input type="number" class="form-control" id="hotelId" v-model="newRoom.hotelId" required>
       </div>
+      <div class="button-container">
       <button type="submit" class="btn btn-primary add-room-form">Add Room</button>
       <button type="button" class="btn btn-secondary cancel-room-form" @click="showForm = false">Cancel</button>
+      </div>
     </form>
 
     <form v-if="editForm" @submit="updateRoom" class="room-form">
@@ -91,6 +124,7 @@ export default {
     return {
       showForm: false,
       editForm: false,
+      showAvailableRooms: false,
 
       rooms: [],
       newRoom: {
@@ -100,9 +134,12 @@ export default {
         price: null,
         hotelId: null
       },
+      availableRooms: [],
     };
   },
   methods: {
+
+
     async addRoom(e) {
       e.preventDefault();
 
@@ -149,6 +186,10 @@ export default {
           if (index !== -1) {
             this.rooms.splice(index, 1, data);
           }
+          const availableRoomIndex = this.availableRooms.findIndex(room => room.id === this.editRoom.id);
+          if (availableRoomIndex !== -1) {
+            this.availableRooms.splice(availableRoomIndex, 1, data);
+          }
 
           this.editForm = false;
         } else {
@@ -188,6 +229,23 @@ export default {
       }
     },
 
+    async getAvailableRooms() {
+      try {
+        const response = await fetch('/api/room/available');
+        const data = await response.json();
+        this.availableRooms = data;
+      } catch (error) {
+        console.error('Error during fetching available rooms:', error);
+      }
+    },
+
+    toggleAvailableRooms() {
+      this.showAvailableRooms = !this.showAvailableRooms;
+      if (this.showAvailableRooms) {
+        this.getAvailableRooms();
+      }
+    },
+
     async deleteRoom(roomId) {
       try {
         const response = await fetch(`/api/room/${roomId}`, {
@@ -212,89 +270,148 @@ export default {
   },
   created() {
     this.getRooms();
+    this.getAvailableRooms();
   },
 };
 </script>
-<style scoped>
+<style lang="scss" scoped>
 .container {
   max-width: 1000px;
   margin: 0 auto;
   padding: 20px;
+  font-family: Arial, sans-serif;
+
+  .text-center {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+  }
+
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+
+    th, td {
+      padding: 10px;
+      border: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #f0f0f0;
+      color: #333;
+    }
+
+    tbody tr:nth-child(odd) {
+      background-color: #f9f9f9;
+    }
+
+    tbody tr:hover {
+      background-color: #f2f2f2;
+    }
+  }
+
+  .btn {
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+
+    &.btn-primary {
+      background: linear-gradient(to right, #3498db, #2980b9);
+
+
+      &.available {
+        margin-left: 10px;
+      }
+
+      &:hover {
+          box-shadow: 0px 5px 15px 0px rgba(0,0,0,0.1);
+          transform: translateY(-3px);
+        }
+
+      }
+
+
+
+    &.btn-danger {
+      background: linear-gradient(45deg, #ed213a, #93291e);
+
+      &:hover {
+        box-shadow: 0px 5px 15px 0px rgba(0,0,0,0.1);
+        transform: translateY(-3px);
+      }
+
+    }
+
+    &.btn-secondary {
+      background: #bbb;
+
+      &:hover {
+        background: #999;
+      }
+    }
+  }
+
+  .room-form {
+    margin-top: 20px;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 15px;
+      width: 100%;
+
+      label {
+        margin-bottom: 5px;
+        font-size: 14px;
+        color: #333;
+      }
+
+      .form-control {
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        width: 100%;
+        transition: border-color 0.2s, box-shadow 0.2s;
+
+        &:focus {
+          border-color: #888;
+          box-shadow: 0 0 5px rgba(136, 136, 136, 0.5);
+        }
+      }
+    }
+
+    .button-container {
+
+      display: flex;
+      justify-content: space-between;
+      width: 25%;
+
+      .add-room-form,
+      .edit-room-form,
+      .cancel-room-form {
+        margin-top: 10px;
+
+        button {
+          margin-right: 10px;
+        }
+      }
+    }
+  }
+
+  .delete {
+    margin-left: 10px;
+  }
 }
 
-.text-center {
-  text-align: center;
-}
-
-.table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.table th,
-.table td {
-  padding: 10px;
-  border: 1px solid #ccc;
-}
-
-.table th {
-  background-color: #f0f0f0;
-  font-weight: bold;
-}
-
-.table-striped tbody tr:nth-child(odd) {
-  background-color: #f9f9f9;
-}
-
-.room-form {
-  margin-top: 20px;
-  padding: 20px;
-  border-radius: 4px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 300px !important;
-}
-
-.form-group {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.form-group label {
-  text-align: left;
-  margin-right: 10px;
-}
-
-.form-control {
-  width: 200px;
-  padding: 8px;
-  border: 1px solid black;
-  border-radius: 4px;
-  box-sizing: border-box;
-  margin-bottom: 10px;
-}
-
-.form {
-  position: absolute;
-  top: 276px;
-  left: 600px;
-}
-
-.add-room-form {
-  position: relative;
-  top: 0px;
-  left: -50px;
-}
-
-.cancel-room-form {
-  position: relative;
-  top: -38px;
-  left: 70px;
-}
-
-.delete {
-  margin-left: 10px;
-}
 </style>

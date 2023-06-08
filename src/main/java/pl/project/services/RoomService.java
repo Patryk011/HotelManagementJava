@@ -14,7 +14,7 @@ public interface RoomService {
 
     List<RoomDTO> findByHotelId(Long hotelId);
 
-    RoomDTO findByType(String type);
+
 
     RoomDTO getById(Long id);
 
@@ -27,6 +27,8 @@ public interface RoomService {
 
 
 //    boolean isFree(Long id);
+    List<RoomDTO> getAvailableRooms();
+
 
     void deleteRoom(Long id);
 

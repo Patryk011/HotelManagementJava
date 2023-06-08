@@ -12,6 +12,7 @@ import pl.project.repository.HotelRepository;
 import pl.project.repository.ReservationRepository;
 import pl.project.repository.RoomRepository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -53,6 +54,15 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public ReservationDTO createReservation(ReservationDTO reservationDTO) {
+        Long roomId = reservationDTO.getRoomId();
+        Date startDate = reservationDTO.getStartDate();
+        Date endDate = reservationDTO.getEndDate();
+
+
+        if (!isRoomAvailable(roomId, startDate, endDate)) {
+            throw new IllegalArgumentException("The room is already booked in this time.");
+        }
+
         Reservation reservation = reservationMapper.mapFromDTO(reservationDTO);
         reservation.setStatus("pending");
         reservation = reservationRepository.save(reservation);
@@ -64,6 +74,11 @@ public class ReservationServiceImpl implements ReservationService {
         roomRepository.save(room);
 
         return reservationMapper.mapToDTO(reservation);
+    }
+
+    private boolean isRoomAvailable(Long roomId, Date startDate, Date endDate) {
+        List<Reservation> reservations = reservationRepository.findOverlappingReservations(roomId, startDate, endDate);
+        return reservations.isEmpty();
     }
 
     @Override
@@ -78,8 +93,15 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public void cancelReservation(Long reservationId) {
-        reservationRepository.deleteById(reservationId);
+        ReservationDTO reservationDTO = findById(reservationId);
+        if (reservationDTO != null) {
+            paymentService.deletePayment(reservationDTO.getId());
+            reservationRepository.deleteById(reservationId);
+        } else {
+            throw new NoSuchElementException("Reservation with ID " + reservationId + " not found.");
+        }
     }
+
 
     @Override
     public List<ReservationDTO> getAllReservations() {

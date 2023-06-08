@@ -55,8 +55,10 @@
         <label for="endDate">End Date:</label>
         <input type="date" class="form-control" id="endDate" v-model="newReservation.endDate" required>
       </div>
+      <div class="button-container">
       <button type="submit" class="btn btn-primary add-reservation-form">Add Reservation</button>
       <button type="button" class="btn btn-secondary cancel-reservation-form" @click="showForm = false">Cancel</button>
+      </div>
     </form>
 
     <form v-if="editForm" @submit="updateReservation" class="reservation-form">
@@ -232,86 +234,134 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .container {
-  max-width: 1000px;
+  max-width: 1300px;
   margin: 0 auto;
   padding: 20px;
-}
+  font-family: Arial, sans-serif;
 
-.text-center {
-  text-align: center;
-}
+  .text-center {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+  }
 
-.table {
-  width: 100%;
-  border-collapse: collapse;
-}
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
 
-.table th,
-.table td {
-  padding: 10px;
-  border: 1px solid #ccc;
-}
+    th, td {
+      padding: 10px;
+      border: 1px solid #ddd;
+    }
 
-.table th {
-  background-color: #f0f0f0;
-  font-weight: bold;
-}
+    th {
+      background-color: #f0f0f0;
+      color: #333;
+    }
 
-.table-striped tbody tr:nth-child(odd) {
-  background-color: #f9f9f9;
-}
+    tbody tr:nth-child(odd) {
+      background-color: #f9f9f9;
+    }
 
-.reservation-form {
-  margin-top: 20px;
-  padding: 20px;
-  border-radius: 4px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 350px !important;
-}
+    tbody tr:hover {
+      background-color: #f2f2f2;
+    }
+  }
 
-.form-group {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
+  .btn {
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
 
-.form-group label {
-  text-align: left;
-  margin-right: 10px;
-}
+    &.btn-primary {
+      background: linear-gradient(to right, #3498db, #2980b9);
 
-.form-control {
-  width: 200px;
-  padding: 8px;
-  border: 1px solid black;
-  border-radius: 4px;
-  box-sizing: border-box;
-  margin-bottom: 10px;
-}
+      &.available {
+        margin-left: 10px;
+      }
 
-.form {
-  position: absolute;
-  top: 276px;
-  left: 600px;
-}
+      &:hover {
+        box-shadow: 0px 5px 15px 0px rgba(0,0,0,0.1);
+        transform: translateY(-3px);
+      }
+    }
 
-.add-reservation-form {
-  position: relative;
-  top: 0px;
-  left: -50px;
-}
+    &.btn-danger {
+      background: linear-gradient(45deg, #ed213a, #93291e);
 
-.cancel-reservation-form {
-  position: relative;
-  top: -38px;
-  left: 70px;
-}
+      &:hover {
+        box-shadow: 0px 5px 15px 0px rgba(0,0,0,0.1);
+        transform: translateY(-3px);
+      }
+    }
 
-.delete {
-  margin-left: 10px;
+    &.btn-secondary {
+      background: #bbb;
+
+      &:hover {
+        background: #999;
+      }
+    }
+  }
+
+  .reservation-form {
+    margin-top: 20px;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 15px;
+      width: 100%;
+
+      label {
+        margin-bottom: 5px;
+        font-size: 14px;
+        color: #333;
+      }
+
+      .form-control {
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        width: 100%;
+        transition: border-color 0.2s, box-shadow 0.2s;
+
+        &:focus {
+          border-color: #888;
+          box-shadow: 0 0 5px rgba(136, 136, 136, 0.5);
+        }
+      }
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: space-between;
+      width: 25%;
+
+      .add-reservation-form,
+      .edit-reservation-form,
+      .cancel-reservation-form {
+        margin-top: 20px;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+    }
+  }
 }
 </style>

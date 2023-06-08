@@ -25,15 +25,18 @@ public class RoomController {
         return roomService.getAllRooms();
     }
 
+
+    @GetMapping("/available")
+    public List<RoomDTO> getAvailableRooms() {
+        return roomService.getAvailableRooms();
+    }
+
     @GetMapping("/{id}")
     public RoomDTO getRoomById(@PathVariable Long id) {
         return roomService.getById(id);
     }
 
-    @GetMapping("/type")
-    public RoomDTO getRoomByType(@RequestParam String type) {
-        return roomService.findByType(type);
-    }
+
 
     @PutMapping("/{id}")
     public RoomDTO updateRoom(@PathVariable Long id, @RequestBody RoomDTO roomDTO) {
