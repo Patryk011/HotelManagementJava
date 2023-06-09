@@ -4,7 +4,7 @@
     <h1 v-else-if="reservationTable" class="text-center">Reservations {{ selectedCustomer.firstName }} {{selectedCustomer.lastName}}, ID: {{selectedCustomer.id}} </h1>
     <div v-if="!showForm && !reservationTable" class="form-group">
       <label for="filterEmail">Find by Email:</label>
-      <input type="email" class="form-control" id="filterEmail" v-model="filterEmail" @input="getCustomers" placeholder="Enter email">
+      <input type="email" class="form-control filter" id="filterEmail" v-model="filterEmail" @input="getCustomers" placeholder="Enter email">
     </div>
 
     <table v-if="!showForm && !reservationTable" class="table table-striped">
@@ -27,7 +27,7 @@
         </td>
         <td>
           <button class="btn btn-primary" @click="editCustomer(customer)">Edit</button>
-          <button class="btn btn-danger" @click="deleteCustomer(customer.id)">Delete</button>
+          <button class="btn btn-danger delete" @click="deleteCustomer(customer.id)">Delete</button>
         </td>
       </tr>
       </tbody>
@@ -49,8 +49,10 @@
         <label for="email">Email:</label>
         <input type="email" class="form-control" id="email" v-model="newCustomer.email" required>
       </div>
+      <div class="button-container">
       <button type="submit" class="btn btn-primary add-customer-form">Add Customer</button>
       <button type="button" class="btn btn-secondary cancel-customer-form" @click="cancelEdit">Cancel</button>
+      </div>
     </form>
 
     <form v-if="showForm && isEditing" @submit="saveCustomer" class="customer-form">
@@ -67,8 +69,10 @@
         <label for="email">Email:</label>
         <input type="email" class="form-control" id="email" v-model="editedCustomer.email" required>
       </div>
+      <div class="edit-btn-container">
       <button type="submit" class="btn btn-primary">Save</button>
       <button type="button" class="btn btn-secondary" @click="cancelEdit">Cancel</button>
+      </div>
     </form>
 
     <table v-if="reservationTable" class="table table-striped">
@@ -266,76 +270,145 @@ export default {
 
 <style lang="scss" scoped>
 .container {
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
-}
+  font-family: Arial, sans-serif;
 
-.text-center {
-  text-align: center;
-}
-
-.table {
-  margin-top: 50px;
-  width: 100%;
-  border-collapse: collapse;
-
-  th,
-  td {
-    padding: 10px;
-    border: 1px solid #ccc;
+  .text-center {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
   }
 
-  th {
-    background-color: #f0f0f0;
-    font-weight: bold;
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 50px;
+
+    th, td {
+      padding: 10px;
+      border: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #f0f0f0;
+      color: #333;
+    }
+
+    tbody tr:nth-child(odd) {
+      background-color: #f9f9f9;
+    }
+
+    tbody tr:hover {
+      background-color: #f2f2f2;
+    }
   }
 
-  tbody tr:nth-child(odd) {
-    background-color: #f9f9f9;
+  .btn {
+
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+
+    &.btn-primary {
+      background: linear-gradient(to right, #3498db, #2980b9);
+
+      &:hover {
+        box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.1);
+        transform: translateY(-3px);
+      }
+    }
+
+    &.btn-danger {
+      background: linear-gradient(45deg, #ed213a, #93291e);
+
+      &:hover {
+        box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.1);
+        transform: translateY(-3px);
+      }
+    }
+
+    &.btn-secondary {
+      background: #bbb;
+
+      &:hover {
+        background: #999;
+      }
+    }
+  }
+
+  .customer-form {
+    margin-top: 20px;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+
+
+      label {
+        margin-bottom: 5px;
+        font-size: 14px;
+        color: #333;
+        margin-left: 390px;
+        margin-top: 25px;
+      }
+
+      .form-control {
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        width: 30%;
+        margin: 0 auto;
+        transition: border-color 0.2s, box-shadow 0.2s;
+
+        &:focus {
+          border-color: #888;
+          box-shadow: 0 0 5px rgba(136, 136, 136, 0.5);
+        }
+      }
+    }
+
+    .button-container {
+
+      display: flex;
+      justify-content: space-between;
+      width: 30%;
+      margin-top: 20px;
+
+      .add-customer-form,
+      .cancel-customer-form {
+        margin-top: 10px;
+      }
+
+    }
+  }
+  .delete {
+    margin-left: 10px;
+  }
+
+  .edit-btn-container {
+    display: flex;
+    justify-content: space-between;
+    width: 30%;
+    margin-top: 40px;
+  }
+
+  .filter {
+    margin-top: 10px;
+    width: 30%;
   }
 }
 
-.customer-form {
-  margin-top: 20px;
-  padding: 20px;
-  border-radius: 4px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 300px !important;
-}
-
-.form-group {
-  margin-top: 50px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-
-  label {
-    text-align: left;
-    margin-right: 10px;
-  }
-
-  .form-control {
-    width: 300px;
-    padding: 8px;
-    border: 1px solid black;
-    border-radius: 4px;
-    box-sizing: border-box;
-    margin-bottom: 10px;
-  }
-}
-
-.add-customer-form {
-  position: relative;
-  top: 0px;
-  left: -50px;
-}
-
-.cancel-customer-form {
-  position: relative;
-  top: -38px;
-  left: 70px;
-}
 </style>

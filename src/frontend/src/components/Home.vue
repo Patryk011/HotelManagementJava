@@ -2,19 +2,19 @@
   <main id="Home-page" class="home">
     <h1>Home</h1>
     <div class="statistics">
-      <div class="statistic-box reservation-box">
+      <div class="statistic-box reservation-box" @click="goTo('/reservation')">
         <h2>{{ reservationsCount }}</h2>
         <p>Reservations</p>
       </div>
-      <div class="statistic-box customer-box">
+      <div class="statistic-box customer-box" @click="goTo('/customers')">
         <h2>{{ customersCount }}</h2>
         <p>Customers</p>
       </div>
-      <div class="statistic-box hotel-box">
+      <div class="statistic-box hotel-box" @click="goTo('/hotel')">
         <h2>{{ hotelsCount }}</h2>
         <p>Hotels</p>
       </div>
-      <div class="statistic-box room-box">
+      <div class="statistic-box room-box" @click="goTo('/rooms')">
         <h2>{{ roomsCount }}</h2>
         <p>Rooms</p>
       </div>
@@ -32,6 +32,12 @@ export default {
       roomsCount: 0
     };
   },
+  methods: {
+    goTo(route) {
+      this.$router.push(route);
+    }
+  },
+
   async created() {
     try {
       const [reservationsResponse, customersResponse, hotelsResponse, roomsResponse] = await Promise.all([

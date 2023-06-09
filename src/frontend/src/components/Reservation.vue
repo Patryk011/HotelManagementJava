@@ -26,7 +26,7 @@
         <td>{{ reservation.status }}</td>
         <td>
           <button class="btn btn-primary" @click="showEditForm(reservation.id)">Edit</button>
-          <button class="btn btn-danger delete" @click="cancelReservation(reservation.id)">Cancel</button>
+          <button class="btn btn-danger cancel" @click="cancelReservation(reservation.id)">Cancel</button>
         </td>
       </tr>
       </tbody>
@@ -362,6 +362,9 @@ export default {
         transition: background 0.3s;
       }
     }
+  }
+  .cancel {
+    margin-left: 10px;
   }
 }
 </style>
