@@ -64,7 +64,7 @@ public class ReservationServiceImpl implements ReservationService {
         }
 
         Reservation reservation = reservationMapper.mapFromDTO(reservationDTO);
-        reservation.setStatus("pending");
+        reservation.setStatus("Pending");
         reservation = reservationRepository.save(reservation);
 
         PaymentDTO paymentDTO = paymentService.createPayment(reservation.getId());

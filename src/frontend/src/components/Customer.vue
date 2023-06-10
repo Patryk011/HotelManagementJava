@@ -89,7 +89,7 @@
       <tr v-for="payment in payments" :key="payment.id">
         <td> {{ payment.id }}</td>
         <td> {{ payment.amount }}</td>
-        <td> {{ payment.isPaid === true ? "Yes" : "No" }}</td>
+        <td> {{ payment.paid === true ? "Yes" : "No" }}</td>
       </tr>
       </tbody>
     </table>
