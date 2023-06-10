@@ -14,6 +14,8 @@ public class CustomerDTO {
 
     private List<ReservationDTO> reservations = new ArrayList<>();
 
+    private List<PaymentDTO> payments = new ArrayList<>();
+
 
     public Long getId() {
         return id;
@@ -30,6 +32,14 @@ public class CustomerDTO {
 
     public void setReservations(List<ReservationDTO> reservations) {
         this.reservations = reservations;
+    }
+
+    public List<PaymentDTO> getPayments() {
+        return payments;
+    }
+
+    public void setPayments(List<PaymentDTO> payments) {
+        this.payments = payments;
     }
 
     public String getFirstName() {

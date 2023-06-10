@@ -17,9 +17,10 @@ public class Payment {
 
 
 
+
+
     @Column(name = "amount")
     private double amount;
-
 
 
     @Column(name = "is_paid")
@@ -28,11 +29,13 @@ public class Payment {
     public Payment() {
     }
 
-    public Payment(Long id, Reservation reservation, double amount,  boolean isPaid) {
+    public Payment(Long id, Reservation reservation, double amount, boolean isPaid) {
         this.id = id;
         this.reservation = reservation;
+
         this.amount = amount;
         this.isPaid = isPaid;
+
     }
 
     public Long getId() {
@@ -52,7 +55,6 @@ public class Payment {
     }
 
 
-
     public double getAmount() {
         return amount;
     }
@@ -69,4 +71,7 @@ public class Payment {
     public void setPaid(boolean paid) {
         isPaid = paid;
     }
+
+
+
 }

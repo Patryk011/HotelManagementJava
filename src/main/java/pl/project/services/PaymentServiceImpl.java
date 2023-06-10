@@ -47,6 +47,12 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
+    public List<PaymentDTO> findPaymentsByReservationId(Long reservationId) {
+        List<Payment> payments = paymentRepository.findByReservationId(reservationId);
+        return paymentMapper.mapToDto(payments);
+    }
+
+    @Override
     public void deletePayment(Long id) {
         paymentRepository.deleteById(id);
     }

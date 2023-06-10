@@ -25,6 +25,9 @@ public class Customer {
     private List<Reservation> reservations = new ArrayList<>();
 
 
+
+
+
     public Customer() {
     }
 

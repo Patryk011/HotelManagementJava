@@ -3,11 +3,13 @@ package pl.project.controller;
 import pl.project.dto.CustomerDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import pl.project.dto.HotelDTO;
+import pl.project.dto.PaymentDTO;
 import pl.project.dto.ReservationDTO;
 import pl.project.services.CustomerService;
+import pl.project.services.PaymentService;
 import pl.project.services.ReservationService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -21,13 +23,16 @@ public class CustomerController {
 
     private final ReservationService reservationService;
 
+    private final PaymentService paymentService;
+
 
 
 
     @Autowired
-    public CustomerController(CustomerService customerService, ReservationService reservationService) {
+    public CustomerController(CustomerService customerService, ReservationService reservationService, PaymentService paymentService) {
         this.customerService = customerService;
         this.reservationService = reservationService;
+        this.paymentService = paymentService;
     }
 
     @GetMapping("/all")
@@ -37,6 +42,19 @@ public class CustomerController {
     @GetMapping("/{id}/reservations")
     public List<ReservationDTO> findByCustomerId(@PathVariable Long id) {
         return reservationService.findByCustomerId(id);
+    }
+
+    @GetMapping("/{id}/payments")
+    public List<PaymentDTO> findPaymentByCustomerId(@PathVariable Long id) {
+        List<ReservationDTO> reservations = reservationService.findByCustomerId(id);
+        List<PaymentDTO> payments = new ArrayList<>();
+
+        for (ReservationDTO reservation : reservations) {
+            List<PaymentDTO> reservationPayments = paymentService.findPaymentsByReservationId(reservation.getId());
+            payments.addAll(reservationPayments);
+        }
+
+        return payments;
     }
 
 

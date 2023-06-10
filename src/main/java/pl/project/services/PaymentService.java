@@ -12,6 +12,8 @@ public interface PaymentService {
     List<PaymentDTO> getAllPayments();
     PaymentDTO findById(Long id);
 
+    List<PaymentDTO> findPaymentsByReservationId(Long reservationId);
+
     PaymentDTO createPayment(Long reservationId);
 
     double calculateTotalPayments(Long customerId);

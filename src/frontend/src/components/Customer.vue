@@ -1,19 +1,20 @@
 <template>
   <div class="container">
-    <h1 v-if="!showForm && !reservationTable" class="text-center">Customer List</h1>
-    <h1 v-else-if="reservationTable" class="text-center">Reservations {{ selectedCustomer.firstName }} {{selectedCustomer.lastName}}, ID: {{selectedCustomer.id}} </h1>
-    <div v-if="!showForm && !reservationTable" class="form-group">
+    <h1 v-if="!showForm && !reservationTable && !paymentTable" class="text-center">Customer List</h1>
+    <h1 v-if="paymentTable"  class="text-center">Payments {{ selectedCustomer.firstName }} {{selectedCustomer.lastName}}, ID: {{selectedCustomer.id}} </h1>
+    <h1 v-if="reservationTable" class="text-center">Reservations {{ selectedCustomer.firstName }} {{selectedCustomer.lastName}}, ID: {{selectedCustomer.id}} </h1>
+    <div v-if="!showForm && !reservationTable && !paymentTable" class="form-group">
       <label for="filterEmail">Find by Email:</label>
       <input type="email" class="form-control filter" id="filterEmail" v-model="filterEmail" @input="getCustomers" placeholder="Enter email">
     </div>
 
-    <table v-if="!showForm && !reservationTable" class="table table-striped">
+    <table v-if="!showForm && !reservationTable && !paymentTable" class="table table-striped">
       <thead>
       <th>Customer ID</th>
       <th>First Name</th>
       <th>Last Name</th>
       <th>Email</th>
-      <th>Reservations</th>
+      <th>Info</th>
       <th>Actions</th>
       </thead>
       <tbody>
@@ -24,6 +25,7 @@
         <td>{{ customer.email }}</td>
         <td>
           <button class="btn btn-primary" @click="showReservations(customer.id)">Reservations</button>
+          <button class="btn btn-primary payments" @click="showPayments(customer.id)">Payments</button>
         </td>
         <td>
           <button class="btn btn-primary" @click="editCustomer(customer)">Edit</button>
@@ -75,6 +77,24 @@
       </div>
     </form>
 
+    <table v-if="paymentTable" class="table table-striped">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Amount</th>
+          <th>Is Paid</th>
+        </tr>
+      </thead>
+      <tbody>
+      <tr v-for="payment in payments" :key="payment.id">
+        <td> {{ payment.id }}</td>
+        <td> {{ payment.amount }}</td>
+        <td> {{ payment.isPaid === true ? "Yes" : "No" }}</td>
+      </tr>
+      </tbody>
+    </table>
+    <button v-if="paymentTable" class="btn btn-secondary" @click="paymentTable = false;">Back</button>
+
     <table v-if="reservationTable" class="table table-striped">
       <thead>
       <tr>
@@ -114,6 +134,9 @@ export default {
       customers: [],
       selectedCustomer: {},
       reservations: [],
+      payments: [],
+      paymentTable: false,
+
       newCustomer: {
         firstName: '',
         lastName: '',
@@ -153,6 +176,19 @@ export default {
         }
       } catch (error) {
         console.error('Error during adding customer:', error);
+      }
+    },
+
+
+    async getCustomerPayments(customerId) {
+      try {
+        const response = await fetch(`/api/customers/${customerId}/payments`);
+        const data = await response.json();
+
+        this.payments = data;
+        this.paymentTable = true;
+      } catch (error) {
+        console.error("Error during fetching data: ", error);
       }
     },
 
@@ -199,6 +235,14 @@ export default {
         this.reservationTable = true;
       } catch (error) {
         console.error('Error during fetching data:', error);
+      }
+    },
+
+    showPayments(customerId) {
+      const customer = this.customers.find(customer => customer.id === customerId);
+      if (customer) {
+        this.selectedCustomer = customer;
+        this.getCustomerPayments(customerId);
       }
     },
 
@@ -395,6 +439,10 @@ export default {
     }
   }
   .delete {
+    margin-left: 10px;
+  }
+
+  .payments {
     margin-left: 10px;
   }
 
