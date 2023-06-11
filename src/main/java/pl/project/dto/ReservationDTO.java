@@ -14,10 +14,10 @@ public class ReservationDTO {
     private Date endDate;
     private String status;
 
-    public ReservationDTO() {
+    public ReservationDTO(long l, Long customerId, Date date, Date date1, long l1) {
     }
 
-    public ReservationDTO(Long id, Long customerId, String customerEmail, Long roomId, Long hotelId, Date startDate, Date endDate, String status) {
+    public ReservationDTO() {
         this.id = id;
         this.customerId = customerId;
         this.customerEmail = customerEmail;
