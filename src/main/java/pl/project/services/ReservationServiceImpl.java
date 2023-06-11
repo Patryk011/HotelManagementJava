@@ -2,6 +2,8 @@ package pl.project.services;
 
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import pl.project.Exception.ReservationException;
+import pl.project.Exception.RoomException;
 import pl.project.dto.PaymentDTO;
 import pl.project.dto.ReservationDTO;
 import pl.project.entity.Reservation;
@@ -48,7 +50,7 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public ReservationDTO findById(Long id) {
-        Reservation reservation = reservationRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
+        Reservation reservation = reservationRepository.findById(id).orElseThrow(() -> new ReservationException("Room not found"));
         return reservationMapper.mapToDTO(reservation);
     }
 
@@ -60,7 +62,7 @@ public class ReservationServiceImpl implements ReservationService {
 
 
         if (!isRoomAvailable(roomId, startDate, endDate)) {
-            throw new IllegalArgumentException("The room is already booked in this time.");
+            throw new ReservationException("The room is already booked in this time.");
         }
 
         Reservation reservation = reservationMapper.mapFromDTO(reservationDTO);
@@ -69,7 +71,7 @@ public class ReservationServiceImpl implements ReservationService {
 
         PaymentDTO paymentDTO = paymentService.createPayment(reservation.getId());
 
-        Room room = roomRepository.findById(reservationDTO.getRoomId()).orElseThrow(() -> new NoSuchElementException());
+        Room room = roomRepository.findById(reservationDTO.getRoomId()).orElseThrow(() -> new RoomException("Room not found"));
         room.setFree(false);
         roomRepository.save(room);
 
@@ -84,7 +86,27 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public ReservationDTO updateReservation(Long id, ReservationDTO reservationDTO) {
         Reservation existingReservation = reservationRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Reservation with ID " + id + " not found."));
+                .orElseThrow(() -> new ReservationException("Reservation with ID " + id + " not found."));
+
+        Date oldStartDate = existingReservation.getStartDate();
+        Date oldEndDate = existingReservation.getEndDate();
+        Long oldRoomId = existingReservation.getRoom().getId();
+
+        Date newStartDate = reservationDTO.getStartDate();
+        Date newEndDate = reservationDTO.getEndDate();
+        Long newRoomId = reservationDTO.getRoomId();
+
+        if (!oldStartDate.equals(newStartDate) || !oldEndDate.equals(newEndDate)) {
+            PaymentDTO paymentDTO = paymentService.updatePayment(existingReservation.getId(), oldRoomId, newStartDate, newEndDate);
+
+
+            if (!oldRoomId.equals(newRoomId)) {
+                if (!isRoomAvailable(newRoomId, newStartDate, newEndDate)) {
+                    throw new ReservationException("The room is already booked in this time.");
+                }
+                paymentDTO = paymentService.updatePayment(existingReservation.getId(), newRoomId, newStartDate, newEndDate);
+            }
+        }
 
         existingReservation = reservationMapper.mapFromDTO(existingReservation, reservationDTO);
         reservationRepository.save(existingReservation);
@@ -98,7 +120,7 @@ public class ReservationServiceImpl implements ReservationService {
             paymentService.deletePayment(reservationDTO.getId());
             reservationRepository.deleteById(reservationId);
         } else {
-            throw new NoSuchElementException("Reservation with ID " + reservationId + " not found.");
+            throw new ReservationException("Reservation with ID " + reservationId + " not found.");
         }
     }
 

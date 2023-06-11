@@ -2,6 +2,7 @@ package pl.project.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.project.Exception.RoomException;
 import pl.project.dto.RoomDTO;
 import pl.project.entity.Hotel;
 import pl.project.entity.Room;
@@ -58,7 +59,7 @@ public class RoomServiceImpl implements RoomService{
 
         Room existingRoom = roomRepository.findByHotelIdAndNumber(roomDTO.getHotelId(), roomDTO.getNumber());
         if (existingRoom != null) {
-            throw new IllegalArgumentException("Room with this number " + roomDTO.getNumber() + " exist in this Hotel.");
+            throw new RoomException("Room with this number " + roomDTO.getNumber() + " exist in this Hotel.");
         }
 
         Room room = roomMapper.mapFromDto(roomDTO);
@@ -71,7 +72,7 @@ public class RoomServiceImpl implements RoomService{
     @Override
     public RoomDTO updateRoom(Long id, RoomDTO roomDTO) {
         Room existingRoom = roomRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Room with ID " + id + " not found."));
+                .orElseThrow(() -> new RoomException("Room with ID " + id + " not found."));
 
         existingRoom = roomMapper.mapFromDto(existingRoom, roomDTO);
         roomRepository.save(existingRoom);
@@ -80,7 +81,7 @@ public class RoomServiceImpl implements RoomService{
 
     @Override
     public double getRoomPrice(Long id) {
-        Room room = roomRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Room with ID " + id + " not found."));
+        Room room = roomRepository.findById(id).orElseThrow(() -> new RoomException("Room with ID " + id + " not found."));
 
         return room.getPrice();
     }

@@ -1,6 +1,7 @@
 package pl.project.mapper;
 
 import org.springframework.stereotype.Component;
+import pl.project.Exception.ReservationException;
 import pl.project.dto.PaymentDTO;
 import pl.project.entity.Payment;
 import pl.project.entity.Reservation;
@@ -39,7 +40,7 @@ public class PaymentMapper {
 
     public Payment mapFromDTO(PaymentDTO paymentDTO) {
         Payment payment = new Payment();
-        Reservation reservation = reservationRepository.findById(paymentDTO.getReservationId()).orElseThrow(() -> new NoSuchElementException());
+        Reservation reservation = reservationRepository.findById(paymentDTO.getReservationId()).orElseThrow(() -> new ReservationException("Reservation not found"));
 
 
         payment.setReservation(reservation);
@@ -49,7 +50,7 @@ public class PaymentMapper {
     }
 
     public Payment mapFromDTO(Payment payment, PaymentDTO paymentDTO) {
-        Reservation reservation = reservationRepository.findById(paymentDTO.getReservationId()).orElseThrow(() -> new NoSuchElementException());
+        Reservation reservation = reservationRepository.findById(paymentDTO.getReservationId()).orElseThrow(() -> new ReservationException("Reservation not found"));
 
         payment.setReservation(reservation);
         payment.setAmount(paymentDTO.getAmount());

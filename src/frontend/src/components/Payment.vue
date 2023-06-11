@@ -20,7 +20,7 @@
         <td>{{ payment.paid }}</td>
         <td>
           <button class="btn btn-primary" @click="markPaymentAsPaid(payment.id)" :disabled="payment.paid">Pay</button>
-          <button class="btn btn-warning cancel" @click="markPaymentAsUnPaid(payment.id)" :disabled="!payment.paid">Cancel</button>
+          <button class="btn btn-warning cancel" @click="markPaymentAsUnPaid(payment.id)" :disabled="false">Cancel</button>
 
         </td>
       </tr>

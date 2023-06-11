@@ -72,10 +72,6 @@
         <input type="number" class="form-control" id="roomId" v-model="editReservation.roomId">
       </div>
       <div class="form-group">
-        <label for="hotelId">Hotel ID:</label>
-        <input type="number" class="form-control" id="hotelId" v-model="editReservation.hotelId">
-      </div>
-      <div class="form-group">
         <label for="startDate">Start Date:</label>
         <input type="date" class="form-control" id="startDate" v-model="editReservation.startDate">
       </div>
@@ -87,6 +83,10 @@
       <button type="submit" class="btn btn-primary edit-reservation-form">Update Reservation</button>
       <button type="button" class="btn btn-secondary cancel-reservation-form" @click="editForm = false">Cancel</button>
     </form>
+    <div v-if="showError" class="alert alert-danger">
+      {{ errorMessage }}
+
+    </div>
   </div>
 </template>
 
@@ -98,6 +98,9 @@ export default {
       showForm: false,
       editForm: false,
       reservations: [],
+      errorMessage: '',
+      showError: false,
+      errorTimeout: null,
       newReservation: {
         customerEmail: '',
         roomId: null,
@@ -110,7 +113,6 @@ export default {
         id: null,
         customerEmail: '',
         roomId: null,
-        hotelId: null,
         startDate: null,
         endDate: null,
         status: ''
@@ -118,6 +120,12 @@ export default {
     };
   },
   methods: {
+
+    clearError() {
+      clearTimeout(this.errorTimeout);
+      this.showError = false;
+    },
+
     async createReservation(e) {
       e.preventDefault();
 
@@ -140,10 +148,21 @@ export default {
           this.newReservation.endDate = null;
           this.newReservation.status = '';
         } else {
-          console.error('Failed to add reservation:', response.statusText);
+          const errorData = await response.text();
+          this.errorMessage = errorData;
+          this.showError = true;
+
+
+
+          this.errorTimeout = setTimeout(() => {
+            this.clearError();
+          }, 3500);
         }
       } catch (error) {
+
+
         console.error('Error during adding reservation:', error);
+
       }
     },
 
@@ -168,9 +187,17 @@ export default {
 
           this.editForm = false;
         } else {
-          console.error('Failed to update reservation:', response.statusText);
+          const errorData = await response.text();
+          this.errorMessage = errorData;
+          this.showError = true;
+
+
+          this.errorTimeout = setTimeout(() => {
+            this.clearError();
+          }, 3500);
         }
       } catch (error) {
+
         console.error('Error during updating reservation:', error);
       }
     },

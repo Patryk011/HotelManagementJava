@@ -1,6 +1,12 @@
 package pl.project.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.project.Exception.CustomerException;
+import pl.project.Exception.HotelException;
+import pl.project.Exception.ReservationException;
+import pl.project.Exception.RoomException;
 import pl.project.dto.ReservationDTO;
 import pl.project.services.ReservationService;
 
@@ -45,5 +51,7 @@ public class ReservationController {
     public List<ReservationDTO> getAllReservations() {
         return reservationService.getAllReservations();
     }
+
+
 }
 

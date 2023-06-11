@@ -2,6 +2,8 @@ package pl.project.services;
 
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import pl.project.Exception.PaymentException;
+import pl.project.Exception.ReservationException;
 import pl.project.dto.PaymentDTO;
 import pl.project.dto.ReservationDTO;
 import pl.project.entity.Payment;
@@ -42,7 +44,7 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public PaymentDTO findById(Long id) {
         Payment payment = paymentRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Payment with ID " + id + " not found."));
+                .orElseThrow(() -> new PaymentException("Payment with ID " + id + " not found."));
         return paymentMapper.mapToDTO(payment);
     }
 
@@ -69,10 +71,36 @@ public class PaymentServiceImpl implements PaymentService {
         return totalCost;
     }
 
+
+    @Override
+    public PaymentDTO updatePayment(Long reservationId, Long newRoomId, Date newStartDate, Date newEndDate) {
+        ReservationDTO reservationDTO = reservationService.findById(reservationId);
+        if (reservationDTO == null) {
+            throw new ReservationException("Reservation with ID " + reservationId + " not found.");
+        }
+
+        double newAmount = roomService.getRoomPrice(newRoomId) * calculateDuration(newStartDate, newEndDate);
+
+        Payment payment = paymentRepository.findById(reservationId)
+                .orElseThrow(() -> new PaymentException("Payment for Reservation with ID " + reservationId + " not found."));
+
+
+        if (!payment.getReservation().getRoom().getId().equals(newRoomId)) {
+
+            newAmount = roomService.getRoomPrice(newRoomId) * calculateDuration(newStartDate, newEndDate);
+        }
+
+        payment.setAmount(newAmount);
+        paymentRepository.save(payment);
+
+        return paymentMapper.mapToDTO(payment);
+    }
+
+
     @Override
     public PaymentDTO markPaymentAsPaid(Long paymentId) {
         Payment payment = paymentRepository.findById(paymentId)
-                .orElseThrow(() -> new NoSuchElementException("Payment with ID " + paymentId + " not found."));
+                .orElseThrow(() -> new PaymentException("Payment with ID " + paymentId + " not found."));
 
         payment.setPaid(true);
         payment = paymentRepository.save(payment);
@@ -88,7 +116,7 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public PaymentDTO markPaymentAsUnPaid(Long paymentId) {
         Payment payment = paymentRepository.findById(paymentId)
-                .orElseThrow(() -> new NoSuchElementException("Payment with ID " + paymentId + " not found."));
+                .orElseThrow(() -> new PaymentException("Payment with ID " + paymentId + " not found."));
 
         payment.setPaid(false);
         payment = paymentRepository.save(payment);

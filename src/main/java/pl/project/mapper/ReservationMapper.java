@@ -2,6 +2,9 @@ package pl.project.mapper;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Component;
+import pl.project.Exception.CustomerException;
+import pl.project.Exception.HotelException;
+import pl.project.Exception.RoomException;
 import pl.project.dto.ReservationDTO;
 import pl.project.entity.Customer;
 import pl.project.entity.Hotel;
@@ -54,11 +57,15 @@ public class ReservationMapper {
 
 
 
-        Hotel hotel = hotelRepository.findById(reservationDTO.getHotelId()).orElseThrow(() -> new EntityNotFoundException("Hotel not found"));
+        Hotel hotel = hotelRepository.findById(reservationDTO.getHotelId()).orElseThrow(() -> new HotelException("Hotel not found"));
 
-        Room room = roomRepository.findById(reservationDTO.getRoomId()).orElseThrow(() -> new EntityNotFoundException("Room not found"));
+        Room room = roomRepository.findById(reservationDTO.getRoomId()).orElseThrow(() -> new RoomException("Room not found"));
 
         Customer customer = customerRepository.findByEmail(reservationDTO.getCustomerEmail());
+
+        if (customer == null) {
+            throw new CustomerException("Customer not found");
+        }
 
 
         reservation.setCustomer(customer);

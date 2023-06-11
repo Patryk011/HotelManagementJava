@@ -2,6 +2,7 @@ package pl.project.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.project.Exception.HotelException;
 import pl.project.dto.HotelDTO;
 import pl.project.entity.Hotel;
 import pl.project.mapper.HotelMapper;
@@ -53,7 +54,7 @@ public class HotelServiceImpl implements HotelService {
     @Override
     public HotelDTO updateHotel(Long hotelId, HotelDTO hotelDTO) {
         Hotel existingHotel = hotelRepository.findById(hotelId)
-                .orElseThrow(() -> new NoSuchElementException("Hotel with ID " + hotelId + " not found."));
+                .orElseThrow(() -> new HotelException("Hotel with ID " + hotelId + " not found."));
 
         existingHotel = hotelMapper.mapFromDTO(existingHotel, hotelDTO);
         hotelRepository.save(existingHotel);

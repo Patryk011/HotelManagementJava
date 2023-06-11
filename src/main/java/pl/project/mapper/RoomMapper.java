@@ -1,6 +1,7 @@
 package pl.project.mapper;
 
 import org.springframework.stereotype.Component;
+import pl.project.Exception.HotelException;
 import pl.project.dto.RoomDTO;
 import pl.project.entity.Hotel;
 import pl.project.entity.Room;
@@ -16,10 +17,12 @@ import java.util.stream.Collectors;
 public class RoomMapper {
 
 
+    private final HotelRepository hotelRepository;
 
 
-
-
+    public RoomMapper(HotelRepository hotelRepository) {
+        this.hotelRepository = hotelRepository;
+    }
 
     public RoomDTO mapToDto(Room room){
         RoomDTO roomDTO = new RoomDTO();
@@ -41,8 +44,8 @@ public class RoomMapper {
     public Room mapFromDto(RoomDTO roomDTO){
         Room room = new Room();
 
-        Hotel hotel = new Hotel();
-        hotel.setId(roomDTO.getHotelId());
+        Hotel hotel = hotelRepository.findById(roomDTO.getHotelId()).orElseThrow(() -> new HotelException("Hotel not found"));
+
 
         room.setHotel(hotel);
         room.setFree(roomDTO.isFree());
@@ -54,9 +57,9 @@ public class RoomMapper {
     }
     public Room mapFromDto(Room room, RoomDTO roomDTO){
 
-        Hotel hotel = new Hotel();
+        Hotel hotel = hotelRepository.findById(roomDTO.getHotelId()).orElseThrow(() -> new HotelException("Hotel not found"));
 
-        hotel.setId(roomDTO.getHotelId());
+
         room.setHotel(hotel);
         room.setFree(roomDTO.isFree());
         room.setNumber(roomDTO.getNumber());

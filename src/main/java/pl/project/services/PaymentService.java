@@ -22,6 +22,9 @@ public interface PaymentService {
 
     PaymentDTO markPaymentAsUnPaid(Long paymentId);
 
+
+    PaymentDTO updatePayment(Long reservationId, Long newRoomId, Date newStartDate, Date newEndDate);
+
     void deletePayment(Long id);
 
     double calculateTotalCost(Long customerId);

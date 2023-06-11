@@ -35,7 +35,7 @@
       </tbody>
     </table>
 
-    <button v-if="!showForm && !reservationTable" class="btn btn-primary" @click="showForm = true">Add Customer</button>
+    <button v-if="!showForm && !reservationTable && !paymentTable" class="btn btn-primary" @click="showForm = true">Add Customer</button>
 
     <form v-if="showForm && !isEditing" @submit="addCustomer" class="customer-form">
       <h1 class="text-form">Customer form</h1>

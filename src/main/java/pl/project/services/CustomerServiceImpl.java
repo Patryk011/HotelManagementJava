@@ -1,6 +1,7 @@
 package pl.project.services;
 
 import org.springframework.stereotype.Service;
+import pl.project.Exception.CustomerException;
 import pl.project.dto.CustomerDTO;
 import pl.project.entity.Customer;
 import pl.project.mapper.CustomerMapper;
@@ -34,7 +35,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerDTO updateCustomer(Long customerId, CustomerDTO customerDTO) {
         Customer existingCustomer = customerRepository.findById(customerId)
-                .orElseThrow(() -> new NoSuchElementException("Customer with ID " + customerId + " not found."));
+                .orElseThrow(() -> new CustomerException("Customer with ID " + customerId + " not found."));
 
 
 
