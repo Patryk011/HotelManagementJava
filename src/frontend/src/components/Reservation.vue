@@ -394,4 +394,9 @@ export default {
     margin-left: 10px;
   }
 }
+
+.alert-danger {
+  margin-top: 10px;
+
+}
 </style>

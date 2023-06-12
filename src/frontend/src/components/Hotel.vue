@@ -75,6 +75,10 @@
       <button type="submit" class="btn btn-primary">Save</button>
       <button type="button" class="btn btn-secondary" @click="cancelEdit">Cancel</button>
     </form>
+    <div v-if="showError" class="alert alert-danger">
+      {{ errorMessage }}
+
+    </div>
   </div>
 </template>
 
@@ -90,6 +94,9 @@ export default {
       isEditing: false,
       hotels: [],
       rooms: [],
+      errorMessage: '',
+      showError: false,
+      errorTimeout: null,
       selectedHotel: {},
       newHotel: {
         name: '',
@@ -103,6 +110,13 @@ export default {
     };
   },
   methods: {
+
+    clearError() {
+      clearTimeout(this.errorTimeout);
+      this.showError = false;
+    },
+
+
     async addHotel(event) {
       event.preventDefault();
 
@@ -193,8 +207,15 @@ export default {
             this.hotels.splice(index, 1, updatedHotel);
           }
           this.resetForm();
-        } else {
-          console.error('Failed to update hotel:', response.statusText);
+        } else  {
+          const errorData = await response.text();
+          this.errorMessage = errorData;
+          this.showError = true;
+
+
+          this.errorTimeout = setTimeout(() => {
+            this.clearError();
+          }, 3500);
         }
       } catch (error) {
         console.error('Error during updating hotel:', error);
@@ -367,5 +388,11 @@ export default {
   .delete {
     margin-left: 10px;
   }
+}
+
+
+.alert-danger {
+  margin-top: 10px;
+
 }
 </style>

@@ -114,6 +114,10 @@
       <button type="submit" class="btn btn-primary edit-room-form">Update Room</button>
       <button type="button" class="btn btn-secondary cancel-room-form" @click="editForm = false">Cancel</button>
     </form>
+    <div v-if="showError" class="alert alert-danger">
+      {{ errorMessage }}
+
+    </div>
   </div>
 </template>
 
@@ -125,7 +129,9 @@ export default {
       showForm: false,
       editForm: false,
       showAvailableRooms: false,
-
+      errorMessage: '',
+      showError: false,
+      errorTimeout: null,
       rooms: [],
       newRoom: {
         type: '',
@@ -138,6 +144,11 @@ export default {
     };
   },
   methods: {
+
+    clearError() {
+      clearTimeout(this.errorTimeout);
+      this.showError = false;
+    },
 
 
     async addRoom(e) {
@@ -161,7 +172,15 @@ export default {
           this.newRoom.price = null;
           this.newRoom.hotelId = null;
         } else {
-          console.error('Failed to add room:', response.statusText);
+          const errorData = await response.text();
+          this.errorMessage = errorData;
+          this.showError = true;
+
+
+
+          this.errorTimeout = setTimeout(() => {
+            this.clearError();
+          }, 3500);
         }
       } catch (error) {
         console.error('Error during adding room:', error);
@@ -193,7 +212,15 @@ export default {
 
           this.editForm = false;
         } else {
-          console.error('Failed to update room:', response.statusText);
+          const errorData = await response.text();
+          this.errorMessage = errorData;
+          this.showError = true;
+
+
+
+          this.errorTimeout = setTimeout(() => {
+            this.clearError();
+          }, 3500);
         }
       } catch (error) {
         console.error('Error during updating room:', error);
@@ -412,6 +439,11 @@ export default {
   .delete {
     margin-left: 10px;
   }
+}
+
+.alert-danger {
+  margin-top: 10px;
+
 }
 
 </style>

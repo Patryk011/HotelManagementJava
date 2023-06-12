@@ -120,6 +120,10 @@
       </tbody>
     </table>
     <button v-if="reservationTable" class="btn btn-secondary" @click="reservationTable = false;">Back</button>
+    <div v-if="showError" class="alert alert-danger">
+      {{ errorMessage }}
+
+    </div>
   </div>
 </template>
 
@@ -131,6 +135,9 @@ export default {
       showForm: false,
       reservationTable: false,
       isEditing: false,
+      errorMessage: '',
+      showError: false,
+      errorTimeout: null,
       customers: [],
       selectedCustomer: {},
       reservations: [],
@@ -152,6 +159,13 @@ export default {
     };
   },
   methods: {
+
+    clearError() {
+      clearTimeout(this.errorTimeout);
+      this.showError = false;
+    },
+
+
     async addCustomer(event) {
       event.preventDefault();
 
@@ -201,7 +215,14 @@ export default {
         if (response.ok) {
           this.customers = this.customers.filter(customer => customer.id !== customerId);
         } else {
-          console.error('Failed to delete customer:', response.statusText);
+          const errorData = await response.text();
+          this.errorMessage = errorData;
+          this.showError = true;
+
+
+          this.errorTimeout = setTimeout(() => {
+            this.clearError();
+          }, 3500);
         }
       } catch (error) {
         console.error('Error during deleting customer:', error);
@@ -283,7 +304,14 @@ export default {
           }
           this.resetForm();
         } else {
-          console.error('Failed to update customer:', response.statusText);
+          const errorData = await response.text();
+          this.errorMessage = errorData;
+          this.showError = true;
+
+
+          this.errorTimeout = setTimeout(() => {
+            this.clearError();
+          }, 3500);
         }
       } catch (error) {
         console.error('Error during updating customer:', error);
@@ -457,6 +485,11 @@ export default {
     margin-top: 10px;
     width: 30%;
   }
+}
+
+.alert-danger {
+  margin-top: 10px;
+
 }
 
 </style>
