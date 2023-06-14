@@ -1,45 +1,27 @@
 package pl.project.entity;
 
-
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.List;
 
 @Entity
-@Table(name="users")
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="user_id")
-    private Long id;
+@Table(name = "user")
+public class User implements UserDetails {
 
-    @Column(name="user_name")
     private String name;
 
-
-    @Column(name = "user_password")
     private String password;
 
-    @ManyToOne
-    @JoinColumn(name = "role_id")
-    private Role roleId;
 
+    @Enumerated(EnumType.STRING)
+    private Role role;
+    @Id
+    private Long id;
 
-    public User() {
-    }
-
-    public User(Long id, String name, String password, Role roleId) {
-        this.id = id;
-        this.name = name;
-        this.password = password;
-        this.roleId = roleId;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
 
     public String getName() {
         return name;
@@ -49,19 +31,59 @@ public class User {
         this.name = name;
     }
 
-    public Role getRoleId() {
-        return roleId;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public void setRoleId(Role roleId) {
-        this.roleId = roleId;
+    public Role getRole() {
+        return role;
     }
 
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.name()));
+    }
+
+    @Override
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+
+    @Override
+    public String getUsername() {
+        return name;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
     }
 }

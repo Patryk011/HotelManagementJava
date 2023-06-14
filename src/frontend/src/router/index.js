@@ -7,10 +7,12 @@ import Email from "@/components/Email.vue";
 import EmailReceiver from "@/components/EmailReceiver.vue"
 import Reservation from "@/components/Reservation.vue";
 import Payment from "@/components/Payment.vue";
+import Login from "@/components/Login.vue"
 
 
 
 const routes = [
+    { path: '/login', component: Login },
     { path: '/customers', component: Customer },
     { path: '/rooms', component: Room },
     { path: '/hotel', component: Hotel},
@@ -24,6 +26,21 @@ const routes = [
 const router = createRouter({
     history: createWebHistory(),
     routes,
+});
+
+
+router.beforeEach((to, from, next) => {
+    // lista stron, które nie wymagają logowania
+    const publicPages = ['/login'];
+    const authRequired = !publicPages.includes(to.path);
+    const loggedIn = localStorage.getItem('user');
+
+    // jeśli próbuje wejść na stronę wymagającą logowania i nie jest zalogowany, przekieruj na stronę logowania
+    if (authRequired && !loggedIn) {
+        return next('/login');
+    }
+
+    next();
 });
 
 

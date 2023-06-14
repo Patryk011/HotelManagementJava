@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="app">
-    <Sidebar/>
+    <Sidebar v-if="loggedIn" />
     <router-view></router-view>
   </div>
 </template>
@@ -11,6 +11,18 @@ import Sidebar from "@/components/Sidebar.vue";
 export default {
   name: 'App',
   components: {Sidebar},
+  data() {
+    return {
+      loggedIn: false, // Ustaw początkowo na false
+    };
+  },
+  mounted() {
+    // Sprawdź, czy użytkownik jest zalogowany (np. na podstawie tokena uwierzytelniającego przechowywanego w local storage)
+    const user = localStorage.getItem('user');
+    if (user) {
+      this.loggedIn = true;
+    }
+  },
 };
 </script>
 
