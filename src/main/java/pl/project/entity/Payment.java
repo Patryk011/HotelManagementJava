@@ -26,16 +26,21 @@ public class Payment {
     @Column(name = "is_paid")
     private boolean isPaid;
 
+
+    @Column(name = "status")
+    private String status;
+
     public Payment() {
     }
 
-    public Payment(Long id, Reservation reservation, double amount, boolean isPaid) {
+    public Payment(Long id, Reservation reservation, double amount, boolean isPaid, String status) {
         this.id = id;
         this.reservation = reservation;
 
         this.amount = amount;
         this.isPaid = isPaid;
 
+        this.status = status;
     }
 
     public Long getId() {
@@ -72,6 +77,11 @@ public class Payment {
         isPaid = paid;
     }
 
+    public String getStatus() {
+        return status;
+    }
 
-
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

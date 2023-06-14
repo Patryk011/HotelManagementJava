@@ -16,7 +16,7 @@ public interface PaymentService {
 
     PaymentDTO createPayment(Long reservationId);
 
-    double calculateTotalPayments(Long customerId);
+
 
     PaymentDTO markPaymentAsPaid(Long paymentId);
 
@@ -27,7 +27,7 @@ public interface PaymentService {
 
     void deletePayment(Long id);
 
-    double calculateTotalCost(Long customerId);
+
 
     int calculateDuration(Date startDate, Date endDate);
 
