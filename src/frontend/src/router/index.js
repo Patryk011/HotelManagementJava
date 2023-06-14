@@ -7,18 +7,20 @@ import Email from "@/components/Email.vue";
 import EmailReceiver from "@/components/EmailReceiver.vue"
 import Reservation from "@/components/Reservation.vue";
 import Payment from "@/components/Payment.vue";
+import Login from "@/components/Login.vue";
 
 
 
 const routes = [
-    { path: '/customers', component: Customer },
-    { path: '/rooms', component: Room },
-    { path: '/hotel', component: Hotel},
-    { path: '/', component: Home },
-    { path: '/send', component: Email},
-    { path: '/email', component: EmailReceiver},
-    { path: '/reservation', component: Reservation},
-    { path: '/payment', component: Payment}
+    { path: '/customers', component: Customer, meta: { requiresAuth: true } },
+    { path: '/rooms', component: Room, meta: { requiresAuth: true } },
+    { path: '/hotel', component: Hotel, meta: { requiresAuth: true } },
+    { path: '/', component: Home, meta: { requiresAuth: true } },
+    { path: '/send', component: Email, meta: { requiresAuth: true } },
+    { path: '/email', component: EmailReceiver, meta: { requiresAuth: true } },
+    { path: '/reservation', component: Reservation, meta: { requiresAuth: true } },
+    { path: '/payment', component: Payment, meta: { requiresAuth: true } },
+    { path: '/login', component: Login}
 ];
 
 const router = createRouter({
@@ -26,5 +28,12 @@ const router = createRouter({
     routes,
 });
 
+router.beforeEach((to, from, next) => {
+    if (to.meta.requiresAuth && !sessionStorage.getItem('username')) {
+        next('/login');
+    } else {
+        next();
+    }
+});
 
 export default router
