@@ -28,6 +28,7 @@ const router = createRouter({
     routes,
 });
 
+router.push('/login');
 router.beforeEach((to, from, next) => {
     if (to.meta.requiresAuth && !sessionStorage.getItem('username')) {
         next('/login');

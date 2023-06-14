@@ -35,7 +35,6 @@ public class SecurityConfig  {
         return http.csrf().disable()
                 .authorizeRequests(auth -> auth
                         .requestMatchers("/h2-console/**").permitAll()
-                        .anyRequest().authenticated()
                         .requestMatchers(HttpMethod.DELETE, "/**").hasRole("ADMIN")
                         .anyRequest().hasAnyRole("ADMIN", "WORKER"))
                 .headers(headers -> headers.frameOptions().sameOrigin())

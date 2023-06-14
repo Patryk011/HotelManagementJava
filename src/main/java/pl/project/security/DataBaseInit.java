@@ -22,12 +22,12 @@ public class DataBaseInit implements CommandLineRunner {
     public void run(String... args) {
         User admin = new User();
         admin.setUsername("admin");
-        admin.setPassword(passwordEncoder.encode("adminPassword"));
+        admin.setPassword(passwordEncoder.encode("admin"));
         admin.setRole(Role.ADMIN);
 
         User worker = new User();
         worker.setUsername("worker");
-        worker.setPassword(passwordEncoder.encode("workerPassword"));
+        worker.setPassword(passwordEncoder.encode("worker"));
         worker.setRole(Role.WORKER);
 
         userRepository.save(admin);

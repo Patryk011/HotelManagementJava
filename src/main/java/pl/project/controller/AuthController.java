@@ -1,6 +1,7 @@
 package pl.project.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -11,20 +12,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 import pl.project.entity.User;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api")
 public class AuthController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private UserDetailsService userDetailsService;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     @PostMapping("/login")
     public String login(@RequestBody User user) {
@@ -33,12 +29,10 @@ public class AuthController {
                     new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword())
             );
         } catch (BadCredentialsException e) {
-            return "Incorrect username or password";
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Incorrect username or password");
         }
 
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUsername());
-
-
-        return userDetails.getUsername();
+        // Return a simple message upon successful login
+        return "User successfully authenticated";
     }
 }
