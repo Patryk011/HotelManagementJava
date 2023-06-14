@@ -82,6 +82,7 @@
         <tr>
           <th>ID</th>
           <th>Amount</th>
+          <th>Status</th>
           <th>Is Paid</th>
         </tr>
       </thead>
@@ -89,10 +90,12 @@
       <tr v-for="payment in payments" :key="payment.id">
         <td> {{ payment.id }}</td>
         <td> {{ payment.amount }}</td>
+        <td> {{ payment.status }}</td>
         <td> {{ payment.paid === true ? "Yes" : "No" }}</td>
       </tr>
       </tbody>
     </table>
+    <p v-if="paymentTable" class="total-cost">Unsettled payments: {{ totalCost }}</p>
     <button v-if="paymentTable" class="btn btn-secondary" @click="paymentTable = false;">Back</button>
 
     <table v-if="reservationTable" class="table table-striped">
@@ -143,6 +146,7 @@ export default {
       reservations: [],
       payments: [],
       paymentTable: false,
+      totalCost: 0,
 
       newCustomer: {
         firstName: '',
@@ -159,6 +163,16 @@ export default {
     };
   },
   methods: {
+
+    calculateTotalCost(payments) {
+      let totalCost = 0;
+      for (const payment of payments) {
+        if (!payment.paid && payment.status !== "Cancelled") {
+          totalCost += payment.amount;
+        }
+      }
+      return totalCost;
+    },
 
     clearError() {
       clearTimeout(this.errorTimeout);
@@ -201,6 +215,8 @@ export default {
 
         this.payments = data;
         this.paymentTable = true;
+
+        this.totalCost = this.calculateTotalCost(data);
       } catch (error) {
         console.error("Error during fetching data: ", error);
       }
@@ -490,6 +506,13 @@ export default {
 .alert-danger {
   margin-top: 10px;
 
+}
+
+.total-cost {
+  margin-top: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
 }
 
 </style>

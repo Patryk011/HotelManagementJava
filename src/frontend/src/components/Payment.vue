@@ -9,6 +9,7 @@
         <th>Customer ID</th>
         <th>Amount</th>
         <th>Paid</th>
+        <th>Status</th>
         <th>Actions</th>
       </tr>
       </thead>
@@ -18,6 +19,7 @@
         <td> {{ payment.customerId }}</td>
         <td>{{ payment.amount }}</td>
         <td>{{ payment.paid }}</td>
+        <td>{{ payment.status }}</td>
         <td>
           <button class="btn btn-primary" @click="markPaymentAsPaid(payment.id)" :disabled="payment.paid">Pay</button>
           <button class="btn btn-warning cancel" @click="markPaymentAsUnPaid(payment.id)" :disabled="false">Cancel</button>

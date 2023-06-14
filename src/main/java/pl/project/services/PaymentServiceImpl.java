@@ -59,17 +59,7 @@ public class PaymentServiceImpl implements PaymentService {
         paymentRepository.deleteById(id);
     }
 
-    @Override
-    public double calculateTotalCost(Long customerId) {
-        List<ReservationDTO> reservations = reservationService.findByCustomerId(customerId);
-        double totalCost = 0;
-        for (ReservationDTO reservation : reservations) {
-            double roomPrice = roomService.getRoomPrice(reservation.getRoomId());
-            int duration = calculateDuration(reservation.getStartDate(), reservation.getEndDate());
-            totalCost += roomPrice * duration;
-        }
-        return totalCost;
-    }
+
 
 
     @Override
@@ -103,6 +93,7 @@ public class PaymentServiceImpl implements PaymentService {
                 .orElseThrow(() -> new PaymentException("Payment with ID " + paymentId + " not found."));
 
         payment.setPaid(true);
+        payment.setStatus("Confirmed");
         payment = paymentRepository.save(payment);
 
         Reservation reservation = payment.getReservation();
@@ -119,6 +110,7 @@ public class PaymentServiceImpl implements PaymentService {
                 .orElseThrow(() -> new PaymentException("Payment with ID " + paymentId + " not found."));
 
         payment.setPaid(false);
+        payment.setStatus("Cancelled");
         payment = paymentRepository.save(payment);
 
         Reservation reservation = payment.getReservation();
@@ -128,20 +120,6 @@ public class PaymentServiceImpl implements PaymentService {
         return paymentMapper.mapToDTO(payment);
     }
 
-    @Override
-    public double calculateTotalPayments(Long customerId) {
-        List<PaymentDTO> payments = getAllPayments();
-        double totalPayments = 0;
-
-
-        for (PaymentDTO payment : payments) {
-            ReservationDTO reservation = reservationService.findById(payment.getReservationId());
-            if (reservation.getCustomerId().equals(customerId) && !payment.isPaid()) {
-                totalPayments += payment.getAmount();
-            }
-        }
-        return totalPayments;
-    }
 
 
     @Override
@@ -162,6 +140,7 @@ public class PaymentServiceImpl implements PaymentService {
         payment.setReservation(reservation);
         payment.setAmount(amount);
         payment.setPaid(false);
+        payment.setStatus("Pending");
         payment = paymentRepository.save(payment);
 
         return paymentMapper.mapToDTO(payment);
