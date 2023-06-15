@@ -1,5 +1,5 @@
 <template>
-<aside :class="`${is_expanded ? 'is-expanded' : ''}`">
+<aside v-if="$route.path !== '/login'" :class="`${is_expanded ? 'is-expanded' : ''}`">
 
 
 
@@ -57,7 +57,26 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import {ref} from 'vue'
+import { watchEffect } from 'vue';
+
+// let isUserLoggedIn = ref(false);
+
+// watchEffect(() => {
+//   isUserLoggedIn.value = !!sessionStorage.getItem('username');
+// });
+
+// onMounted(() => {
+//   isUserLoggedIn.value = !!sessionStorage.getItem('username');
+// });
+
+// function loginUser(username) {
+//   sessionStorage.setItem('username', username)
+//   isUserLoggedIn.value = true
+// }
+
+
+
 
 
 const is_expanded = ref(localStorage.getItem("is_expanded") === "true")
