@@ -58,22 +58,7 @@
 
 <script setup>
 import {ref} from 'vue'
-import { watchEffect } from 'vue';
 
-// let isUserLoggedIn = ref(false);
-
-// watchEffect(() => {
-//   isUserLoggedIn.value = !!sessionStorage.getItem('username');
-// });
-
-// onMounted(() => {
-//   isUserLoggedIn.value = !!sessionStorage.getItem('username');
-// });
-
-// function loginUser(username) {
-//   sessionStorage.setItem('username', username)
-//   isUserLoggedIn.value = true
-// }
 
 
 

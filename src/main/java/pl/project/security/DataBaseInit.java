@@ -32,6 +32,7 @@ public class DataBaseInit implements CommandLineRunner {
 
         userRepository.save(admin);
         userRepository.save(worker);
+        
     }
 }
 
