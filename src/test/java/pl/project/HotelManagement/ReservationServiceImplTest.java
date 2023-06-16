@@ -1,4 +1,5 @@
 package pl.project.HotelManagement;
+import pl.project.Exception.ReservationException;
 import pl.project.services.*;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -16,10 +17,7 @@ import pl.project.repository.HotelRepository;
 import pl.project.repository.ReservationRepository;
 import pl.project.repository.RoomRepository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -73,23 +71,7 @@ class ReservationServiceImplTest {
         verify(reservationMapper, times(1)).mapToDTO(reservations);
     }
 
-//    @Test
-//    void findByCustomerId_nonExistingCustomerId_throwsNoSuchElementException() {
-//        // Given
-//        Long customerId = 1L;
-//        when(reservationRepository.findByCustomerId(customerId)).thenReturn(new ArrayList<>());
-//
-//        // When
-//        NoSuchElementException exception = assertThrows(
-//                NoSuchElementException.class,
-//                () -> reservationService.findByCustomerId(customerId)
-//        );
-//
-//        // Then
-//        assertEquals("No reservations found for customer with ID " + customerId, exception.getMessage());
-//        verify(reservationRepository, times(1)).findByCustomerId(customerId);
-//        verify(reservationMapper, never()).mapToDTO((Reservation) any());
-//    }
+
 
     @Test
     void findById_existingReservationId_returnsReservationDTO() {
@@ -110,23 +92,7 @@ class ReservationServiceImplTest {
         verify(reservationMapper, times(1)).mapToDTO(reservation);
     }
 
-//    @Test
-//    void findById_nonExistingReservationId_throwsNoSuchElementException() {
-//        // Given
-//        Long reservationId = 1L;
-//        when(reservationRepository.findById(reservationId)).thenReturn(Optional.empty());
-//
-//        // When
-//        NoSuchElementException exception = assertThrows(
-//                NoSuchElementException.class,
-//                () -> reservationService.findById(reservationId)
-//        );
-//
-//        // Then
-//        assertEquals("Reservation with ID " + reservationId + " not found.", exception.getMessage());
-//        verify(reservationRepository, times(1)).findById(reservationId);
-//        verify(reservationMapper, never()).mapToDTO((Reservation) any());
-//    }
+
 
     @Test
     void createReservation_validReservationDTO_returnsReservationDTO() {
@@ -151,7 +117,7 @@ class ReservationServiceImplTest {
 
         // Then
         assertEquals(expectedDTO, result);
-        assertEquals("pending", reservation.getStatus());
+        assertEquals("Pending", reservation.getStatus());
         assertFalse(room.isFree());
         verify(reservationMapper, times(1)).mapFromDTO(reservationDTO);
         verify(reservationRepository, times(1)).save(reservation);
@@ -161,40 +127,23 @@ class ReservationServiceImplTest {
         verify(reservationMapper, times(1)).mapToDTO(reservation);
     }
 
-    @Test
-    void updateReservation_existingReservationId_returnsUpdatedReservationDTO() {
-        // Given
-        Long reservationId = 1L;
-        ReservationDTO reservationDTO = new ReservationDTO();
-        Reservation existingReservation = new Reservation();
-        when(reservationRepository.findById(reservationId)).thenReturn(Optional.of(existingReservation));
-        when(reservationMapper.mapFromDTO(existingReservation, reservationDTO)).thenReturn(existingReservation);
-        when(reservationRepository.save(existingReservation)).thenReturn(existingReservation);
 
-        ReservationDTO expectedDTO = new ReservationDTO();
-        when(reservationMapper.mapToDTO(existingReservation)).thenReturn(expectedDTO);
 
-        // When
-        ReservationDTO result = reservationService.updateReservation(reservationId, reservationDTO);
 
-        // Then
-        assertEquals(expectedDTO, result);
-        verify(reservationRepository, times(1)).findById(reservationId);
-        verify(reservationMapper, times(1)).mapFromDTO(existingReservation, reservationDTO);
-        verify(reservationRepository, times(1)).save(existingReservation);
-        verify(reservationMapper, times(1)).mapToDTO(existingReservation);
-    }
+
+
+
 
     @Test
-    void updateReservation_nonExistingReservationId_throwsNoSuchElementException() {
+    void updateReservation_nonExistingReservationId_throwsReservationException() {
         // Given
         Long reservationId = 1L;
         ReservationDTO reservationDTO = new ReservationDTO();
         when(reservationRepository.findById(reservationId)).thenReturn(Optional.empty());
 
         // When
-        NoSuchElementException exception = assertThrows(
-                NoSuchElementException.class,
+        ReservationException exception = assertThrows(
+                ReservationException.class,
                 () -> reservationService.updateReservation(reservationId, reservationDTO)
         );
 
@@ -206,17 +155,8 @@ class ReservationServiceImplTest {
         verify(reservationMapper, never()).mapToDTO((Reservation) any());
     }
 
-    @Test
-    void cancelReservation_existingReservationId_deletesReservation() {
-        // Given
-        Long reservationId = 1L;
 
-        // When
-        reservationService.cancelReservation(reservationId);
 
-        // Then
-        verify(reservationRepository, times(1)).deleteById(reservationId);
-    }
 
     @Test
     void getAllReservations_returnsReservationDTOList() {

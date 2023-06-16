@@ -90,21 +90,29 @@ public class ReservationServiceImpl implements ReservationService {
 
         Date oldStartDate = existingReservation.getStartDate();
         Date oldEndDate = existingReservation.getEndDate();
-        Long oldRoomId = existingReservation.getRoom().getId();
+        Room oldRoom = existingReservation.getRoom();
 
         Date newStartDate = reservationDTO.getStartDate();
         Date newEndDate = reservationDTO.getEndDate();
         Long newRoomId = reservationDTO.getRoomId();
 
         if (!oldStartDate.equals(newStartDate) || !oldEndDate.equals(newEndDate)) {
-            PaymentDTO paymentDTO = paymentService.updatePayment(existingReservation.getId(), oldRoomId, newStartDate, newEndDate);
+            PaymentDTO paymentDTO = paymentService.updatePayment(existingReservation.getId(), oldRoom.getId(), newStartDate, newEndDate);
 
 
-            if (!oldRoomId.equals(newRoomId)) {
+            if (!oldRoom.getId().equals(newRoomId)) {
                 if (!isRoomAvailable(newRoomId, newStartDate, newEndDate)) {
                     throw new ReservationException("The room is already booked in this time.");
                 }
                 paymentDTO = paymentService.updatePayment(existingReservation.getId(), newRoomId, newStartDate, newEndDate);
+
+                oldRoom.setFree(true);
+                roomRepository.save(oldRoom);
+
+                Room newRoom = roomRepository.findById(newRoomId)
+                        .orElseThrow(() -> new RoomException("New room not found."));
+                newRoom.setFree(false);
+                roomRepository.save(newRoom);
             }
         }
 
