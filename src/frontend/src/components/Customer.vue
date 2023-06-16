@@ -29,7 +29,7 @@
         </td>
         <td>
           <button class="btn btn-primary" @click="editCustomer(customer)">Edit</button>
-          <button class="btn btn-danger delete" @click="deleteCustomer(customer.id)">Delete</button>
+          <button :class="['btn', 'btn-danger', 'delete', {'disabled': userRole !== 'ADMIN'}]" @click="deleteCustomer(customer.id)">Delete</button>
         </td>
       </tr>
       </tbody>
@@ -135,6 +135,7 @@ export default {
   name: 'Customers',
   data() {
     return {
+      userRole: sessionStorage.getItem('role'),
       showForm: false,
       reservationTable: false,
       isEditing: false,

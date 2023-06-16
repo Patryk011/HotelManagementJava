@@ -79,9 +79,10 @@
         <label for="endDate">End Date:</label>
         <input type="date" class="form-control" id="endDate" v-model="editReservation.endDate">
       </div>
-
+      <div class="button-container">
       <button type="submit" class="btn btn-primary edit-reservation-form">Update Reservation</button>
       <button type="button" class="btn btn-secondary cancel-reservation-form" @click="editForm = false">Cancel</button>
+      </div>
     </form>
     <div v-if="showError" class="alert alert-danger">
       {{ errorMessage }}

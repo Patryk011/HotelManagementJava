@@ -32,16 +32,14 @@ public class SecurityConfig  {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.csrf().disable()
-                .authorizeRequests(auth -> auth
-                        .requestMatchers("/h2-console/**").permitAll()
-                        .requestMatchers(HttpMethod.DELETE, "/**").hasRole("ADMIN")
-                        .anyRequest().hasAnyRole("ADMIN", "WORKER"))
-                .headers(headers -> headers.frameOptions().sameOrigin())
-                        .httpBasic(Customizer.withDefaults()).build();
-
-
-
+        return http
+                .csrf().disable()
+                .authorizeRequests()
+                .anyRequest().permitAll()
+                .and()
+                .headers().frameOptions().sameOrigin()
+                .and()
+                .httpBasic().disable().build();
     }
 
 

@@ -6,6 +6,9 @@
     <input type="password" v-model="password" placeholder="Password">
     <button @click="login">Login</button>
   </div>
+    <div v-if="showError" class="alert alert-danger">
+      {{ errorMessage }}
+    </div>
   </div>
 </template>
 
@@ -13,6 +16,8 @@
 export default {
   data() {
     return {
+      showError: false,
+      errorMessage: '',
       username: '',
       password: '',
     }
@@ -31,16 +36,19 @@ export default {
       })
           .then((response) => {
             if (response.ok) {
-              return response.text();
+              return response.json();
             } else {
               throw new Error('Error during login');
             }
           })
-          .then((username) => {
-            sessionStorage.setItem('username', username);
-            this.$router.push('/'); // przekieruj do strony głównej
+          .then((userData) => {
+            sessionStorage.setItem('username', userData.username);
+            sessionStorage.setItem('role', userData.role);
+            this.$router.push('/');
           })
           .catch((error) => {
+            this.showError = true;
+            this.errorMessage = "Incorrect username or password.";
             console.error("Error:", error);
           });
     },
@@ -48,9 +56,17 @@ export default {
 }
 </script>
 
+
+
 <style scoped>
 .login-container {
- margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0 auto;
 }
 
 .login {
@@ -58,25 +74,43 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  width: 350px;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 
+h2 {
+  margin-bottom: 30px;
 }
 
 input {
-  margin: 10px 0;
+  margin-bottom: 15px;
   padding: 10px;
-  width: 200px;
+  width: 100%;
+  border: none;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 button {
+  margin-top: 15px;
   padding: 10px 20px;
   border: none;
-  background-color: #4CAF50;
-  color: white;
+  background-color: #007bff;
+  color: #ffffff;
   cursor: pointer;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 button:hover {
-  background-color: #45a049;
+  background-color: #0056b3;
+}
+
+.alert-danger {
+  margin-top: 10px;
+  text-align: center;
 }
 </style>

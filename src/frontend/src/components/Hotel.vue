@@ -21,7 +21,7 @@
         </td>
         <td>
           <button class="btn btn-primary" @click="editHotel(hotel)">Edit</button>
-          <button class="btn btn-danger delete" @click="deleteHotel(hotel.id)">Delete</button>
+          <button :class="['btn', 'btn-danger', 'delete', {'disabled': userRole !== 'ADMIN'}]" @click="deleteHotel(hotel.id)">Delete</button>
         </td>
       </tr>
       </tbody>
@@ -58,8 +58,10 @@
         <label for="address">Address:</label>
         <input type="text" class="form-control" id="address" v-model="newHotel.address" required>
       </div>
-      <button type="submit" class="btn btn-primary">Save</button>
+      <div class="button-container">
+      <button type="submit" class="btn btn-primary">Add Hotel</button>
       <button type="button" class="btn btn-secondary" @click="cancelEdit">Cancel</button>
+      </div>
     </form>
 
     <form v-if="showForm && isEditing" @submit="saveHotel" class="hotel-form">
@@ -72,8 +74,10 @@
         <label for="address">Address:</label>
         <input type="text" class="form-control" id="address" v-model="editedHotel.address" required>
       </div>
+      <div class="button-container">
       <button type="submit" class="btn btn-primary">Save</button>
       <button type="button" class="btn btn-secondary" @click="cancelEdit">Cancel</button>
+      </div>
     </form>
     <div v-if="showError" class="alert alert-danger">
       {{ errorMessage }}
@@ -89,6 +93,7 @@ export default {
   name: 'Hotels',
   data() {
     return {
+      userRole: sessionStorage.getItem('role'),
       showForm: false,
       showRoomsTable: false,
       isEditing: false,
@@ -110,6 +115,11 @@ export default {
     };
   },
   methods: {
+
+    checkUserRole() {
+      const role = sessionStorage.getItem('role');
+        console.log(role);
+      },
 
     clearError() {
       clearTimeout(this.errorTimeout);
@@ -135,6 +145,7 @@ export default {
 
           this.newHotel.name = '';
           this.newHotel.address = '';
+
         } else {
           console.error('Failed to add hotel:', response.statusText);
         }
@@ -246,6 +257,7 @@ export default {
   },
   created() {
     this.getHotels();
+    this.checkUserRole();
   },
 };
 </script>
@@ -369,9 +381,9 @@ export default {
 
     .button-container {
 
-      display: flex;
-      justify-content: space-between;
-      width: 25%;
+        display: flex;
+        justify-content: space-between;
+        width: 25%;
 
       .add-hotel-form,
       .edit-hotel-form,

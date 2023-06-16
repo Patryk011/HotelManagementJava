@@ -111,8 +111,10 @@
         <label for="hotelId">Hotel ID:</label>
         <input type="number" class="form-control" id="hotelId" v-model="editRoom.hotelId" >
       </div>
+      <div class="edit-button-container">
       <button type="submit" class="btn btn-primary edit-room-form">Update Room</button>
       <button type="button" class="btn btn-secondary cancel-room-form" @click="editForm = false">Cancel</button>
+        </div>
     </form>
     <div v-if="showError" class="alert alert-danger">
       {{ errorMessage }}
@@ -433,6 +435,13 @@ export default {
           margin-right: 10px;
         }
       }
+    }
+
+    .edit-button-container {
+      display: flex;
+      justify-content: space-between;
+      width: 30%;
+      margin-top: 40px;
     }
   }
 
